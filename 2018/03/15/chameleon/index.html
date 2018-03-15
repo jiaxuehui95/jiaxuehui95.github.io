@@ -104,7 +104,7 @@
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="https://raw.githubusercontent.com/jiaxuehui95/chameleon/master/img/chameleon1.png">
 <meta property="og:image" content="https://raw.githubusercontent.com/jiaxuehui95/chameleon/master/img/chameleon2.jpeg">
-<meta property="og:updated_time" content="2018-03-15T21:08:41.167Z">
+<meta property="og:updated_time" content="2018-03-15T21:42:25.198Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="chameleon">
 <meta name="twitter:description" content="Chameleon是基于P5.js实现的web端小游戏，主要使用平台是手机，跑酷类游戏，人物需要在跑道间跳跃的同时要根据跑道的颜色更换自己的颜色，受八分贝游戏的灵感，我们用晃动手机来使人物跳跃（重力传感器），用声音控制人物颜色的变化（声音传感器）">
@@ -377,8 +377,7 @@
 <p><strong>名词理解</strong></p>
 <p>弱类型：3/“1.5” 这个数字除字符串合法是弱类型（根据场合会自动帮你转类型）</p>
 <p>动态类型：x 可以一会是字符串，一会是浮点，这是动态。</p>
-<p>###原型链</p>
-<p>然后重点是java中类的概念在js中如何表现</p>
+<h3 id="原型链"><a href="#原型链" class="headerlink" title="原型链"></a>原型链</h3><p>然后重点是java中类的概念在js中如何表现</p>
 <p>Js是没有类，子类的概念的 继承是靠“原型链来实现的”</p>
 <p>js作为一种网页脚本语言，没有必要设计的非常复杂，所以在最开始并没有引入继承机制，但是因为js本身里边都是对象，所以一个将左右对象联系起来的机制是必要的，所以设计者还是设计了继承，用原型链实现。</p>
 <p>js保留new 关键字。调用new就会调用“类”的构造函数。  Js的简化设计是： new后边不跟一个类，而是直接跟一个和构造函数</p>
@@ -394,8 +393,8 @@
 <p>js中所有对象都继承于Object对象，他有比如toString等等原声方法，通过prorotype继承</p>
 <p>函数可以用来作为构造函数来使用。另外只有函数才有prototype属性并且可以访问到，但是对象实例不具有该属性，只有一个内部的不可访问的<strong>proto</strong>属性。<strong>proto</strong>是对象中一个指向相关原型的神秘链接。按照标准，<strong>proto</strong>是不对外公开的，也就是说是个私有属性，但是Firefox的引擎将他暴露了出来成为了一个共有的属性，我们可以对外访问和设置。</p>
 <p>一个对象（实例）被创造出来的时候就具有<strong>proto</strong>属性，指向原型对象</p>
-<p>###继承<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">function Spin(xpos, ypos, s)&#123;</span><br><span class="line">  this.x = xpos;</span><br><span class="line">  this.y = ypos;</span><br><span class="line">  this.speed = s;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function SpinArm(x, y, s)</span><br><span class="line">&#123;</span><br><span class="line">  Spin.call(this, x, y, s);//call用于调用希望集成的构造函数，并绑定this</span><br><span class="line">  var angle=0;</span><br><span class="line">  var i;</span><br><span class="line">  this.draw_SpinArm= function()&#123;</span><br><span class="line">    y+=1;</span><br><span class="line">    strokeWeight(3);</span><br><span class="line">    stroke(242, 156, 177);</span><br><span class="line">    translate(x, y);</span><br><span class="line">    for(i = 0; i &lt; 8; i++)&#123;</span><br><span class="line">      push();</span><br><span class="line">      angle += 3.14/4;</span><br><span class="line">      rotate(angle);</span><br><span class="line">      line(0, 0, 24, 0);</span><br><span class="line">      pop();</span><br><span class="line">    &#125;</span><br><span class="line">    translate(-x, -y);</span><br><span class="line">    if(y &gt; height + radius)&#123;</span><br><span class="line">      y = 0;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function F() &#123;   //一个空对象</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">F.prototype = Spin.prototype;  //不能直接修改SpinArm的prototypy</span><br><span class="line">//为Spin的prototype，这样他们共享同一个原型，修改SpinArm会影响到</span><br><span class="line">//Spin，所以需要设置一个空函数F， F的原型指向Spin的原型</span><br><span class="line"></span><br><span class="line">SpinArm.prototype = new F();//SpinArm的原型是F。F的原型是Student</span><br><span class="line"></span><br><span class="line">SpinArm.prototype.constructor = SpinArm;//修正SpinArm的构造函数为Spin</span><br></pre></td></tr></table></figure></p>
-<p>###https<br>项目中用到声音，需要用户授权使用麦克风，我们用webstorm的服务器在手机端测试时，无法唤起通知让用户授权使用麦克风，是因为safari无法判断该站点的安全性，所以出于安全考虑拒绝http请求的一切外部设备，而https通过问询用户是否启用外部设备来访问麦克风。</p>
+<h3 id="继承"><a href="#继承" class="headerlink" title="继承"></a>继承</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">function Spin(xpos, ypos, s)&#123;</span><br><span class="line">  this.x = xpos;</span><br><span class="line">  this.y = ypos;</span><br><span class="line">  this.speed = s;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function SpinArm(x, y, s)</span><br><span class="line">&#123;</span><br><span class="line">  Spin.call(this, x, y, s);//call用于调用希望集成的构造函数，并绑定this</span><br><span class="line">  var angle=0;</span><br><span class="line">  var i;</span><br><span class="line">  this.draw_SpinArm= function()&#123;</span><br><span class="line">    y+=1;</span><br><span class="line">    strokeWeight(3);</span><br><span class="line">    stroke(242, 156, 177);</span><br><span class="line">    translate(x, y);</span><br><span class="line">    for(i = 0; i &lt; 8; i++)&#123;</span><br><span class="line">      push();</span><br><span class="line">      angle += 3.14/4;</span><br><span class="line">      rotate(angle);</span><br><span class="line">      line(0, 0, 24, 0);</span><br><span class="line">      pop();</span><br><span class="line">    &#125;</span><br><span class="line">    translate(-x, -y);</span><br><span class="line">    if(y &gt; height + radius)&#123;</span><br><span class="line">      y = 0;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function F() &#123;   //一个空对象</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">F.prototype = Spin.prototype;  //不能直接修改SpinArm的prototypy</span><br><span class="line">//为Spin的prototype，这样他们共享同一个原型，修改SpinArm会影响到</span><br><span class="line">//Spin，所以需要设置一个空函数F， F的原型指向Spin的原型</span><br><span class="line"></span><br><span class="line">SpinArm.prototype = new F();//SpinArm的原型是F。F的原型是Student</span><br><span class="line"></span><br><span class="line">SpinArm.prototype.constructor = SpinArm;//修正SpinArm的构造函数为Spin</span><br></pre></td></tr></table></figure>
+<h3 id="https"><a href="#https" class="headerlink" title="https"></a>https</h3><p>项目中用到声音，需要用户授权使用麦克风，我们用webstorm的服务器在手机端测试时，无法唤起通知让用户授权使用麦克风，是因为safari无法判断该站点的安全性，所以出于安全考虑拒绝http请求的一切外部设备，而https通过问询用户是否启用外部设备来访问麦克风。</p>
 <p>所以只能用插件 ngrok来提供一个tunnel来使用https，获取用户权限后使用麦克风。</p>
 
       
@@ -491,8 +490,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/touxiang.png"
@@ -567,6 +575,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#原型链"><span class="nav-number">1.</span> <span class="nav-text">原型链</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#继承"><span class="nav-number">2.</span> <span class="nav-text">继承</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#https"><span class="nav-number">3.</span> <span class="nav-text">https</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
