@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="web,JavaScript,前端," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Chameleon是基于P5.js实现的web端小游戏，主要使用平台是手机，跑酷类游戏，人物需要在跑道间跳跃的同时要根据跑道的颜色更换自己的颜色，受八分贝游戏的灵感，我们用晃动手机来使人物跳跃（重力传感器），用声音控制人物颜色的变化（声音传感器）">
+<meta name="keywords" content="web,JavaScript,前端">
+<meta property="og:type" content="article">
+<meta property="og:title" content="chameleon">
+<meta property="og:url" content="http://yoursite.com/2018/03/15/chameleon/index.html">
+<meta property="og:site_name" content="Xuehui JIA">
+<meta property="og:description" content="Chameleon是基于P5.js实现的web端小游戏，主要使用平台是手机，跑酷类游戏，人物需要在跑道间跳跃的同时要根据跑道的颜色更换自己的颜色，受八分贝游戏的灵感，我们用晃动手机来使人物跳跃（重力传感器），用声音控制人物颜色的变化（声音传感器）">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/03/15/images/chameleon1.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/15/images/chameleon2.png">
+<meta property="og:updated_time" content="2018-03-15T20:16:05.119Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="chameleon">
+<meta name="twitter:description" content="Chameleon是基于P5.js实现的web端小游戏，主要使用平台是手机，跑酷类游戏，人物需要在跑道间跳跃的同时要根据跑道的颜色更换自己的颜色，受八分贝游戏的灵感，我们用晃动手机来使人物跳跃（重力传感器），用声音控制人物颜色的变化（声音传感器）">
+<meta name="twitter:image" content="http://yoursite.com/2018/03/15/images/chameleon1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/03/15/chameleon/"/>
+
+
+
+
+
+  <title>chameleon | Xuehui JIA</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xuehui JIA</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">西安电子科技大学，ENSIIE，France</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/03/15/chameleon/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xuehui JIA">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xuehui JIA">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">chameleon</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-03-15T20:35:35+01:00">
+                2018-03-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/前端/" itemprop="url" rel="index">
+                    <span itemprop="name">前端</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Chameleon是基于P5.js实现的web端小游戏，主要使用平台是手机，跑酷类游戏，人物需要在跑道间跳跃的同时要根据跑道的颜色更换自己的颜色，受八分贝游戏的灵感，我们用晃动手机来使人物跳跃（重力传感器），用声音控制人物颜色的变化（声音传感器）</p>
+<p><img src="../images/chameleon1.png" alt="chameleon"><br><a id="more"></a><br>项目地址：<a href="https://github.com/jiaxuehui95/chameleon" target="_blank" rel="noopener">https://github.com/jiaxuehui95/chameleon</a></p>
+<p>pc端本地运行后无法使用重力传感器，手机访问游戏需要https支持<br>使用，在同一局域网环境下使用ngrok插件创建tunnel访问<br>ngrok：<a href="https://ngrok.com/" target="_blank" rel="noopener">https://ngrok.com/</a></p>
+<p><code>$ ./ngrok http 80</code></p>
+<p><img src="../images/chameleon2.png" alt="chameleon2"></p>
+<p>这里主要记录一下开发随笔</p>
+<p>以前一直对原型链了解不够深入，这次由于移植了一些procssing的java代码，对这个概念有了更深的理解。</p>
+<p>首先,js中一切皆对象（非严格），js的数据类型有原始类型和对象类型<br>原始类型包括Number，String，Null，undefined，Boolean。 所有数据类型都是对象，这一点与java很类似  </p>
+<p>我非常喜欢js的动态类型，简单粗暴，灵活，有空需要深入理解一下编译型语言和解释型语言。。</p>
+<p><strong>名词理解</strong></p>
+<p>弱类型：3/“1.5” 这个数字除字符串合法是弱类型（根据场合会自动帮你转类型）</p>
+<p>动态类型：x 可以一会是字符串，一会是浮点，这是动态。</p>
+<p>###原型链</p>
+<p>然后重点是java中类的概念在js中如何表现</p>
+<p>Js是没有类，子类的概念的 继承是靠“原型链来实现的”</p>
+<p>js作为一种网页脚本语言，没有必要设计的非常复杂，所以在最开始并没有引入继承机制，但是因为js本身里边都是对象，所以一个将左右对象联系起来的机制是必要的，所以设计者还是设计了继承，用原型链实现。</p>
+<p>js保留new 关键字。调用new就会调用“类”的构造函数。  Js的简化设计是： new后边不跟一个类，而是直接跟一个和构造函数</p>
+<p>因此便不难理解js中类的概念是用function来实现的。</p>
+<p>一个Dog“类”：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">Function Dog (name) &#123;</span><br><span class="line">  this.name= name</span><br><span class="line">  This.species=“犬&quot;  </span><br><span class="line">  this.eat = function eat () &#123;</span><br><span class="line">    &#125;  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>此时<code>new Dog(“A”)</code>就调用这个构造函数生成一个Dog 实例， Dog.name === ‘A’</p>
+<p><strong>注意</strong>： this关键字。 this就是新创立的实例对象</p>
+<p>如果我们需要一个<strong>共享属性</strong>，也就是我们改任意一个对象的这个属性其他所有对象都会做出相应的修改，java是通过static关键字来实现的，<br>而js是通过prototype（原型）属性来实现。</p>
+<p>prototype属性是一个指针，指向一个对象</p>
+<p>这个属性包含一个对象，里边有所有需要共享的属性和方法。而那些不需要共享光的属性和方法就放在构造函数里。</p>
+<p>我们可以通过它把specie变成共有（全局）属性<br>Dog.prototype={specie: ‘犬’}</p>
+<p>Dog.prototype.specie=‘犬’</p>
+<p>js中所有对象都继承于Object对象，他有比如toString等等原声方法，通过prorotype继承</p>
+<p>函数可以用来作为构造函数来使用。另外只有函数才有prototype属性并且可以访问到，但是对象实例不具有该属性，只有一个内部的不可访问的<strong>proto</strong>属性。<strong>proto</strong>是对象中一个指向相关原型的神秘链接。按照标准，<strong>proto</strong>是不对外公开的，也就是说是个私有属性，但是Firefox的引擎将他暴露了出来成为了一个共有的属性，我们可以对外访问和设置。</p>
+<p>一个对象（实例）被创造出来的时候就具有<strong>proto</strong>属性，指向原型对象</p>
+<p>###继承<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">function Spin(xpos, ypos, s)&#123;</span><br><span class="line">  this.x = xpos;</span><br><span class="line">  this.y = ypos;</span><br><span class="line">  this.speed = s;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">function SpinArm(x, y, s)</span><br><span class="line">&#123;</span><br><span class="line">  Spin.call(this, x, y, s);//call用于调用希望集成的构造函数，并绑定this</span><br><span class="line">  var angle=0;</span><br><span class="line">  var i;</span><br><span class="line">  this.draw_SpinArm= function()&#123;</span><br><span class="line">    y+=1;</span><br><span class="line">    strokeWeight(3);</span><br><span class="line">    stroke(242, 156, 177);</span><br><span class="line">    translate(x, y);</span><br><span class="line">    for(i = 0; i &lt; 8; i++)&#123;</span><br><span class="line">      push();</span><br><span class="line">      angle += 3.14/4;</span><br><span class="line">      rotate(angle);</span><br><span class="line">      line(0, 0, 24, 0);</span><br><span class="line">      pop();</span><br><span class="line">    &#125;</span><br><span class="line">    translate(-x, -y);</span><br><span class="line">    if(y &gt; height + radius)&#123;</span><br><span class="line">      y = 0;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function F() &#123;   //一个空对象</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">F.prototype = Spin.prototype;  //不能直接修改SpinArm的prototypy</span><br><span class="line">//为Spin的prototype，这样他们共享同一个原型，修改SpinArm会影响到</span><br><span class="line">//Spin，所以需要设置一个空函数F， F的原型指向Spin的原型</span><br><span class="line"></span><br><span class="line">SpinArm.prototype = new F();//SpinArm的原型是F。F的原型是Student</span><br><span class="line"></span><br><span class="line">SpinArm.prototype.constructor = SpinArm;//修正SpinArm的构造函数为Spin</span><br></pre></td></tr></table></figure></p>
+<p>###https<br>项目中用到声音，需要用户授权使用麦克风，我们用webstorm的服务器在手机端测试时，无法唤起通知让用户授权使用麦克风，是因为safari无法判断该站点的安全性，所以出于安全考虑拒绝http请求的一切外部设备，而https通过问询用户是否启用外部设备来访问麦克风。</p>
+<p>所以只能用插件 ngrok来提供一个tunnel来使用https，获取用户权限后使用麦克风。</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/web/" rel="tag"># web</a>
+          
+            <a href="/tags/JavaScript/" rel="tag"># JavaScript</a>
+          
+            <a href="/tags/前端/" rel="tag"># 前端</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/15/数字货币与代币/" rel="next" title="理解数字货币和代币(token)的区别和联系---区块链">
+                <i class="fa fa-chevron-left"></i> 理解数字货币和代币(token)的区别和联系---区块链
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/touxiang.png"
+               alt="Xuehui JIA" />
+          <p class="site-author-name" itemprop="name">Xuehui JIA</p>
+           
+              <p class="site-description motion-element" itemprop="description">Web front-end developer, Developer of livemarketcap.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jiaxuehui95" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuehui JIA</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
