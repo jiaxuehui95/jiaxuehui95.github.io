@@ -367,7 +367,7 @@
         
           <p>最近在react上做一个orderBook深度图，数据接入用websocket，数据形式是第一次请求返回当前orderBook，之后每当数据有更新便会收到某个priceLevel的最新数据，大概频率是每秒30个。</p>
 <p>做深度图的策略就是2个series的<code>steped Area Chart</code>，两个series以当前价格为中心，分别代表买卖单。获取到第一组完整数据之后将数据格式化（dataArray）、排序并依次相加获得该priceLevel的总容量=&gt;计算出当前价格（最高买入价格和最低卖出价格的中位数）=&gt;计算出当前要显示的数据范围=&gt;渲染.</p>
-<p>最终效果如下<br><img src="../images/depthChart.png" alt="depthChart"></p>
+<p>最终效果如下<br><img src="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/depthChart.png" alt="depthChart"></p>
           <!--noindex-->
           <div class="post-button text-center">
             <a class="btn" href="/2018/04/08/react性能上的一点点思考/#more" rel="contents">
