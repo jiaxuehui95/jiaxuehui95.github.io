@@ -102,14 +102,14 @@
 <meta property="og:site_name" content="Xuehui JIA">
 <meta property="og:description" content="链表链表总结链表是一种由节点（Node）组成的线性数据集合，每个节点通过指针指向下一个节点。它是一种由节点组成，并能用于表示序列的数据结构。 链表在进行循环遍历时效率不高，访问元素O(n)效率低，但是插入和删除时优势明显O(1)，且空间复杂度较高。链表结构可以充分利用计算机内存空间，实现灵活的内存动态管理。 数组的特点是：可以很方便地进行随机访问O(1)，但是增删元素O(n)比较耗时 选择数组还是">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/2018/10/31/images/linkedList1.png">
-<meta property="og:image" content="http://yoursite.com/2018/10/31/images/linkedList2.png">
-<meta property="og:image" content="http://yoursite.com/2018/10/31/images/linkedList3.png">
-<meta property="og:updated_time" content="2018-10-31T12:59:56.640Z">
+<meta property="og:image" content="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/linkedList1.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/linkedList2.png">
+<meta property="og:image" content="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/linkedList3.png">
+<meta property="og:updated_time" content="2018-10-31T13:04:59.488Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[数据结构]-链表、栈、队列">
 <meta name="twitter:description" content="链表链表总结链表是一种由节点（Node）组成的线性数据集合，每个节点通过指针指向下一个节点。它是一种由节点组成，并能用于表示序列的数据结构。 链表在进行循环遍历时效率不高，访问元素O(n)效率低，但是插入和删除时优势明显O(1)，且空间复杂度较高。链表结构可以充分利用计算机内存空间，实现灵活的内存动态管理。 数组的特点是：可以很方便地进行随机访问O(1)，但是增删元素O(n)比较耗时 选择数组还是">
-<meta name="twitter:image" content="http://yoursite.com/2018/10/31/images/linkedList1.png">
+<meta name="twitter:image" content="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/linkedList1.png">
 
 
 
@@ -390,15 +390,15 @@
 <p>有头尾指针，双向遍历</p>
 <p>​</p>
 <h3 id="循环链表"><a href="#循环链表" class="headerlink" title="循环链表"></a>循环链表</h3><p>分循环单链表和循环双链表，从表的任何一个节点出发都能找到表中的某个元素，双向循环链表很容易在尾部添加一个元素。</p>
-<p><img src="../images/linkedList1.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/linkedList1.png" alt=""></p>
 <h3 id="链表面试题"><a href="#链表面试题" class="headerlink" title="链表面试题"></a>链表面试题</h3><h4 id="1-链表倒置（原地）O-n"><a href="#1-链表倒置（原地）O-n" class="headerlink" title="1.链表倒置（原地）O(n):"></a>1.链表倒置（原地）O(n):</h4><p>转置需要三个指针pre，head，sus，例如一个1-&gt;2-&gt;3的链表。第一步转置前两个节点：pre-&gt;1,head-&gt;2,sus-&gt;3，head.next-&gt;1, pre.next=null,此时:1&lt;-2 3</p>
 <p>第二步循环，若sus！=null， pre-&gt;2,head-&gt;3,sus-&gt;null,head.next-&gt;2.此时：1&lt;-2&lt;-3,且sus=null，终止。</p>
-<p><img src="../images/linkedList2.png" alt=""></p>
+<p><img src="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/linkedList2.png" alt=""></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reverse</span><span class="params">()</span></span>&#123;</span><br><span class="line">       <span class="keyword">if</span>(len()==<span class="number">1</span>)</span><br><span class="line">           <span class="keyword">return</span>;</span><br><span class="line">       node pre=head;</span><br><span class="line">       head=head.next;</span><br><span class="line">       node sus=head.next;</span><br><span class="line">       head.next=pre;</span><br><span class="line">       pre.next=<span class="keyword">null</span>;</span><br><span class="line">       <span class="keyword">while</span> (sus !=<span class="keyword">null</span>)&#123;</span><br><span class="line">           pre=head;</span><br><span class="line">           head=sus;</span><br><span class="line">           sus=head.next;</span><br><span class="line">           head.next=pre;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 <p>还可以新建一个链表，删除旧链表的元素同时加入新链表。空间复杂度更大一点。</p>
 <h4 id="2-查找单链表的中间节点"><a href="#2-查找单链表的中间节点" class="headerlink" title="2. 查找单链表的中间节点"></a>2. 查找单链表的中间节点</h4><p>采用快慢指针的方式查找单链表的中间节点，快指针一次走两步，慢指针一次走一步，当快指针走完时，慢指针刚好到达中间节点。</p>
 <h4 id="3-查找倒数第k个元素"><a href="#3-查找倒数第k个元素" class="headerlink" title="3. 查找倒数第k个元素"></a>3. 查找倒数第k个元素</h4><p>采用两个指针P1,P2，P1先前移K步，然后P1、P2同时移动，当p1移动到尾部时，P2所指位置的元素即倒数第k个元素 。</p>
-<h4 id="4-给定链表的头指针和一个节点指针，在O-1-时间删除该节点。-Google面试题"><a href="#4-给定链表的头指针和一个节点指针，在O-1-时间删除该节点。-Google面试题" class="headerlink" title="4.给定链表的头指针和一个节点指针，在O(1)时间删除该节点。[Google面试题]"></a>4.给定链表的头指针和一个节点指针，在O(1)时间删除该节点。[Google面试题]</h4><p>分析：本题与《编程之美》上的「从无头单链表中删除节点」类似。主要思想都是「狸猫换太子」，即用下一个节点数据覆盖要删除的节点，然后删除下一个节点。但是如果节点是尾节点时，该方法就行不通了。<br><img src="../images/linkedList3.png" alt=""></p>
+<h4 id="4-给定链表的头指针和一个节点指针，在O-1-时间删除该节点。-Google面试题"><a href="#4-给定链表的头指针和一个节点指针，在O-1-时间删除该节点。-Google面试题" class="headerlink" title="4.给定链表的头指针和一个节点指针，在O(1)时间删除该节点。[Google面试题]"></a>4.给定链表的头指针和一个节点指针，在O(1)时间删除该节点。[Google面试题]</h4><p>分析：本题与《编程之美》上的「从无头单链表中删除节点」类似。主要思想都是「狸猫换太子」，即用下一个节点数据覆盖要删除的节点，然后删除下一个节点。但是如果节点是尾节点时，该方法就行不通了。<br><img src="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/linkedList3.png" alt=""></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">node next=cur.next;</span><br><span class="line">cur.value=next.value;</span><br><span class="line">cur.next=next.next;</span><br><span class="line">delete next;</span><br></pre></td></tr></table></figure>
 <h4 id="5-判断单链表是否存在环"><a href="#5-判断单链表是否存在环" class="headerlink" title="5. 判断单链表是否存在环"></a>5. 判断单链表是否存在环</h4><p>题目描述：输入一个单向链表，判断链表是否有环？</p>
 <p>分析：通过两个指针，分别从链表的头节点出发，一个每次向后移动一步，另一个移动两步，两个指针移动速度不一样，如果存在环，那么两个指针一定会在环里相遇。</p>
