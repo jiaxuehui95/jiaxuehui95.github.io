@@ -94,21 +94,21 @@
 
 
 
-<meta name="description" content="二叉树二叉树是一种树形数据结构，它的每个节点最多有两个孩子，被叫作左孩子和右孩子。二叉树可以用于二叉查找，哈夫曼树等算法。 常见特殊二叉树： 满二叉树   对于一棵二叉树，如果每一个非叶子节点都存在左右子树，并且二叉树中所有的叶子节点都在同一层中，这样的二叉树称为满二叉树。  完全二叉树   对于一棵具有n个节点的二叉树按照层次编号，同时，左右子树按照先左后右编号，如果编号为i的节点与同样深度的满">
+<meta name="description" content="二叉树二叉树是一种树形数据结构，它的每个节点最多有两个孩子，被叫作左孩子和右孩子。二叉树可以用于二叉查找，哈夫曼树等算法。 常见特殊二叉树： 满二叉树">
 <meta name="keywords" content="数据结构,Interviews">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[数据结构]-二叉树的生成和深度遍历的递归与非递归遍历">
 <meta property="og:url" content="http://yoursite.com/2018/11/01/数据结构-树/index.html">
 <meta property="og:site_name" content="Xuehui JIA">
-<meta property="og:description" content="二叉树二叉树是一种树形数据结构，它的每个节点最多有两个孩子，被叫作左孩子和右孩子。二叉树可以用于二叉查找，哈夫曼树等算法。 常见特殊二叉树： 满二叉树   对于一棵二叉树，如果每一个非叶子节点都存在左右子树，并且二叉树中所有的叶子节点都在同一层中，这样的二叉树称为满二叉树。  完全二叉树   对于一棵具有n个节点的二叉树按照层次编号，同时，左右子树按照先左后右编号，如果编号为i的节点与同样深度的满">
+<meta property="og:description" content="二叉树二叉树是一种树形数据结构，它的每个节点最多有两个孩子，被叫作左孩子和右孩子。二叉树可以用于二叉查找，哈夫曼树等算法。 常见特殊二叉树： 满二叉树">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/满二叉树.png">
 <meta property="og:image" content="http://yoursite.com/images/完全二叉树.png">
-<meta property="og:image" content="http://yoursite.com/2018/11/themes/next/source/images/二叉树.png">
-<meta property="og:updated_time" content="2018-11-04T15:59:00.952Z">
+<meta property="og:image" content="http://yoursite.com/images/二叉树.png">
+<meta property="og:updated_time" content="2018-11-04T16:01:30.193Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[数据结构]-二叉树的生成和深度遍历的递归与非递归遍历">
-<meta name="twitter:description" content="二叉树二叉树是一种树形数据结构，它的每个节点最多有两个孩子，被叫作左孩子和右孩子。二叉树可以用于二叉查找，哈夫曼树等算法。 常见特殊二叉树： 满二叉树   对于一棵二叉树，如果每一个非叶子节点都存在左右子树，并且二叉树中所有的叶子节点都在同一层中，这样的二叉树称为满二叉树。  完全二叉树   对于一棵具有n个节点的二叉树按照层次编号，同时，左右子树按照先左后右编号，如果编号为i的节点与同样深度的满">
+<meta name="twitter:description" content="二叉树二叉树是一种树形数据结构，它的每个节点最多有两个孩子，被叫作左孩子和右孩子。二叉树可以用于二叉查找，哈夫曼树等算法。 常见特殊二叉树： 满二叉树">
 <meta name="twitter:image" content="http://yoursite.com/images/满二叉树.png">
 
 
@@ -379,7 +379,7 @@
       
         <h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><p>二叉树是一种树形数据结构，它的每个节点最多有两个孩子，被叫作左孩子和右孩子。二叉树可以用于二叉查找，哈夫曼树等算法。</p>
 <p>常见特殊二叉树：</p>
-<p>满二叉树</p>
+<p>满二叉树<br><a id="more"></a></p>
 <p><img src="/images/满二叉树.png" alt=""></p>
 <blockquote>
 <p>对于一棵二叉树，如果每一个非叶子节点都存在左右子树，并且二叉树中所有的叶子节点都在同一层中，这样的二叉树称为满二叉树。</p>
@@ -398,7 +398,7 @@
 <li>中序遍历：左孩子–根–右孩子</li>
 <li>后序遍历： 左孩子–右孩子–根</li>
 </ul>
-<h4 id="递归实现"><a href="#递归实现" class="headerlink" title="递归实现"></a>递归实现</h4><p><img src="../../themes/next/source/images/二叉树.png" alt=""></p>
+<h4 id="递归实现"><a href="#递归实现" class="headerlink" title="递归实现"></a>递归实现</h4><p><img src="/images/二叉树.png" alt=""></p>
 <p>深度遍历三种顺序实现：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span> // 深度优先遍历，分为前序1、中序2、后续遍历3，递归方式实现</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Date</span> 2:04 PM 02/11/2018</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     **/</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DFS1</span><span class="params">(biNode root)</span></span>&#123; <span class="comment">//先序遍历</span></span><br><span class="line">        <span class="keyword">if</span>(root!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            System.out.println(root.value);</span><br><span class="line">            DFS1(root.left);</span><br><span class="line">            DFS1(root.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DFS2</span><span class="params">(biNode root)</span></span>&#123; <span class="comment">//中序遍历</span></span><br><span class="line">        <span class="keyword">if</span>(root!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            DFS2(root.left);</span><br><span class="line">            System.out.println(root.value);</span><br><span class="line">            DFS2(root.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DFS3</span><span class="params">(biNode root)</span></span>&#123; <span class="comment">//后序遍历</span></span><br><span class="line">        <span class="keyword">if</span>(root!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            DFS3(root.left);</span><br><span class="line">            DFS3(root.right);</span><br><span class="line">            System.out.println(root.value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>测试：</p>
