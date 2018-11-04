@@ -273,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/02/js和java字符串和包装类型/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/02/Js和Java字符串和包装类型/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xuehui JIA">
@@ -292,7 +292,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/02/js和java字符串和包装类型/" itemprop="url">js和java字符串和包装类型</a></h1>
+                <a class="post-title-link" href="/2018/11/02/Js和Java字符串和包装类型/" itemprop="url">Js和Java字符串和包装类型</a></h1>
         
 
         <div class="post-meta">
@@ -370,7 +370,7 @@
 <p>因为
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/11/02/js和java字符串和包装类型/#more" rel="contents">
+            <a class="btn" href="/2018/11/02/Js和Java字符串和包装类型/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
@@ -1085,7 +1085,7 @@
       
         
           <p>react项目中，在reducer里直接更改state是无法触发更新的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">reducers: &#123;</span><br><span class="line">    &apos;setOrderBook&apos;(state, action) &#123;</span><br><span class="line">      state.orderBook = action.orderBook;</span><br><span class="line">      return state;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">reducers: &#123;</span><br><span class="line">    <span class="string">'setOrderBook'</span>(state, action) &#123;</span><br><span class="line">      state.orderBook = action.orderBook;</span><br><span class="line">      <span class="keyword">return</span> state;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 <p>因为reducer 是一个有<code>(previousState, action) =&gt; newState</code>特征的纯函数，接受一个action，和现有的state一起计算出并返回<strong>新</strong>的state，如上代码更改state，react不会比较这个state是否和之前的state数据不同，而是认为state没有发生变化从而不会触发重新渲染。<br>
           <!--noindex-->
           <div class="post-button text-center">
