@@ -1,0 +1,792 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据结构,Interviews," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="二叉树二叉树是一种树形数据结构，它的每个节点最多有两个孩子，被叫作左孩子和右孩子。二叉树可以用于二叉查找，哈夫曼树等算法。 常见特殊二叉树： 满二叉树   对于一棵二叉树，如果每一个非叶子节点都存在左右子树，并且二叉树中所有的叶子节点都在同一层中，这样的二叉树称为满二叉树。  完全二叉树   对于一棵具有n个节点的二叉树按照层次编号，同时，左右子树按照先左后右编号，如果编号为i的节点与同样深度的满">
+<meta name="keywords" content="数据结构,Interviews">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[数据结构]-二叉树的生成和深度遍历的递归与非递归遍历">
+<meta property="og:url" content="http://yoursite.com/2018/11/01/数据结构-树/index.html">
+<meta property="og:site_name" content="Xuehui JIA">
+<meta property="og:description" content="二叉树二叉树是一种树形数据结构，它的每个节点最多有两个孩子，被叫作左孩子和右孩子。二叉树可以用于二叉查找，哈夫曼树等算法。 常见特殊二叉树： 满二叉树   对于一棵二叉树，如果每一个非叶子节点都存在左右子树，并且二叉树中所有的叶子节点都在同一层中，这样的二叉树称为满二叉树。  完全二叉树   对于一棵具有n个节点的二叉树按照层次编号，同时，左右子树按照先左后右编号，如果编号为i的节点与同样深度的满">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/11/themes/next/source/images/满二叉树.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/themes/next/source/images/完全二叉树.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/themes/next/source/images/二叉树.png">
+<meta property="og:updated_time" content="2018-11-04T15:53:12.926Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[数据结构]-二叉树的生成和深度遍历的递归与非递归遍历">
+<meta name="twitter:description" content="二叉树二叉树是一种树形数据结构，它的每个节点最多有两个孩子，被叫作左孩子和右孩子。二叉树可以用于二叉查找，哈夫曼树等算法。 常见特殊二叉树： 满二叉树   对于一棵二叉树，如果每一个非叶子节点都存在左右子树，并且二叉树中所有的叶子节点都在同一层中，这样的二叉树称为满二叉树。  完全二叉树   对于一棵具有n个节点的二叉树按照层次编号，同时，左右子树按照先左后右编号，如果编号为i的节点与同样深度的满">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/themes/next/source/images/满二叉树.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/01/数据结构-树/"/>
+
+
+
+
+
+  <title>[数据结构]-二叉树的生成和深度遍历的递归与非递归遍历 | Xuehui JIA</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xuehui JIA</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">西安电子科技大学，ENSIIE，France</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/01/数据结构-树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xuehui JIA">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xuehui JIA">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[数据结构]-二叉树的生成和深度遍历的递归与非递归遍历</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-01T18:56:41+01:00">
+                2018-11-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+                  ， 
+                
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构/Interviews/" itemprop="url" rel="index">
+                    <span itemprop="name">Interviews</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="二叉树"><a href="#二叉树" class="headerlink" title="二叉树"></a>二叉树</h2><p>二叉树是一种树形数据结构，它的每个节点最多有两个孩子，被叫作左孩子和右孩子。二叉树可以用于二叉查找，哈夫曼树等算法。</p>
+<p>常见特殊二叉树：</p>
+<p>满二叉树</p>
+<p><img src="../../themes/next/source/images/满二叉树.png" alt=""></p>
+<blockquote>
+<p>对于一棵二叉树，如果每一个非叶子节点都存在左右子树，并且二叉树中所有的叶子节点都在同一层中，这样的二叉树称为满二叉树。</p>
+</blockquote>
+<p>完全二叉树</p>
+<p><img src="../../themes/next/source/images/完全二叉树.png" alt=""></p>
+<blockquote>
+<p>对于一棵具有n<br>个节点的二叉树按照层次编号，同时，左右子树按照先左后右编号，如果编号为i<br>的节点与同样深度的满二叉树中编号为i<br>的节点在二叉树中的位置完全相同，则这棵二叉树称为完全二叉树。</p>
+</blockquote>
+<h3 id="二叉树实现："><a href="#二叉树实现：" class="headerlink" title="二叉树实现："></a>二叉树实现：</h3><p>用链式结构表示树，每个树节点由value，指向左孩子的指针和指向右孩子的指针组成。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> structures;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> jiaxuehui</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> TODO</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 01/11/2018 6:59 PM</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">biTree</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">biNode</span>&lt;<span class="title">T</span>&gt; </span>&#123;</span><br><span class="line">        T value;</span><br><span class="line">        biNode left = <span class="keyword">null</span>;</span><br><span class="line">        biNode right = <span class="keyword">null</span>;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">biNode</span><span class="params">(T v)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.value = v;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> T <span class="title">getDate</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> biNode <span class="title">getLeft</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.left;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> biNode <span class="title">getright</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    biNode root=<span class="keyword">null</span>;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> biNode <span class="title">creatTree</span><span class="params">(T v)</span></span>&#123;</span><br><span class="line">        root = <span class="keyword">new</span> biNode(v);</span><br><span class="line">        <span class="keyword">return</span> root;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> biNode <span class="title">insertLeft</span><span class="params">(biNode parent, T v)</span></span>&#123;</span><br><span class="line">        parent.left = <span class="keyword">new</span> biNode(v);</span><br><span class="line">        <span class="keyword">return</span> parent.left;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> biNode <span class="title">insertRight</span><span class="params">(biNode parent, T v)</span></span>&#123;</span><br><span class="line">        parent.right = <span class="keyword">new</span> biNode(v);</span><br><span class="line">        <span class="keyword">return</span> parent.right;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="二叉树的遍历"><a href="#二叉树的遍历" class="headerlink" title="二叉树的遍历"></a>二叉树的遍历</h3><p>二叉树遍历分为深度遍历和广度遍历。</p>
+<h4 id="深度遍历"><a href="#深度遍历" class="headerlink" title="深度遍历"></a>深度遍历</h4><p>深度遍历又分为（相对根的位置来划分）：</p>
+<ul>
+<li>先序遍历：根–左孩子–右孩子</li>
+<li>中序遍历：左孩子–根–右孩子</li>
+<li>后序遍历： 左孩子–右孩子–根</li>
+</ul>
+<h4 id="递归实现"><a href="#递归实现" class="headerlink" title="递归实现"></a>递归实现</h4><p><img src="../../themes/next/source/images/二叉树.png" alt=""></p>
+<p>深度遍历三种顺序实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Description</span> // 深度优先遍历，分为前序1、中序2、后续遍历3，递归方式实现</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Date</span> 2:04 PM 02/11/2018</span></span><br><span class="line"><span class="comment">     * <span class="doctag">@Param</span></span></span><br><span class="line"><span class="comment">     * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">     *</span></span><br><span class="line"><span class="comment">     **/</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DFS1</span><span class="params">(biNode root)</span></span>&#123; <span class="comment">//先序遍历</span></span><br><span class="line">        <span class="keyword">if</span>(root!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            System.out.println(root.value);</span><br><span class="line">            DFS1(root.left);</span><br><span class="line">            DFS1(root.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DFS2</span><span class="params">(biNode root)</span></span>&#123; <span class="comment">//中序遍历</span></span><br><span class="line">        <span class="keyword">if</span>(root!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            DFS2(root.left);</span><br><span class="line">            System.out.println(root.value);</span><br><span class="line">            DFS2(root.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DFS3</span><span class="params">(biNode root)</span></span>&#123; <span class="comment">//后序遍历</span></span><br><span class="line">        <span class="keyword">if</span>(root!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            DFS3(root.left);</span><br><span class="line">            DFS3(root.right);</span><br><span class="line">            System.out.println(root.value);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<p>测试：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String arg[])</span></span>&#123;</span><br><span class="line">    biTree tree = <span class="keyword">new</span> biTree();</span><br><span class="line">    tree.creatTree(<span class="number">1</span>);</span><br><span class="line">    biNode root = tree.root;</span><br><span class="line">    biNode node2= tree.insertLeft(root, <span class="number">2</span>);</span><br><span class="line">    biNode node3= tree.insertRight(root, <span class="number">3</span>);</span><br><span class="line">    biNode node4= tree.insertLeft(node2, <span class="number">4</span>);</span><br><span class="line">    biNode node5= tree.insertRight(node2, <span class="number">5</span>);</span><br><span class="line">    biNode node6= tree.insertRight(node3, <span class="number">6</span>);</span><br><span class="line">    biNode node7= tree.insertLeft(node5, <span class="number">7</span>);</span><br><span class="line">    biNode node8= tree.insertRight(node5, <span class="number">8</span>);</span><br><span class="line">    System.out.println(<span class="string">"先序遍历："</span>);</span><br><span class="line">    tree.DFS1(root);</span><br><span class="line">    System.out.println(<span class="string">"\n中序遍历："</span>);</span><br><span class="line">    tree.DFS2(root);</span><br><span class="line">    System.out.println(<span class="string">"\n后序遍历："</span>);</span><br><span class="line">    tree.DFS3(root);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>先序遍历：<br>1 2 4 5 7 8 3 6 </p>
+<p>中序遍历：<br>4 2 7 5 8 1 3 6 </p>
+<p>后序遍历：<br>4 7 8 5 2 6 3 1 </p>
+<h4 id="非递归实现（栈）"><a href="#非递归实现（栈）" class="headerlink" title="非递归实现（栈）"></a>非递归实现（栈）</h4><p>非递归实现相比递归复杂很多，深度遍历我们需要用栈保存父节点</p>
+<h5 id="先序遍历"><a href="#先序遍历" class="headerlink" title="先序遍历"></a>先序遍历</h5><p>先访问根节点再访问左孩子右孩子，我们从根开始，先输出父节点，再读取左孩子并将父节点压入栈中，重复至左孩子为null，将父节点出栈，开始遍历右子树。我们保留父节点再栈内是为了访问完左子树后可以得到右子树。<br>java实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Description</span> 非递归方式深度遍历，利用栈</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Date</span> 6:19 PM 02/11/2018</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Param</span> biNode root 树的根节点</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> void</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line"></span><br><span class="line">   <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stackDFS1</span><span class="params">(biNode root)</span></span>&#123;</span><br><span class="line">       biNode tmp = root;</span><br><span class="line">       Stack&lt;biNode&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">       <span class="keyword">while</span> (tmp!=<span class="keyword">null</span>||!stack.empty())&#123;</span><br><span class="line">           <span class="keyword">if</span> (tmp!=<span class="keyword">null</span>) &#123;</span><br><span class="line">               System.out.print(tmp.value + <span class="string">" "</span>);</span><br><span class="line">               stack.push(tmp);</span><br><span class="line">               tmp = tmp.left;</span><br><span class="line">           &#125;</span><br><span class="line">           <span class="keyword">else</span> &#123;</span><br><span class="line">               tmp = stack.pop().right;</span><br><span class="line">           &#125;</span><br><span class="line">       &#125;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="中序遍历"><a href="#中序遍历" class="headerlink" title="中序遍历"></a>中序遍历</h5><p>和先序遍历的差别仅在于在遍历完左子树后再输出右节点，再遍历右子树<br>java实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stackDFS2</span><span class="params">(biNode root)</span></span>&#123;</span><br><span class="line">    biNode tmp = root;</span><br><span class="line">    Stack&lt;biNode&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">    <span class="keyword">while</span> (tmp!=<span class="keyword">null</span>||!stack.empty())&#123;</span><br><span class="line">        <span class="keyword">if</span> (tmp!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            stack.push(tmp);</span><br><span class="line">            tmp = tmp.left;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            biNode node = stack.pop();</span><br><span class="line">            System.out.print(node.value + <span class="string">" "</span>);</span><br><span class="line">            tmp = node.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="后序遍历"><a href="#后序遍历" class="headerlink" title="后序遍历"></a>后序遍历</h5><p>后序遍历相对复杂，先序和中序遍历不需要知道右子树是否遍历完成便可以将父节点出栈输出，而后序遍历我们需要保留每一个父节点是否左右子树都遍历完成才能输出。</p>
+<p>用三个状态来表示每个节点的遍历情况。我们再维护一个栈statusStack来储存这个状态。在将一个父节点入栈的同时我们将状态0压栈。开始遍历左子树并将父节点的状态从0改为1。当左子树遍历完成，开始遍历右子树并将父节点的状态从1改为2，当右子树遍历完成（右孩子=null）时判断父节点的状态如果为2，则父节点出栈</p>
+<p>java实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">stackDFS3</span><span class="params">(biNode root)</span></span>&#123;</span><br><span class="line">    biNode tmp = root;</span><br><span class="line">    Stack&lt;biNode&gt; stack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">    Stack&lt;Integer&gt; statusStack = <span class="keyword">new</span> Stack&lt;&gt;();</span><br><span class="line">    <span class="keyword">while</span> (tmp!=<span class="keyword">null</span>||!stack.empty())&#123;</span><br><span class="line">        <span class="keyword">if</span> (tmp!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            stack.push(tmp);</span><br><span class="line">            tmp = tmp.left;</span><br><span class="line">            statusStack.push(<span class="number">0</span>);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (statusStack.peek()==<span class="number">2</span>) &#123;</span><br><span class="line">                <span class="keyword">while</span> (statusStack.peek() == <span class="number">2</span>) &#123;</span><br><span class="line">                    System.out.print(stack.pop().value + <span class="string">" "</span>);</span><br><span class="line">                    statusStack.pop();</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (statusStack.peek() == <span class="number">0</span>)&#123;</span><br><span class="line">                tmp = stack.peek().right;</span><br><span class="line">                statusStack.pop();</span><br><span class="line">                statusStack.push(<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (statusStack.peek() == <span class="number">1</span>)&#123;</span><br><span class="line">                tmp = stack.peek().right;</span><br><span class="line">                statusStack.pop();</span><br><span class="line">                statusStack.push(<span class="number">2</span>);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/Interviews/" rel="tag"># Interviews</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/10/31/数据结构-链表、栈、队列/" rel="next" title="[数据结构]-链表、栈、队列">
+                <i class="fa fa-chevron-left"></i> [数据结构]-链表、栈、队列
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/02/data+' ':data+" "--js和java的包装类型/" rel="prev" title="data+''/data+" "--js和java的包装类型">
+                data+''/data+" "--js和java的包装类型 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/touxiang.png"
+               alt="Xuehui JIA" />
+          <p class="site-author-name" itemprop="name">Xuehui JIA</p>
+           
+              <p class="site-description motion-element" itemprop="description">Web front-end developer, Developer of livemarketcap.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jiaxuehui95" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉树"><span class="nav-number">1.</span> <span class="nav-text">二叉树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树实现："><span class="nav-number">1.1.</span> <span class="nav-text">二叉树实现：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树的遍历"><span class="nav-number">1.2.</span> <span class="nav-text">二叉树的遍历</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#深度遍历"><span class="nav-number">1.2.1.</span> <span class="nav-text">深度遍历</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#递归实现"><span class="nav-number">1.2.2.</span> <span class="nav-text">递归实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#非递归实现（栈）"><span class="nav-number">1.2.3.</span> <span class="nav-text">非递归实现（栈）</span></a><ol class="nav-child"><li class="nav-item nav-level-5"><a class="nav-link" href="#先序遍历"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">先序遍历</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#中序遍历"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">中序遍历</span></a></li><li class="nav-item nav-level-5"><a class="nav-link" href="#后序遍历"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">后序遍历</span></a></li></ol></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuehui JIA</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
