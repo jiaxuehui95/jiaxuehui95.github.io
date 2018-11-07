@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据结构,Interviews,二叉树,搜索算法,AVL," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。 二分查找二分查找一个有序的数组,复杂度O(logn) java实现： 12345678910111213141516171819public Integer binarySearch(int[] list, int key)&amp;#123;    int end = li">
+<meta name="keywords" content="数据结构,Interviews,二叉树,搜索算法,AVL">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[算法]-搜索-二分查找、二叉查找树、平衡查找树（AVL、红黑树）、散列表">
+<meta property="og:url" content="http://yoursite.com/2018/11/07/[算法]-查找-二分查找、二叉查找树、平衡查找树、散列表/index.html">
+<meta property="og:site_name" content="Xuehui JIA">
+<meta property="og:description" content="高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。 二分查找二分查找一个有序的数组,复杂度O(logn) java实现： 12345678910111213141516171819public Integer binarySearch(int[] list, int key)&amp;#123;    int end = li">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/avl1.png">
+<meta property="og:image" content="http://yoursite.com/images/avl2.png">
+<meta property="og:image" content="http://yoursite.com/images/avl3.png">
+<meta property="og:image" content="http://yoursite.com/images/avl4.png">
+<meta property="og:updated_time" content="2018-11-07T22:31:08.817Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[算法]-搜索-二分查找、二叉查找树、平衡查找树（AVL、红黑树）、散列表">
+<meta name="twitter:description" content="高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。 二分查找二分查找一个有序的数组,复杂度O(logn) java实现： 12345678910111213141516171819public Integer binarySearch(int[] list, int key)&amp;#123;    int end = li">
+<meta name="twitter:image" content="http://yoursite.com/images/avl1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/07/[算法]-查找-二分查找、二叉查找树、平衡查找树、散列表/"/>
+
+
+
+
+
+  <title>[算法]-搜索-二分查找、二叉查找树、平衡查找树（AVL、红黑树）、散列表 | Xuehui JIA</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xuehui JIA</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">西安电子科技大学，ENSIIE，France</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/07/[算法]-查找-二分查找、二叉查找树、平衡查找树、散列表/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xuehui JIA">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xuehui JIA">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[算法]-搜索-二分查找、二叉查找树、平衡查找树（AVL、红黑树）、散列表</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-07T10:50:42+01:00">
+                2018-11-07
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。</p>
+<h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p>二分查找一个有序的数组,复杂度O(logn)</p>
+<p>java实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Integer <span class="title">binarySearch</span><span class="params">(<span class="keyword">int</span>[] list, <span class="keyword">int</span> key)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> end = list.length-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> begin = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span> (begin&lt;=end)&#123;</span><br><span class="line">        mid =begin+(end-begin)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (list[mid]==key) &#123;</span><br><span class="line">            <span class="keyword">return</span> key;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (list[mid]&lt;key)</span><br><span class="line">        &#123;</span><br><span class="line">            end = mid-<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (list[mid]&gt;key)&#123;</span><br><span class="line">            begin = mid+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但实际上用int型查找型非常局限，为了拓展，我们用Comparable的对象。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">binarySearch</span>&lt;<span class="title">Key</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">Key</span>&gt;, <span class="title">Value</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Key <span class="title">binarySearch</span><span class="params">(Key[] list, Key key)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> end = list.length-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> begin = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> mid;</span><br><span class="line">        <span class="keyword">while</span> (begin&lt;=end)&#123;</span><br><span class="line">            mid =begin+(end-begin)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (list[mid].compareTo(key)==<span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> key;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (list[mid].compareTo(key)&gt;<span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                end = mid-<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (list[mid].compareTo(key)&lt;<span class="number">0</span>)&#123;</span><br><span class="line">                begin = mid+<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="二叉查找树"><a href="#二叉查找树" class="headerlink" title="二叉查找树"></a>二叉查找树</h2><p>二叉树的每个节点都大于左子树的任意一个节点，小于右子树的任意一个节点。</p>
+<p>二叉查找树的生成和插入，非递归 java：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> algos;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> jiaxuehui</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 二叉查找树</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 07/11/2018 5:01 PM</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">binarySearchTree</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">T</span>&gt;&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">biNode</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">T</span>&gt;&gt; </span>&#123;</span><br><span class="line">        T value;</span><br><span class="line">        biNode left = <span class="keyword">null</span>;</span><br><span class="line">        biNode right = <span class="keyword">null</span>;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">biNode</span><span class="params">(T v)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.value = v;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> T <span class="title">getDate</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> biNode <span class="title">getLeft</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.left;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> biNode <span class="title">getright</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">       </span><br><span class="line">    biNode root=<span class="keyword">null</span>;</span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">binarySearchTree</span><span class="params">(T val)</span></span>&#123;</span><br><span class="line">        root = <span class="keyword">new</span> biNode(val);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> biNode <span class="title">insert</span><span class="params">( T val)</span></span>&#123;</span><br><span class="line">        biNode tmp =root;</span><br><span class="line">        <span class="keyword">if</span> (root.value.compareTo(val)&lt;=<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">while</span> (tmp.right!=<span class="keyword">null</span> &amp;&amp; tmp.right.value.compareTo(val)&lt;=<span class="number">0</span>)&#123;</span><br><span class="line">                tmp = tmp.right;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (tmp.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">                tmp.right = <span class="keyword">new</span> biNode(val);</span><br><span class="line">                <span class="keyword">return</span> tmp.right;</span><br><span class="line">            &#125;</span><br><span class="line">            tmp=tmp.right;</span><br><span class="line">            biNode tmp2 = tmp.left;</span><br><span class="line">            tmp.left = <span class="keyword">new</span> biNode(val);</span><br><span class="line">            tmp.left.left =tmp2;</span><br><span class="line">            <span class="keyword">return</span> tmp.left;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (tmp.left!=<span class="keyword">null</span> &amp;&amp; tmp.left.value.compareTo(val)&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">                tmp = tmp.left;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (tmp.left == <span class="keyword">null</span>)&#123;</span><br><span class="line">                tmp.left = <span class="keyword">new</span> biNode(val);</span><br><span class="line">                <span class="keyword">return</span> tmp.left;</span><br><span class="line">            &#125;</span><br><span class="line">            tmp = tmp.left;</span><br><span class="line">            biNode tmp2 = tmp.right;</span><br><span class="line">            tmp.right = <span class="keyword">new</span> biNode(val);</span><br><span class="line">            tmp.right.right =tmp2;</span><br><span class="line">            <span class="keyword">return</span> tmp.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DFS</span><span class="params">(biNode root)</span></span>&#123; <span class="comment">//先序遍历</span></span><br><span class="line">        <span class="keyword">if</span>(root!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            DFS(root.left);</span><br><span class="line">            System.out.print(root.value+<span class="string">" "</span>);</span><br><span class="line">            DFS(root.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>二叉查找树的搜索 递归：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">search</span><span class="params">(biNode root, T val)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (root.value.compareTo(val) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> search(root.left, val);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (root.value.compareTo(val) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> search(root.right, val);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (root.value.compareTo(val) == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>二叉查找树最坏情况下的时间和树的高度成正比（O(n)），所以当最坏情况的性能还是很糟糕，所以我们可以用平衡树，能保证无论如何构造他她的运行时间都是对数级（树的高度是LogN）</p>
+<h2 id="平衡二叉树（AVL）"><a href="#平衡二叉树（AVL）" class="headerlink" title="平衡二叉树（AVL）"></a>平衡二叉树（AVL）</h2><p>定义：<br> 父节点的<strong>左子树和右子树</strong>的高度之差不能大于1，也就是说不能高过1层，否则该树就失衡了，此时就要旋转节点，在编码时，我们可以记录当前节点的高度，比如空节点是-1，叶子节点是0，非叶子节点的height往根节点递增。</p>
+<p> 为了保证这一点，在树出现失衡时需要进行旋转（调整树的高度）操作。</p>
+<p> 失衡有四种情况：</p>
+<ul>
+<li>左左 LL 右旋转<br><img src="/images/avl1.png" alt=""></li>
+<li>右右 RR 左旋转<br><img src="/images/avl2.png" alt=""></li>
+<li><p>左右 LR 先左旋转再右旋转</p>
+<p><img src="/images/avl3.png" alt=""></p>
+</li>
+<li>右左 RL 先右旋转再左旋转<br><img src="/images/avl4.png" alt=""></li>
+</ul>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/Interviews/" rel="tag"># Interviews</a>
+          
+            <a href="/tags/二叉树/" rel="tag"># 二叉树</a>
+          
+            <a href="/tags/搜索算法/" rel="tag"># 搜索算法</a>
+          
+            <a href="/tags/AVL/" rel="tag"># AVL</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/06/[数据结构]-二叉树的常见问题的递归算法/" rel="next" title="[数据结构]-二叉树的常见问题的递归算法">
+                <i class="fa fa-chevron-left"></i> [数据结构]-二叉树的常见问题的递归算法
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/touxiang.png"
+               alt="Xuehui JIA" />
+          <p class="site-author-name" itemprop="name">Xuehui JIA</p>
+           
+              <p class="site-description motion-element" itemprop="description">Web front-end developer, Developer of livemarketcap.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jiaxuehui95" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#二分查找"><span class="nav-number">1.</span> <span class="nav-text">二分查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉查找树"><span class="nav-number">2.</span> <span class="nav-text">二叉查找树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#平衡二叉树（AVL）"><span class="nav-number">3.</span> <span class="nav-text">平衡二叉树（AVL）</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuehui JIA</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
