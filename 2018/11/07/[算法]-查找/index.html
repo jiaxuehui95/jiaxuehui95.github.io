@@ -94,22 +94,22 @@
 
 
 
-<meta name="description" content="高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。 二分查找二分查找一个有序的数组,复杂度O(logn) java实现： 12345678910111213141516171819public Integer binarySearch(int[] list, int key)&amp;#123;    int end = li">
+<meta name="description" content="高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。 二分查找二分查找一个有序的数组,复杂度O(logn) java实现：">
 <meta name="keywords" content="数据结构,Interviews,二叉树,搜索算法,AVL">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[算法]-搜索-二分查找、二叉查找树、平衡查找树（AVL、红黑树）、散列表">
-<meta property="og:url" content="http://yoursite.com/2018/11/07/[算法]-查找-二分查找、二叉查找树、平衡查找树、散列表/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/11/07/[算法]-查找/index.html">
 <meta property="og:site_name" content="Xuehui JIA">
-<meta property="og:description" content="高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。 二分查找二分查找一个有序的数组,复杂度O(logn) java实现： 12345678910111213141516171819public Integer binarySearch(int[] list, int key)&amp;#123;    int end = li">
+<meta property="og:description" content="高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。 二分查找二分查找一个有序的数组,复杂度O(logn) java实现：">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/avl1.png">
 <meta property="og:image" content="http://yoursite.com/images/avl2.png">
 <meta property="og:image" content="http://yoursite.com/images/avl3.png">
 <meta property="og:image" content="http://yoursite.com/images/avl4.png">
-<meta property="og:updated_time" content="2018-11-07T22:31:08.817Z">
+<meta property="og:updated_time" content="2018-11-07T22:32:59.694Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[算法]-搜索-二分查找、二叉查找树、平衡查找树（AVL、红黑树）、散列表">
-<meta name="twitter:description" content="高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。 二分查找二分查找一个有序的数组,复杂度O(logn) java实现： 12345678910111213141516171819public Integer binarySearch(int[] list, int key)&amp;#123;    int end = li">
+<meta name="twitter:description" content="高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。 二分查找二分查找一个有序的数组,复杂度O(logn) java实现：">
 <meta name="twitter:image" content="http://yoursite.com/images/avl1.png">
 
 
@@ -139,7 +139,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/11/07/[算法]-查找-二分查找、二叉查找树、平衡查找树、散列表/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/11/07/[算法]-查找/"/>
 
 
 
@@ -278,7 +278,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/07/[算法]-查找-二分查找、二叉查找树、平衡查找树、散列表/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/07/[算法]-查找/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xuehui JIA">
@@ -369,7 +369,7 @@
       
         <p>高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。</p>
 <h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p>二分查找一个有序的数组,复杂度O(logn)</p>
-<p>java实现：</p>
+<p>java实现：<br><a id="more"></a></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Integer <span class="title">binarySearch</span><span class="params">(<span class="keyword">int</span>[] list, <span class="keyword">int</span> key)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> end = list.length-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> begin = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span> (begin&lt;=end)&#123;</span><br><span class="line">        mid =begin+(end-begin)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (list[mid]==key) &#123;</span><br><span class="line">            <span class="keyword">return</span> key;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (list[mid]&lt;key)</span><br><span class="line">        &#123;</span><br><span class="line">            end = mid-<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (list[mid]&gt;key)&#123;</span><br><span class="line">            begin = mid+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>但实际上用int型查找型非常局限，为了拓展，我们用Comparable的对象。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">binarySearch</span>&lt;<span class="title">Key</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">Key</span>&gt;, <span class="title">Value</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Key <span class="title">binarySearch</span><span class="params">(Key[] list, Key key)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> end = list.length-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> begin = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> mid;</span><br><span class="line">        <span class="keyword">while</span> (begin&lt;=end)&#123;</span><br><span class="line">            mid =begin+(end-begin)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (list[mid].compareTo(key)==<span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> key;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (list[mid].compareTo(key)&gt;<span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                end = mid-<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (list[mid].compareTo(key)&lt;<span class="number">0</span>)&#123;</span><br><span class="line">                begin = mid+<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
