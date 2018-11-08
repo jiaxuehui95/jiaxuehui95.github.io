@@ -106,7 +106,8 @@
 <meta property="og:image" content="http://yoursite.com/images/avl2.png">
 <meta property="og:image" content="http://yoursite.com/images/avl3.png">
 <meta property="og:image" content="http://yoursite.com/images/avl4.png">
-<meta property="og:updated_time" content="2018-11-07T22:32:59.694Z">
+<meta property="og:image" content="http://yoursite.com/images/RBtree1.jpg">
+<meta property="og:updated_time" content="2018-11-08T22:53:13.685Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[算法]-搜索-二分查找、二叉查找树、平衡查找树（AVL、红黑树）、散列表">
 <meta name="twitter:description" content="高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。 二分查找二分查找一个有序的数组,复杂度O(logn) java实现：">
@@ -383,13 +384,41 @@
 <p> 为了保证这一点，在树出现失衡时需要进行旋转（调整树的高度）操作。</p>
 <p> 失衡有四种情况：</p>
 <ul>
-<li>左左 LL 右旋转<br><img src="/images/avl1.png" alt=""></li>
-<li>右右 RR 左旋转<br><img src="/images/avl2.png" alt=""></li>
-<li><p>左右 LR 先左旋转再右旋转</p>
-<p><img src="/images/avl3.png" alt=""></p>
+<li><p>左左 LL 左旋转<br><img src="/images/avl1.png" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Description</span> 左旋转,root2变成根节点，root2的右子树变成root1的左子树，root1变成root2的右子树</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Date</span> 8:47 PM 08/11/2018</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Param</span> root1 失衡的子树跟节点</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> root2 旋转之后的新根节点</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> AVLnode <span class="title">LL</span><span class="params">(AVLnode root1)</span></span>&#123;</span><br><span class="line">       AVLnode root2 = root1.left;</span><br><span class="line">       root1.left = root2.right;</span><br><span class="line">       root2.right = root1;</span><br><span class="line">       <span class="comment">//重新计算高度</span></span><br><span class="line">       root1.height = Math.max(height(root1.left), height(root1.right))+<span class="number">1</span>;</span><br><span class="line">       root2.height = Math.max(height(root1.left), root2.height)+<span class="number">1</span>;</span><br><span class="line">       <span class="keyword">return</span> root2;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
 </li>
-<li>右左 RL 先右旋转再左旋转<br><img src="/images/avl4.png" alt=""></li>
+<li><p>右右 RR 右旋转<br><img src="/images/avl2.png" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@Description</span> 右旋转</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@Date</span> 9:01 PM 08/11/2018</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@Param</span>  <span class="doctag">@Param</span> root1 失衡的节点</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span> root2 旋转之后的新根节点</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   **/</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> AVLnode <span class="title">RR</span><span class="params">(AVLnode root1)</span></span>&#123;</span><br><span class="line">      AVLnode root2 = root1.right;</span><br><span class="line">      root1.right = root2.left;</span><br><span class="line">      root2.left = root1;</span><br><span class="line"></span><br><span class="line">      root1.height = Math.max(height(root1.left), height(root1.right))+<span class="number">1</span>;</span><br><span class="line">      root2.height = Math.max(height(root1.right), root2.height)+<span class="number">1</span>;</span><br><span class="line">      <span class="keyword">return</span> root2;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>左右 LR 先左旋转再右旋转<br><img src="/images/avl3.png" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 左右旋转， 该节点的左子树进行右旋转，再对该节点进行左旋转</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 9:05 PM 08/11/2018</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Param</span> root1 失衡的节点</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> AVLnode <span class="title">LR</span><span class="params">(AVLnode root1)</span></span>&#123;</span><br><span class="line">    RR(root1.left);</span><br><span class="line">    <span class="keyword">return</span> LL(root1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>右左 RL 先右旋转再左旋转<br><img src="/images/avl4.png" alt=""></p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@Description</span> 右左旋转， 该节点的右子树进行左旋转，再对该节点进行右旋转</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@Date</span> 9:05 PM 08/11/2018</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@Param</span> root1 失衡的节点</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  **/</span></span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">private</span> AVLnode <span class="title">RL</span><span class="params">(AVLnode root1)</span></span>&#123;</span><br><span class="line">     RR(root1.right);</span><br><span class="line">     <span class="keyword">return</span> LL(root1);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p>获取节点高度的方法：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">height</span><span class="params">()</span></span>&#123;  <span class="comment">//节点高度是子树最高的高度加1</span></span><br><span class="line">    <span class="keyword">return</span> root.height;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">height</span><span class="params">(AVLnode root)</span></span>&#123;  <span class="comment">//为了递归计算树的高度</span></span><br><span class="line">    <span class="keyword">return</span> height(root);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>每次插入节点之后，判断一下如果节点失衡，就进行相应的旋转</p>
+</li>
 </ul>
+<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h2><p>红黑树是一个自平衡树，它没有AVL那么平衡，它不追求完全平衡，而是最长路径不大于最短路径的二倍（所有路径黑色节点数相同，不能有连续的红色），这样降低了对，转的要求，提升了性能。</p>
+<p>构造红黑树需要满足以下几个原则，这些限制保证了树的自平衡。</p>
+<ol>
+<li><p>节点是红色或黑色。</p>
+</li>
+<li><p>根节点是黑色。</p>
+</li>
+<li><p>每个叶子节点都是黑色的空节点（NIL节点）。</p>
+</li>
+<li><p>每个红色节点的两个子节点都是黑色。(从每个叶子到根的所有路径上不能有两个连续的红色节点)</p>
+</li>
+<li><p>从任一节点到其每个叶子的所有路径都包含相同数目的黑色节点。</p>
+</li>
+</ol>
+<p>如下一棵红黑树：<br><img src="/images/RBtree1.jpg" alt=""></p>
+<p>但是在添加和删除节点的时候红黑树的平衡可能会被打破，需要做出一些调整（变色，旋转）来保持平衡。</p>
+<p>当我们插入节点的时候，将要插入的节点着色为红色，因为着色会红色只有一半几率破坏规则4，而着黑色则一定会破坏规则5，且规则4比规则5更好修正。</p>
+<p>所以插入一个节点时，我们先判断是否违反了规则4，如果是，则用变色的过程将树变色到满足规则.如果这时变色解决不了问题的话（不能同时满足5个规则），则可能需要一些列的旋转，变色来保证满足原则。</p>
+<p>一个例子：<a href="http://lvshen9.coding.me/2017/11/07/红黑树的变色与旋转/" target="_blank" rel="noopener">http://lvshen9.coding.me/2017/11/07/红黑树的变色与旋转/</a></p>
 
       
     </div>
@@ -583,7 +612,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#二分查找"><span class="nav-number">1.</span> <span class="nav-text">二分查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉查找树"><span class="nav-number">2.</span> <span class="nav-text">二叉查找树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#平衡二叉树（AVL）"><span class="nav-number">3.</span> <span class="nav-text">平衡二叉树（AVL）</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#二分查找"><span class="nav-number">1.</span> <span class="nav-text">二分查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉查找树"><span class="nav-number">2.</span> <span class="nav-text">二叉查找树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#平衡二叉树（AVL）"><span class="nav-number">3.</span> <span class="nav-text">平衡二叉树（AVL）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#红黑树"><span class="nav-number">4.</span> <span class="nav-text">红黑树</span></a></li></ol></div>
             
 
           </div>
