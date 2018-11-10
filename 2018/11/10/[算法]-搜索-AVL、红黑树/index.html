@@ -1,0 +1,793 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="数据结构,二叉树查找,AVL,红黑树," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="二叉查找树最坏情况下的时间和树的高度成正比（O(n)），所以当最坏情况的性能还是很糟糕，所以我们可以用AVL、红黑树等数据结构，能保证无论如何构造他她的运行时间都是对数级（树的高度是LogN） 平衡二叉树（AVL）定义： 父节点的左子树和右子树的高度之差不能大于1，也就是说不能高过1层，否则该树就失衡了，此时就要旋转节点，在编码时，我们可以记录当前节点的高度，比如空节点是-1，叶子节点是0，非叶子">
+<meta name="keywords" content="数据结构,二叉树查找,AVL,红黑树">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[算法]-搜索-AVL、红黑树">
+<meta property="og:url" content="http://yoursite.com/2018/11/10/[算法]-搜索-AVL、红黑树/index.html">
+<meta property="og:site_name" content="Xuehui JIA">
+<meta property="og:description" content="二叉查找树最坏情况下的时间和树的高度成正比（O(n)），所以当最坏情况的性能还是很糟糕，所以我们可以用AVL、红黑树等数据结构，能保证无论如何构造他她的运行时间都是对数级（树的高度是LogN） 平衡二叉树（AVL）定义： 父节点的左子树和右子树的高度之差不能大于1，也就是说不能高过1层，否则该树就失衡了，此时就要旋转节点，在编码时，我们可以记录当前节点的高度，比如空节点是-1，叶子节点是0，非叶子">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/avl1.png">
+<meta property="og:image" content="http://yoursite.com/images/avl2.png">
+<meta property="og:image" content="http://yoursite.com/images/avl3.png">
+<meta property="og:image" content="http://yoursite.com/images/avl4.png">
+<meta property="og:image" content="http://yoursite.com/images/RBtree1.jpg">
+<meta property="og:image" content="http://yoursite.com/images/RBtree2.jpg">
+<meta property="og:image" content="http://yoursite.com/images/RBtree3.jpg">
+<meta property="og:image" content="http://yoursite.com/images/RBtree4.png">
+<meta property="og:image" content="http://yoursite.com/images/AVLvsRBtree.jpg">
+<meta property="og:updated_time" content="2018-11-10T17:36:12.677Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[算法]-搜索-AVL、红黑树">
+<meta name="twitter:description" content="二叉查找树最坏情况下的时间和树的高度成正比（O(n)），所以当最坏情况的性能还是很糟糕，所以我们可以用AVL、红黑树等数据结构，能保证无论如何构造他她的运行时间都是对数级（树的高度是LogN） 平衡二叉树（AVL）定义： 父节点的左子树和右子树的高度之差不能大于1，也就是说不能高过1层，否则该树就失衡了，此时就要旋转节点，在编码时，我们可以记录当前节点的高度，比如空节点是-1，叶子节点是0，非叶子">
+<meta name="twitter:image" content="http://yoursite.com/images/avl1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/10/[算法]-搜索-AVL、红黑树/"/>
+
+
+
+
+
+  <title>[算法]-搜索-AVL、红黑树 | Xuehui JIA</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xuehui JIA</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">西安电子科技大学，ENSIIE，France</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/10/[算法]-搜索-AVL、红黑树/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xuehui JIA">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xuehui JIA">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[算法]-搜索-AVL、红黑树</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-10T18:29:36+01:00">
+                2018-11-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构和算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构和算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>二叉查找树最坏情况下的时间和树的高度成正比（O(n)），所以当最坏情况的性能还是很糟糕，所以我们可以用AVL、红黑树等数据结构，能保证无论如何构造他她的运行时间都是对数级（树的高度是LogN）</p>
+<h2 id="平衡二叉树（AVL）"><a href="#平衡二叉树（AVL）" class="headerlink" title="平衡二叉树（AVL）"></a>平衡二叉树（AVL）</h2><p>定义：<br> 父节点的<strong>左子树和右子树</strong>的高度之差不能大于1，也就是说不能高过1层，否则该树就失衡了，此时就要旋转节点，在编码时，我们可以记录当前节点的高度，比如空节点是-1，叶子节点是0，非叶子节点的height往根节点递增。<br> <a id="more"></a></p>
+<p> 为了保证这一点，在树出现失衡时(左右子树高度相差大于1)需要进行旋转（调整树的高度）操作。</p>
+<p> 失衡有四种情况：</p>
+<h3 id="左左-LL-左旋转"><a href="#左左-LL-左旋转" class="headerlink" title="左左 LL 左旋转"></a>左左 LL 左旋转</h3><p> <img src="/images/avl1.png" alt=""></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Description</span> 左旋转,root2变成根节点，root2的右子树变成root1的左子树，root1变成root2的右子树</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Date</span> 8:47 PM 08/11/2018</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Param</span> root1 失衡的子树跟节点</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> root2 旋转之后的新根节点</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> AVLnode <span class="title">LL</span><span class="params">(AVLnode root1)</span></span>&#123;</span><br><span class="line">       AVLnode root2 = root1.left;</span><br><span class="line">       root1.left = root2.right;</span><br><span class="line">       root2.right = root1;</span><br><span class="line">       <span class="comment">//重新计算高度</span></span><br><span class="line">       root1.height = Math.max(height(root1.left), height(root1.right))+<span class="number">1</span>;</span><br><span class="line">       root2.height = Math.max(height(root1.left), root2.height)+<span class="number">1</span>;</span><br><span class="line">       <span class="keyword">return</span> root2;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="右右-RR-右旋转"><a href="#右右-RR-右旋转" class="headerlink" title="右右 RR 右旋转"></a>右右 RR 右旋转</h3><p> <img src="/images/avl2.png" alt=""></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@Description</span> 右旋转</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@Date</span> 9:01 PM 08/11/2018</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@Param</span>  <span class="doctag">@Param</span> root1 失衡的节点</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span> root2 旋转之后的新根节点</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   **/</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> AVLnode <span class="title">RR</span><span class="params">(AVLnode root1)</span></span>&#123;</span><br><span class="line">      AVLnode root2 = root1.right;</span><br><span class="line">      root1.right = root2.left;</span><br><span class="line">      root2.left = root1;</span><br><span class="line"></span><br><span class="line">      root1.height = Math.max(height(root1.left), height(root1.right))+<span class="number">1</span>;</span><br><span class="line">      root2.height = Math.max(height(root1.right), root2.height)+<span class="number">1</span>;</span><br><span class="line">      <span class="keyword">return</span> root2;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="左右-LR-先左旋转再右旋转"><a href="#左右-LR-先左旋转再右旋转" class="headerlink" title="左右 LR 先左旋转再右旋转"></a>左右 LR 先左旋转再右旋转</h3><p> <img src="/images/avl3.png" alt=""></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 左右旋转， 该节点的左子树进行右旋转，再对该节点进行左旋转</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 9:05 PM 08/11/2018</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Param</span> root1 失衡的节点</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> AVLnode <span class="title">LR</span><span class="params">(AVLnode root1)</span></span>&#123;</span><br><span class="line">    RR(root1.left);</span><br><span class="line">    <span class="keyword">return</span> LL(root1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="右左-RL-先右旋转再左旋转"><a href="#右左-RL-先右旋转再左旋转" class="headerlink" title="右左 RL 先右旋转再左旋转"></a>右左 RL 先右旋转再左旋转</h3><p> <img src="/images/avl4.png" alt=""></p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@Description</span> 右左旋转， 该节点的右子树进行左旋转，再对该节点进行右旋转</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@Date</span> 9:05 PM 08/11/2018</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@Param</span> root1 失衡的节点</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  **/</span></span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">private</span> AVLnode <span class="title">RL</span><span class="params">(AVLnode root1)</span></span>&#123;</span><br><span class="line">     RR(root1.right);</span><br><span class="line">     <span class="keyword">return</span> LL(root1);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<p> 获取节点高度的方法：</p>
+ <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">height</span><span class="params">()</span></span>&#123;  <span class="comment">//节点高度是子树最高的高度加1</span></span><br><span class="line">    <span class="keyword">return</span> root.height;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">height</span><span class="params">(AVLnode root)</span></span>&#123;  <span class="comment">//为了递归计算树的高度</span></span><br><span class="line">    <span class="keyword">return</span> height(root);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p> 每次插入节点之后，判断一下如果节点失衡，就进行相应的旋转</p>
+<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h2><h3 id="什么是红黑树"><a href="#什么是红黑树" class="headerlink" title="什么是红黑树"></a>什么是红黑树</h3><p>红黑树是一个自平衡树，它没有AVL那么平衡，它不追求完全平衡，而是最长路径不大于最短路径的二倍（所有路径黑色节点数相同，不能有连续的红色），这样降低了对，转的要求，提升了性能。</p>
+<p>构造红黑树需要满足以下几个原则，这些限制保证了树的自平衡。</p>
+<ol>
+<li><p>节点是红色或黑色。</p>
+</li>
+<li><p>根节点是黑色。</p>
+</li>
+<li><p>每个叶子节点都是黑色的空节点（NIL节点）–叶子节点是红色。</p>
+</li>
+<li><p>每个红色节点的两个子节点都是黑色。(从每个叶子到根的所有路径上不能有两个连续的红色节点，黑色可以连续)</p>
+</li>
+<li><p>从任一节点到其每个叶子的所有路径都包含相同数目的黑色节点。</p>
+</li>
+</ol>
+<p>根据规则5，我们知道如果红黑没跳路径有N个黑色节点，树可能的最短的路径是N，即全部都是黑色节点，高度为N-1，可能的最长路径是红黑相间，高度为2（N-1）</p>
+<p>如下一棵红黑树：<br><img src="/images/RBtree1.jpg" alt=""></p>
+<h3 id="调整红黑树的结构"><a href="#调整红黑树的结构" class="headerlink" title="调整红黑树的结构"></a>调整红黑树的结构</h3><p>在添加和删除节点的时候红黑树的平衡可能会被打破，需要做出一些调整（变色，旋转）来保持平衡。</p>
+<p><strong>当我们插入节点的时候，将要插入的节点着色为红色</strong>，因为着色会红色只有一半几率破坏规则4，而着黑色则一定会破坏规则5，且规则4比规则5更好修正。</p>
+<p>所以插入一个节点时，我们先判断是否违反了规则4，如果是，则用变色的过程将树变色到满足规则.如果这时变色解决不了问题的话（不能同时满足5个规则），则可能需要一些列的旋转（来<strong>转移黑色节点的位置</strong>）、变色来保证满足原则。</p>
+<h4 id="情况1：插入到两个黑色节点之间"><a href="#情况1：插入到两个黑色节点之间" class="headerlink" title="情况1：插入到两个黑色节点之间"></a>情况1：插入到两个黑色节点之间</h4><p>不破坏规则，插入结束</p>
+<h4 id="情况2-父节点是红色，叔叔节点也是红色"><a href="#情况2-父节点是红色，叔叔节点也是红色" class="headerlink" title="情况2: 父节点是红色，叔叔节点也是红色"></a>情况2: 父节点是红色，叔叔节点也是红色</h4><p>这种情况由于根节点的两个孩子是一样的颜色，所以变色后两个子树的黑色节点数仍然相同。<br><img src="/images/RBtree2.jpg" alt=""></p>
+<p>N是新加入的节点，这种情况我们把P涂成黑色，G涂成红色，U涂成红色。重新满足规则，每条路径上的黑色节点数没有变化。</p>
+<p>但是如果G的父节点也是红色的话，需要继续重复上述过程往上变色直至父节点是个黑色节点。</p>
+<h4 id="情况3-父节点是红色，叔叔节点是黑色"><a href="#情况3-父节点是红色，叔叔节点是黑色" class="headerlink" title="情况3: 父节点是红色，叔叔节点是黑色"></a>情况3: 父节点是红色，叔叔节点是黑色</h4><p><img src="/images/RBtree3.jpg" alt=""><br>这种情况如果按上述方案变化，两棵子树的黑色节点数就不同了，为了转移黑色节点使其仍然满足规则五，则需要进行一次旋转<br><img src="/images/RBtree4.png" alt=""></p>
+<p>一个例子：<a href="http://lvshen9.coding.me/2017/11/07/红黑树的变色与旋转/" target="_blank" rel="noopener">http://lvshen9.coding.me/2017/11/07/红黑树的变色与旋转/</a></p>
+<h2 id="AVL和红黑树对比"><a href="#AVL和红黑树对比" class="headerlink" title="AVL和红黑树对比"></a>AVL和红黑树对比</h2><p><img src="/images/AVLvsRBtree.jpg" alt=""><br>AVL和红黑树的时间复杂度相同，但是红黑树的统计性能比AVL更高。</p>
+<h3 id="查询时间"><a href="#查询时间" class="headerlink" title="查询时间"></a>查询时间</h3><p>AVL优于红黑树，因为红黑树不是绝对的平衡，树的高度大于AVL。而查询的复杂度主要取决于书的高度。两者都是O（logN）</p>
+<h3 id="插入和删除"><a href="#插入和删除" class="headerlink" title="插入和删除"></a>插入和删除</h3><p>红黑树优于AVL，因为红黑树不追求绝对平衡，由于他的设计，任何不平更都会在三次旋转之内解决。红黑树旋转次数更少。两者都是O（logN）</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/二叉树查找/" rel="tag"># 二叉树查找</a>
+          
+            <a href="/tags/AVL/" rel="tag"># AVL</a>
+          
+            <a href="/tags/红黑树/" rel="tag"># 红黑树</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/07/[算法]-搜索-二分查找、二叉查找树/" rel="next" title="[算法]-搜索-二分查找、二叉查找树">
+                <i class="fa fa-chevron-left"></i> [算法]-搜索-二分查找、二叉查找树
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/touxiang.png"
+               alt="Xuehui JIA" />
+          <p class="site-author-name" itemprop="name">Xuehui JIA</p>
+           
+              <p class="site-description motion-element" itemprop="description">Web front-end developer, Developer of livemarketcap.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jiaxuehui95" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#平衡二叉树（AVL）"><span class="nav-number">1.</span> <span class="nav-text">平衡二叉树（AVL）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#左左-LL-左旋转"><span class="nav-number">1.1.</span> <span class="nav-text">左左 LL 左旋转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#右右-RR-右旋转"><span class="nav-number">1.2.</span> <span class="nav-text">右右 RR 右旋转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#左右-LR-先左旋转再右旋转"><span class="nav-number">1.3.</span> <span class="nav-text">左右 LR 先左旋转再右旋转</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#右左-RL-先右旋转再左旋转"><span class="nav-number">1.4.</span> <span class="nav-text">右左 RL 先右旋转再左旋转</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#红黑树"><span class="nav-number">2.</span> <span class="nav-text">红黑树</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#什么是红黑树"><span class="nav-number">2.1.</span> <span class="nav-text">什么是红黑树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#调整红黑树的结构"><span class="nav-number">2.2.</span> <span class="nav-text">调整红黑树的结构</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#情况1：插入到两个黑色节点之间"><span class="nav-number">2.2.1.</span> <span class="nav-text">情况1：插入到两个黑色节点之间</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况2-父节点是红色，叔叔节点也是红色"><span class="nav-number">2.2.2.</span> <span class="nav-text">情况2: 父节点是红色，叔叔节点也是红色</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#情况3-父节点是红色，叔叔节点是黑色"><span class="nav-number">2.2.3.</span> <span class="nav-text">情况3: 父节点是红色，叔叔节点是黑色</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#AVL和红黑树对比"><span class="nav-number">3.</span> <span class="nav-text">AVL和红黑树对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#查询时间"><span class="nav-number">3.1.</span> <span class="nav-text">查询时间</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插入和删除"><span class="nav-number">3.2.</span> <span class="nav-text">插入和删除</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuehui JIA</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>

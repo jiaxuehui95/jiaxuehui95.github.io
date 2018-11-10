@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="数据结构,Interviews,二叉树,搜索算法,AVL," />
+  <meta name="keywords" content="数据结构,二叉树查找," />
 
 
 
@@ -95,23 +95,17 @@
 
 
 <meta name="description" content="高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。 二分查找二分查找一个有序的数组,复杂度O(logn) java实现：">
-<meta name="keywords" content="数据结构,Interviews,二叉树,搜索算法,AVL">
+<meta name="keywords" content="数据结构,二叉树查找">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[算法]-搜索-二分查找、二叉查找树、平衡查找树（AVL、红黑树）、散列表">
-<meta property="og:url" content="http://yoursite.com/2018/11/07/[算法]-查找/index.html">
+<meta property="og:title" content="[算法]-搜索-二分查找、二叉查找树">
+<meta property="og:url" content="http://yoursite.com/2018/11/07/[算法]-搜索-二分查找、二叉查找树/index.html">
 <meta property="og:site_name" content="Xuehui JIA">
 <meta property="og:description" content="高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。 二分查找二分查找一个有序的数组,复杂度O(logn) java实现：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="http://yoursite.com/images/avl1.png">
-<meta property="og:image" content="http://yoursite.com/images/avl2.png">
-<meta property="og:image" content="http://yoursite.com/images/avl3.png">
-<meta property="og:image" content="http://yoursite.com/images/avl4.png">
-<meta property="og:image" content="http://yoursite.com/images/RBtree1.jpg">
-<meta property="og:updated_time" content="2018-11-08T22:53:13.685Z">
+<meta property="og:updated_time" content="2018-11-10T17:36:16.656Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[算法]-搜索-二分查找、二叉查找树、平衡查找树（AVL、红黑树）、散列表">
+<meta name="twitter:title" content="[算法]-搜索-二分查找、二叉查找树">
 <meta name="twitter:description" content="高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。 二分查找二分查找一个有序的数组,复杂度O(logn) java实现：">
-<meta name="twitter:image" content="http://yoursite.com/images/avl1.png">
 
 
 
@@ -140,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/11/07/[算法]-查找/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/11/07/[算法]-搜索-二分查找、二叉查找树/"/>
 
 
 
 
 
-  <title>[算法]-搜索-二分查找、二叉查找树、平衡查找树（AVL、红黑树）、散列表 | Xuehui JIA</title>
+  <title>[算法]-搜索-二分查找、二叉查找树 | Xuehui JIA</title>
   
 
 
@@ -279,7 +273,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/07/[算法]-查找/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/07/[算法]-搜索-二分查找、二叉查找树/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xuehui JIA">
@@ -296,7 +290,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">[算法]-搜索-二分查找、二叉查找树、平衡查找树（AVL、红黑树）、散列表</h1>
+          <h1 class="post-title" itemprop="name headline">[算法]-搜索-二分查找、二叉查找树</h1>
         
 
         <div class="post-meta">
@@ -331,8 +325,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据结构/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构</span>
+                  <a href="/categories/数据结构和算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构和算法</span>
                   </a>
                 </span>
 
@@ -374,51 +368,12 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> Integer <span class="title">binarySearch</span><span class="params">(<span class="keyword">int</span>[] list, <span class="keyword">int</span> key)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> end = list.length-<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">int</span> begin = <span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> mid;</span><br><span class="line">    <span class="keyword">while</span> (begin&lt;=end)&#123;</span><br><span class="line">        mid =begin+(end-begin)/<span class="number">2</span>;</span><br><span class="line">        <span class="keyword">if</span> (list[mid]==key) &#123;</span><br><span class="line">            <span class="keyword">return</span> key;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (list[mid]&lt;key)</span><br><span class="line">        &#123;</span><br><span class="line">            end = mid-<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (list[mid]&gt;key)&#123;</span><br><span class="line">            begin = mid+<span class="number">1</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>但实际上用int型查找型非常局限，为了拓展，我们用Comparable的对象。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">binarySearch</span>&lt;<span class="title">Key</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">Key</span>&gt;, <span class="title">Value</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> Key <span class="title">binarySearch</span><span class="params">(Key[] list, Key key)</span></span>&#123;</span><br><span class="line">        <span class="keyword">int</span> end = list.length-<span class="number">1</span>;</span><br><span class="line">        <span class="keyword">int</span> begin = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">int</span> mid;</span><br><span class="line">        <span class="keyword">while</span> (begin&lt;=end)&#123;</span><br><span class="line">            mid =begin+(end-begin)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span> (list[mid].compareTo(key)==<span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">return</span> key;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (list[mid].compareTo(key)&gt;<span class="number">0</span>)</span><br><span class="line">            &#123;</span><br><span class="line">                end = mid-<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (list[mid].compareTo(key)&lt;<span class="number">0</span>)&#123;</span><br><span class="line">                begin = mid+<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">null</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<h2 id="二叉查找树"><a href="#二叉查找树" class="headerlink" title="二叉查找树"></a>二叉查找树</h2><p>二叉树的每个节点都大于左子树的任意一个节点，小于右子树的任意一个节点。</p>
+<h2 id="二叉查找树"><a href="#二叉查找树" class="headerlink" title="二叉查找树"></a>二叉查找树</h2><p>二叉树的每个节点都大于左子树的任意一个节点，小于右子树的任意一个节点。查找的最坏情况O(n),最好情况O（logn）</p>
 <p>二叉查找树的生成和插入，非递归 java：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> algos;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@author</span> jiaxuehui</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@version</span> 1.0</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 二叉查找树</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 07/11/2018 5:01 PM</span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">binarySearchTree</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">T</span>&gt;&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">biNode</span>&lt;<span class="title">T</span> <span class="keyword">extends</span> <span class="title">Comparable</span>&lt;<span class="title">T</span>&gt;&gt; </span>&#123;</span><br><span class="line">        T value;</span><br><span class="line">        biNode left = <span class="keyword">null</span>;</span><br><span class="line">        biNode right = <span class="keyword">null</span>;</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="title">biNode</span><span class="params">(T v)</span></span>&#123;</span><br><span class="line">            <span class="keyword">this</span>.value = v;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> T <span class="title">getDate</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.value;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> biNode <span class="title">getLeft</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.left;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> biNode <span class="title">getright</span> <span class="params">()</span> </span>&#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">this</span>.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">       </span><br><span class="line">    biNode root=<span class="keyword">null</span>;</span><br><span class="line">   </span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">binarySearchTree</span><span class="params">(T val)</span></span>&#123;</span><br><span class="line">        root = <span class="keyword">new</span> biNode(val);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> biNode <span class="title">insert</span><span class="params">( T val)</span></span>&#123;</span><br><span class="line">        biNode tmp =root;</span><br><span class="line">        <span class="keyword">if</span> (root.value.compareTo(val)&lt;=<span class="number">0</span>)&#123;</span><br><span class="line">            <span class="keyword">while</span> (tmp.right!=<span class="keyword">null</span> &amp;&amp; tmp.right.value.compareTo(val)&lt;=<span class="number">0</span>)&#123;</span><br><span class="line">                tmp = tmp.right;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (tmp.right == <span class="keyword">null</span>)&#123;</span><br><span class="line">                tmp.right = <span class="keyword">new</span> biNode(val);</span><br><span class="line">                <span class="keyword">return</span> tmp.right;</span><br><span class="line">            &#125;</span><br><span class="line">            tmp=tmp.right;</span><br><span class="line">            biNode tmp2 = tmp.left;</span><br><span class="line">            tmp.left = <span class="keyword">new</span> biNode(val);</span><br><span class="line">            tmp.left.left =tmp2;</span><br><span class="line">            <span class="keyword">return</span> tmp.left;</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">while</span> (tmp.left!=<span class="keyword">null</span> &amp;&amp; tmp.left.value.compareTo(val)&gt;=<span class="number">0</span>)&#123;</span><br><span class="line">                tmp = tmp.left;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">if</span> (tmp.left == <span class="keyword">null</span>)&#123;</span><br><span class="line">                tmp.left = <span class="keyword">new</span> biNode(val);</span><br><span class="line">                <span class="keyword">return</span> tmp.left;</span><br><span class="line">            &#125;</span><br><span class="line">            tmp = tmp.left;</span><br><span class="line">            biNode tmp2 = tmp.right;</span><br><span class="line">            tmp.right = <span class="keyword">new</span> biNode(val);</span><br><span class="line">            tmp.right.right =tmp2;</span><br><span class="line">            <span class="keyword">return</span> tmp.right;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">DFS</span><span class="params">(biNode root)</span></span>&#123; <span class="comment">//先序遍历</span></span><br><span class="line">        <span class="keyword">if</span>(root!=<span class="keyword">null</span>) &#123;</span><br><span class="line">            DFS(root.left);</span><br><span class="line">            System.out.print(root.value+<span class="string">" "</span>);</span><br><span class="line">            DFS(root.right);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>二叉查找树的搜索 递归：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">search</span><span class="params">(biNode root, T val)</span></span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (root != <span class="keyword">null</span>) &#123;</span><br><span class="line">        <span class="keyword">if</span> (root.value.compareTo(val) &gt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> search(root.left, val);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (root.value.compareTo(val) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> search(root.right, val);</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (root.value.compareTo(val) == <span class="number">0</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>二叉查找树最坏情况下的时间和树的高度成正比（O(n)），所以当最坏情况的性能还是很糟糕，所以我们可以用平衡树，能保证无论如何构造他她的运行时间都是对数级（树的高度是LogN）</p>
-<h2 id="平衡二叉树（AVL）"><a href="#平衡二叉树（AVL）" class="headerlink" title="平衡二叉树（AVL）"></a>平衡二叉树（AVL）</h2><p>定义：<br> 父节点的<strong>左子树和右子树</strong>的高度之差不能大于1，也就是说不能高过1层，否则该树就失衡了，此时就要旋转节点，在编码时，我们可以记录当前节点的高度，比如空节点是-1，叶子节点是0，非叶子节点的height往根节点递增。</p>
-<p> 为了保证这一点，在树出现失衡时需要进行旋转（调整树的高度）操作。</p>
-<p> 失衡有四种情况：</p>
-<ul>
-<li><p>左左 LL 左旋转<br><img src="/images/avl1.png" alt=""></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Description</span> 左旋转,root2变成根节点，root2的右子树变成root1的左子树，root1变成root2的右子树</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Date</span> 8:47 PM 08/11/2018</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@Param</span> root1 失衡的子树跟节点</span></span><br><span class="line"><span class="comment">    * <span class="doctag">@return</span> root2 旋转之后的新根节点</span></span><br><span class="line"><span class="comment">    *</span></span><br><span class="line"><span class="comment">    **/</span></span><br><span class="line"><span class="function"><span class="keyword">private</span> AVLnode <span class="title">LL</span><span class="params">(AVLnode root1)</span></span>&#123;</span><br><span class="line">       AVLnode root2 = root1.left;</span><br><span class="line">       root1.left = root2.right;</span><br><span class="line">       root2.right = root1;</span><br><span class="line">       <span class="comment">//重新计算高度</span></span><br><span class="line">       root1.height = Math.max(height(root1.left), height(root1.right))+<span class="number">1</span>;</span><br><span class="line">       root2.height = Math.max(height(root1.left), root2.height)+<span class="number">1</span>;</span><br><span class="line">       <span class="keyword">return</span> root2;</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>右右 RR 右旋转<br><img src="/images/avl2.png" alt=""></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@Description</span> 右旋转</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@Date</span> 9:01 PM 08/11/2018</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@Param</span>  <span class="doctag">@Param</span> root1 失衡的节点</span></span><br><span class="line"><span class="comment">   * <span class="doctag">@return</span> root2 旋转之后的新根节点</span></span><br><span class="line"><span class="comment">   *</span></span><br><span class="line"><span class="comment">   **/</span></span><br><span class="line"></span><br><span class="line">  <span class="function"><span class="keyword">private</span> AVLnode <span class="title">RR</span><span class="params">(AVLnode root1)</span></span>&#123;</span><br><span class="line">      AVLnode root2 = root1.right;</span><br><span class="line">      root1.right = root2.left;</span><br><span class="line">      root2.left = root1;</span><br><span class="line"></span><br><span class="line">      root1.height = Math.max(height(root1.left), height(root1.right))+<span class="number">1</span>;</span><br><span class="line">      root2.height = Math.max(height(root1.right), root2.height)+<span class="number">1</span>;</span><br><span class="line">      <span class="keyword">return</span> root2;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>左右 LR 先左旋转再右旋转<br><img src="/images/avl3.png" alt=""></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"> </span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Description</span> 左右旋转， 该节点的左子树进行右旋转，再对该节点进行左旋转</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Date</span> 9:05 PM 08/11/2018</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@Param</span> root1 失衡的节点</span></span><br><span class="line"><span class="comment"> * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment"> *</span></span><br><span class="line"><span class="comment"> **/</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">private</span> AVLnode <span class="title">LR</span><span class="params">(AVLnode root1)</span></span>&#123;</span><br><span class="line">    RR(root1.left);</span><br><span class="line">    <span class="keyword">return</span> LL(root1);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-<li><p>右左 RL 先右旋转再左旋转<br><img src="/images/avl4.png" alt=""></p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@Author</span> jiaxuehui</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@Description</span> 右左旋转， 该节点的右子树进行左旋转，再对该节点进行右旋转</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@Date</span> 9:05 PM 08/11/2018</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@Param</span> root1 失衡的节点</span></span><br><span class="line"><span class="comment">  * <span class="doctag">@return</span></span></span><br><span class="line"><span class="comment">  *</span></span><br><span class="line"><span class="comment">  **/</span></span><br><span class="line"></span><br><span class="line"> <span class="function"><span class="keyword">private</span> AVLnode <span class="title">RL</span><span class="params">(AVLnode root1)</span></span>&#123;</span><br><span class="line">     RR(root1.right);</span><br><span class="line">     <span class="keyword">return</span> LL(root1);</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
-<p>获取节点高度的方法：</p>
-<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"> <span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">height</span><span class="params">()</span></span>&#123;  <span class="comment">//节点高度是子树最高的高度加1</span></span><br><span class="line">    <span class="keyword">return</span> root.height;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">int</span> <span class="title">height</span><span class="params">(AVLnode root)</span></span>&#123;  <span class="comment">//为了递归计算树的高度</span></span><br><span class="line">    <span class="keyword">return</span> height(root);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>每次插入节点之后，判断一下如果节点失衡，就进行相应的旋转</p>
-</li>
-</ul>
-<h2 id="红黑树"><a href="#红黑树" class="headerlink" title="红黑树"></a>红黑树</h2><p>红黑树是一个自平衡树，它没有AVL那么平衡，它不追求完全平衡，而是最长路径不大于最短路径的二倍（所有路径黑色节点数相同，不能有连续的红色），这样降低了对，转的要求，提升了性能。</p>
-<p>构造红黑树需要满足以下几个原则，这些限制保证了树的自平衡。</p>
-<ol>
-<li><p>节点是红色或黑色。</p>
-</li>
-<li><p>根节点是黑色。</p>
-</li>
-<li><p>每个叶子节点都是黑色的空节点（NIL节点）。</p>
-</li>
-<li><p>每个红色节点的两个子节点都是黑色。(从每个叶子到根的所有路径上不能有两个连续的红色节点)</p>
-</li>
-<li><p>从任一节点到其每个叶子的所有路径都包含相同数目的黑色节点。</p>
-</li>
-</ol>
-<p>如下一棵红黑树：<br><img src="/images/RBtree1.jpg" alt=""></p>
-<p>但是在添加和删除节点的时候红黑树的平衡可能会被打破，需要做出一些调整（变色，旋转）来保持平衡。</p>
-<p>当我们插入节点的时候，将要插入的节点着色为红色，因为着色会红色只有一半几率破坏规则4，而着黑色则一定会破坏规则5，且规则4比规则5更好修正。</p>
-<p>所以插入一个节点时，我们先判断是否违反了规则4，如果是，则用变色的过程将树变色到满足规则.如果这时变色解决不了问题的话（不能同时满足5个规则），则可能需要一些列的旋转，变色来保证满足原则。</p>
-<p>一个例子：<a href="http://lvshen9.coding.me/2017/11/07/红黑树的变色与旋转/" target="_blank" rel="noopener">http://lvshen9.coding.me/2017/11/07/红黑树的变色与旋转/</a></p>
 
       
     </div>
@@ -438,13 +393,7 @@
           
             <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
           
-            <a href="/tags/Interviews/" rel="tag"># Interviews</a>
-          
-            <a href="/tags/二叉树/" rel="tag"># 二叉树</a>
-          
-            <a href="/tags/搜索算法/" rel="tag"># 搜索算法</a>
-          
-            <a href="/tags/AVL/" rel="tag"># AVL</a>
+            <a href="/tags/二叉树查找/" rel="tag"># 二叉树查找</a>
           
         </div>
       
@@ -466,6 +415,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/10/[算法]-搜索-AVL、红黑树/" rel="prev" title="[算法]-搜索-AVL、红黑树">
+                [算法]-搜索-AVL、红黑树 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -542,7 +495,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">11</span>
+                <span class="site-state-item-count">12</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -553,7 +506,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -564,7 +517,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -612,7 +565,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#二分查找"><span class="nav-number">1.</span> <span class="nav-text">二分查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉查找树"><span class="nav-number">2.</span> <span class="nav-text">二叉查找树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#平衡二叉树（AVL）"><span class="nav-number">3.</span> <span class="nav-text">平衡二叉树（AVL）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#红黑树"><span class="nav-number">4.</span> <span class="nav-text">红黑树</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#二分查找"><span class="nav-number">1.</span> <span class="nav-text">二分查找</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二叉查找树"><span class="nav-number">2.</span> <span class="nav-text">二叉查找树</span></a></li></ol></div>
             
 
           </div>
