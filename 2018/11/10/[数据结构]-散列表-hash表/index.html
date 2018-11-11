@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="algorithm,数据结构,哈希表," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="哈希表哈希表在时间和空间上做出权衡，在很多情况下是简单符号表的最佳选择。如果我们不受时间限制，可以用顺序查找的方式查找一个无序的数组，以降低空间成本，如果我们不考虑空间，将键值完全散列，以键值作为数组的索引，我们就能达到O（1）的访问速度。我们通过改变哈希表的参数来在空间和时间上做出取舍。 前面学习到的几种算法比如红黑树，二叉搜索树，查找插入时间复杂度最快也只能到O(logn)，散列表查找插入时间">
+<meta name="keywords" content="algorithm,数据结构,哈希表">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[数据结构]-散列表(hash表)">
+<meta property="og:url" content="http://yoursite.com/2018/11/10/[数据结构]-散列表-hash表/index.html">
+<meta property="og:site_name" content="Xuehui JIA">
+<meta property="og:description" content="哈希表哈希表在时间和空间上做出权衡，在很多情况下是简单符号表的最佳选择。如果我们不受时间限制，可以用顺序查找的方式查找一个无序的数组，以降低空间成本，如果我们不考虑空间，将键值完全散列，以键值作为数组的索引，我们就能达到O（1）的访问速度。我们通过改变哈希表的参数来在空间和时间上做出取舍。 前面学习到的几种算法比如红黑树，二叉搜索树，查找插入时间复杂度最快也只能到O(logn)，散列表查找插入时间">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2018/11/themes/next/source/images/hashTable1.png">
+<meta property="og:updated_time" content="2018-11-11T23:13:20.844Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[数据结构]-散列表(hash表)">
+<meta name="twitter:description" content="哈希表哈希表在时间和空间上做出权衡，在很多情况下是简单符号表的最佳选择。如果我们不受时间限制，可以用顺序查找的方式查找一个无序的数组，以降低空间成本，如果我们不考虑空间，将键值完全散列，以键值作为数组的索引，我们就能达到O（1）的访问速度。我们通过改变哈希表的参数来在空间和时间上做出取舍。 前面学习到的几种算法比如红黑树，二叉搜索树，查找插入时间复杂度最快也只能到O(logn)，散列表查找插入时间">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/themes/next/source/images/hashTable1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/10/[数据结构]-散列表-hash表/"/>
+
+
+
+
+
+  <title>[数据结构]-散列表(hash表) | Xuehui JIA</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xuehui JIA</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">西安电子科技大学，ENSIIE，France</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/10/[数据结构]-散列表-hash表/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xuehui JIA">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xuehui JIA">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[数据结构]-散列表(hash表)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-10T19:02:10+01:00">
+                2018-11-10
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构和算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构和算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="哈希表"><a href="#哈希表" class="headerlink" title="哈希表"></a>哈希表</h2><p>哈希表在时间和空间上做出权衡，在很多情况下是简单符号表的最佳选择。<br>如果我们不受时间限制，可以用顺序查找的方式查找一个无序的数组，以降低空间成本，如果我们不考虑空间，将键值完全散列，以键值作为数组的索引，我们就能达到O（1）的访问速度。我们通过改变哈希表的参数来在空间和时间上做出取舍。</p>
+<p>前面学习到的几种算法比如红黑树，二叉搜索树，查找插入时间复杂度最快也只能到O(logn)，散列表查找插入时间复杂度达到常数级别，但是需要牺牲一定的计算索引的时间。<br><a id="more"></a></p>
+<h2 id="哈希函数"><a href="#哈希函数" class="headerlink" title="哈希函数"></a>哈希函数</h2><p>将键转化为数组的索引，不同的数据类型需要相应的散列函数</p>
+<p>正整数的散列函数通常用除留余数法。选一个素数作为除数，将键值作为被除数，将余数作为散列值。</p>
+<p>字符串也可以用这种方式。我们将字符串当作一个大整数。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">int</span> hash = <span class="number">0</span>;</span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">int</span> i=<span class="number">0</span>;i&lt;s.length();i++)&#123;</span><br><span class="line">	hash = (s[i]+ R*hash)%M;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>将字符串的每一个字符的unicode加上R的i次方再相加，利用除留余数法获得哈希值。</p>
+<h2 id="时间复杂度"><a href="#时间复杂度" class="headerlink" title="时间复杂度"></a>时间复杂度</h2><p>哈希表存储的是键值对，其查找的时间复杂度与元素数量多少无关，哈希表在查找元素时是通过计算哈希码值来定位元素的位置从而直接访问元素的，因此，哈希表查找的时间复杂度为O（1）。</p>
+<h2 id="处理碰撞冲突"><a href="#处理碰撞冲突" class="headerlink" title="处理碰撞冲突"></a>处理碰撞冲突</h2><p>哈希冲突是指不同的键值有相同的散列值，也就是处理两个或多个三劣质相同的情况，如果我们将哈希值作为一个数据的唯一标记的话（应用如校验文件完整性等），我们应选用更复杂的哈希函数避免哈希冲突（如sha-256等），但是在在符号表的应用里，我门需要冲突来权衡时间和空间复杂度。</p>
+<p>处理哈希冲突主要的两种方法：</p>
+<h3 id="拉链法"><a href="#拉链法" class="headerlink" title="拉链法"></a>拉链法</h3><p>大小为M的数组中的每个元素指向一条链表，链表中的元素就是相同哈希值的元素。<br><img src="../../themes/next/source/images/hashTable1.png" alt=""><br>查找分为两步：首先根据散列值找到对应的链表，然后在链表上顺序查找相应的键。</p>
+<p>链表的平均长度： N/M</p>
+<p>实现基于拉链表的散列表，目标是选择适当的数组大小M，使得既不会因为空链表而浪费内存空间，也不会因为链表太而在查找上浪费太多时间。装填因子&gt;=1</p>
+<h3 id="线性探测法"><a href="#线性探测法" class="headerlink" title="线性探测法"></a>线性探测法</h3><p>使用数组中的空位来解决冲突，用大小为M的数组保存N个键值对，M&gt;N，他属于开放寻址法。当碰撞发生时，我们直接检查散列表的下一个位置。但是这种方法容易出现聚集，影响效率</p>
+<p>还有二次探测法，地址增量为1^2,2^2,3^2,4^2…这样能避免聚集，但是不能探测到哈希表上的所有储存单元</p>
+<p>装填因子 = （哈希表中的记录数） /  （哈希表的长度），及哈希表被装填的概率，线性探索法要求的装填因子比较小.</p>
+<p>作为查找，我们查找某一个键的值，将键经过hash函数获得哈希值，根据哈希值找到对应的数组位置，有可能直接命中，若未命中则继续下一个位置查找，直至命中或遇到空值表示查找失败。</p>
+<p>由于空值代表查找失败，所以我们在删除一个元素的时候不能简单的将元素置空，而是添加一个钙元素已经被删除的标记，以避免影响接下来的查找。</p>
+<h2 id="几种查找算法的性能对比"><a href="#几种查找算法的性能对比" class="headerlink" title="几种查找算法的性能对比"></a>几种查找算法的性能对比</h2><h3 id="顺序查找"><a href="#顺序查找" class="headerlink" title="顺序查找"></a>顺序查找</h3><p>无序查找</p>
+<p>插入数据时需要和元素做对比，如果存在就不插入，存在则插入==&gt;O（N）</p>
+<p>查询时需要一个个对比数据==&gt;O(N)</p>
+<h3 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h3><p>有序查找</p>
+<p>查找过程是折半，对比的次数最大是log(N+1) ==&gt;<strong>O(logN)</strong></p>
+<p>但是插入的过程需要将插入的值后边的值往后挪，查找要插入的元素是否存在需要lgN，往后挪元素平均N/2 ==&gt;<strong>O(lgN +N/2)</strong></p>
+<p>所以二分查找适合静态表，也就是不允许添加元素的表的查找</p>
+<h3 id="插值查找"><a href="#插值查找" class="headerlink" title="插值查找"></a>插值查找</h3><p>有序查找</p>
+<p>插值查找是二分查找的改进，比如我们要找1-1000中的987，从500开始查找显然不如900开始查找的性能高，插值查找就是改善了二分查找(1/2)的折半，而是自适应，计算mid的函数：<code>mid=low+(key-a[low])/(a[high]-a[low])*(high-low)</code></p>
+<p>插值查找适合分布比较均匀的数据。</p>
+<h3 id="二叉树查找"><a href="#二叉树查找" class="headerlink" title="二叉树查找"></a>二叉树查找</h3><p>有序查找</p>
+<p>查找平均O(lgN),失衡最坏O(N)</p>
+<p>插入时间类似于二分查找，但是由于是链表实现不需要挪动后边元素==&gt;O（lgN）</p>
+<h3 id="平衡查找树–AVL，红黑树"><a href="#平衡查找树–AVL，红黑树" class="headerlink" title="平衡查找树–AVL，红黑树"></a>平衡查找树–AVL，红黑树</h3><p>有序查找</p>
+<p>查找O(lgN)</p>
+<p>插入O(lgN)</p>
+<h3 id="哈希表-1"><a href="#哈希表-1" class="headerlink" title="哈希表"></a>哈希表</h3><p>无序查找</p>
+<p>单纯论查找复杂度：查找复杂度为O(1)（注意，在查找之前我们需要构建相应的Hash表）</p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
+          
+            <a href="/tags/数据结构/" rel="tag"># 数据结构</a>
+          
+            <a href="/tags/哈希表/" rel="tag"># 哈希表</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/10/[算法]-搜索-AVL、红黑树/" rel="next" title="[算法]-搜索-AVL、红黑树">
+                <i class="fa fa-chevron-left"></i> [算法]-搜索-AVL、红黑树
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/touxiang.png"
+               alt="Xuehui JIA" />
+          <p class="site-author-name" itemprop="name">Xuehui JIA</p>
+           
+              <p class="site-description motion-element" itemprop="description">Web front-end developer, Developer of livemarketcap.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jiaxuehui95" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希表"><span class="nav-number">1.</span> <span class="nav-text">哈希表</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#哈希函数"><span class="nav-number">2.</span> <span class="nav-text">哈希函数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#时间复杂度"><span class="nav-number">3.</span> <span class="nav-text">时间复杂度</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#处理碰撞冲突"><span class="nav-number">4.</span> <span class="nav-text">处理碰撞冲突</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#拉链法"><span class="nav-number">4.1.</span> <span class="nav-text">拉链法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线性探测法"><span class="nav-number">4.2.</span> <span class="nav-text">线性探测法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#几种查找算法的性能对比"><span class="nav-number">5.</span> <span class="nav-text">几种查找算法的性能对比</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#顺序查找"><span class="nav-number">5.1.</span> <span class="nav-text">顺序查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二分查找"><span class="nav-number">5.2.</span> <span class="nav-text">二分查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#插值查找"><span class="nav-number">5.3.</span> <span class="nav-text">插值查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#二叉树查找"><span class="nav-number">5.4.</span> <span class="nav-text">二叉树查找</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#平衡查找树–AVL，红黑树"><span class="nav-number">5.5.</span> <span class="nav-text">平衡查找树–AVL，红黑树</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#哈希表-1"><span class="nav-number">5.6.</span> <span class="nav-text">哈希表</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuehui JIA</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
