@@ -94,19 +94,19 @@
 
 
 
-<meta name="description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 要学习Collection，除了数据结构基础之外还要有Iterable概念 IterableIterable接口为高效遍历更多的数据结构提供了支持。 常见的循环方式： for 循环： 123for (int">
+<meta name="description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 要学习Collection，除了数据结构基础之外还要有Iterable概念 Iterable">
 <meta name="keywords" content="Java,Collection">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[Java]-Collection源码分析-ArrayList">
 <meta property="og:url" content="http://yoursite.com/2018/11/12/[Java]-Collection源码-ArrayList/index.html">
 <meta property="og:site_name" content="Xuehui JIA">
-<meta property="og:description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 要学习Collection，除了数据结构基础之外还要有Iterable概念 IterableIterable接口为高效遍历更多的数据结构提供了支持。 常见的循环方式： for 循环： 123for (int">
+<meta property="og:description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 要学习Collection，除了数据结构基础之外还要有Iterable概念 Iterable">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/Arraylist1.png">
-<meta property="og:updated_time" content="2018-11-13T20:32:46.393Z">
+<meta property="og:updated_time" content="2018-11-13T20:34:12.166Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[Java]-Collection源码分析-ArrayList">
-<meta name="twitter:description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 要学习Collection，除了数据结构基础之外还要有Iterable概念 IterableIterable接口为高效遍历更多的数据结构提供了支持。 常见的循环方式： for 循环： 123for (int">
+<meta name="twitter:description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 要学习Collection，除了数据结构基础之外还要有Iterable概念 Iterable">
 <meta name="twitter:image" content="http://yoursite.com/images/Arraylist1.png">
 
 
@@ -367,7 +367,8 @@
         <p>Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。</p>
 <p>常用集合： List， Set， Map。</p>
 <p>要学习Collection，除了数据结构基础之外还要有Iterable概念</p>
-<h2 id="Iterable"><a href="#Iterable" class="headerlink" title="Iterable"></a>Iterable</h2><p>Iterable接口为高效遍历更多的数据结构提供了支持。</p>
+<h2 id="Iterable"><a href="#Iterable" class="headerlink" title="Iterable"></a>Iterable</h2><a id="more"></a>
+<p>Iterable接口为高效遍历更多的数据结构提供了支持。</p>
 <p>常见的循环方式：</p>
 <p>for 循环：</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>, len = strings.size(); i &lt; len; i++) &#123;</span><br><span class="line">    System.out.println(strings.get(i));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
