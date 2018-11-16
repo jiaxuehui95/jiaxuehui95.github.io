@@ -103,7 +103,7 @@
 <meta property="og:description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 要学习Collection，除了数据结构基础之外还要有Iterable概念 Iterable">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/Arraylist1.png">
-<meta property="og:updated_time" content="2018-11-13T20:35:47.118Z">
+<meta property="og:updated_time" content="2018-11-13T21:35:07.551Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[Java]-Collection源码分析-ArrayList">
 <meta name="twitter:description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 要学习Collection，除了数据结构基础之外还要有Iterable概念 Iterable">
@@ -420,6 +420,7 @@
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)</span><br><span class="line">        <span class="comment">// any size if not default element table</span></span><br><span class="line">        ? <span class="number">0</span></span><br><span class="line">        <span class="comment">// larger than default for default empty table. It's already</span></span><br><span class="line">        <span class="comment">// supposed to be at default size.</span></span><br><span class="line">        : DEFAULT_CAPACITY;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (minCapacity &gt; minExpand) &#123;</span><br><span class="line">        ensureExplicitCapacity(minCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>删除：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//删除某个下标的元素</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    rangeCheck(index);</span><br><span class="line"></span><br><span class="line">    modCount++;</span><br><span class="line">    E oldValue = elementData(index);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> numMoved = size - index - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (numMoved &gt; <span class="number">0</span>)</span><br><span class="line">        System.arraycopy(elementData, index+<span class="number">1</span>, elementData, index,</span><br><span class="line">                         numMoved);<span class="comment">//把index之后的内容复制到index之前的元素的后边。</span></span><br><span class="line">    elementData[--size] = <span class="keyword">null</span>; <span class="comment">// clear to let GC do its work</span></span><br><span class="line">    <span class="comment">//数组长度-1，让垃圾回收机制收回</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> oldValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
 <p>结论： 了解了ArrayList的原理之后明白他实际上是用数组实现，虽然可以动态改变大小，但是改变大小由于需要进行拷贝所以是耗费性能的，虽然她的扩容机制已经做了优化（每次扩容1.5倍，减少拷贝次数），但是还是要根据情况使用，比如数据量大且对内存不做要求时可以在实例化的时候一步到位声明大数组，若对内存有要求可以根据呃业务需要在添加操作之前扩充足够的容量。</p>
+<p>ArrayList还是和数组一样，更适合于数据随机访问，而不太适合于大量的插入与删除</p>
 <p>了解了底层机制才能更好的使用，提高程序效率和内存使用，不踩坑</p>
 <p>参考：<a href="https://www.jianshu.com/p/407afb4a267a" target="_blank" rel="noopener">https://www.jianshu.com/p/407afb4a267a</a></p>
 
@@ -463,6 +464,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/11/13/Java-Collection源码分析-Queue/" rel="prev" title="[Java]-Collection源码分析-Queue">
+                [Java]-Collection源码分析-Queue <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -539,7 +544,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-count">16</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
