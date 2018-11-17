@@ -97,16 +97,16 @@
 <meta name="description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 Collection UML: 要学习Collection，除了数据结构基础之外还要有Iterable概念 Iterable">
 <meta name="keywords" content="Java,Collection">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[Java]-Collection源码分析-ArrayList">
+<meta property="og:title" content="[Java]-Collection源码分析-ArrayList 和线程安全">
 <meta property="og:url" content="http://yoursite.com/2018/11/12/Java-Collection源码-ArrayList/index.html">
 <meta property="og:site_name" content="Xuehui JIA">
 <meta property="og:description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 Collection UML: 要学习Collection，除了数据结构基础之外还要有Iterable概念 Iterable">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/collection.jpg">
 <meta property="og:image" content="http://yoursite.com/images/Arraylist1.png">
-<meta property="og:updated_time" content="2018-11-17T15:37:32.641Z">
+<meta property="og:updated_time" content="2018-11-17T19:43:04.553Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[Java]-Collection源码分析-ArrayList">
+<meta name="twitter:title" content="[Java]-Collection源码分析-ArrayList 和线程安全">
 <meta name="twitter:description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 Collection UML: 要学习Collection，除了数据结构基础之外还要有Iterable概念 Iterable">
 <meta name="twitter:image" content="http://yoursite.com/images/collection.jpg">
 
@@ -143,7 +143,7 @@
 
 
 
-  <title>[Java]-Collection源码分析-ArrayList | Xuehui JIA</title>
+  <title>[Java]-Collection源码分析-ArrayList 和线程安全 | Xuehui JIA</title>
   
 
 
@@ -293,7 +293,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">[Java]-Collection源码分析-ArrayList</h1>
+          <h1 class="post-title" itemprop="name headline">[Java]-Collection源码分析-ArrayList 和线程安全</h1>
         
 
         <div class="post-meta">
@@ -435,6 +435,9 @@
 <p>但是用synchronized进行同步控制影响了这个方法的效率，要慎重使用这个关键字</p>
 <h3 id="ArrayList，-Vector"><a href="#ArrayList，-Vector" class="headerlink" title="ArrayList， Vector"></a>ArrayList， Vector</h3><p>ArrayList是线程不安全的，Vector是线程安全的，如果需要多线程操作同一个对象，就需要用Vector，否则ArrayList有更高的效率。</p>
 <p>但并不是非线程安全的就一定不安全，只有当不同线程操作同一个对象时才会有可能发生错误，如果每个线程都new一个ArrayList就不会发生这样的问题了。</p>
+<h3 id="modCount"><a href="#modCount" class="headerlink" title="modCount"></a>modCount</h3><p>经常看到类的成员变量modCount</p>
+<p>修改次数modCount，这个变量记录了对象的修改次数，再Iterator中使用，Iterator中有变量expectedModCount也记录了对象的更改次数，在遍历的时候若expectedModCount和modCount不同则说明有其他线程已经修改了这个对象，抛出异常。</p>
+<p>modCount通常在线程不安全的类中才会看到，是一个避免多线程操作错误的方式：fast-fail策略。所以当大家遍历那些非线程安全的数据结构时，尽量使用迭代器。</p>
 
       
     </div>
@@ -626,7 +629,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterable"><span class="nav-number">1.</span> <span class="nav-text">Iterable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collection"><span class="nav-number">2.</span> <span class="nav-text">Collection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">3.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayList"><span class="nav-number">4.</span> <span class="nav-text">ArrayList</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#成员变量"><span class="nav-number">4.1.</span> <span class="nav-text">成员变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数"><span class="nav-number">4.2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">4.3.</span> <span class="nav-text">方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程安全-ArrayList-vs-Vector"><span class="nav-number">5.</span> <span class="nav-text">线程安全-ArrayList vs Vector</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程安全"><span class="nav-number">5.1.</span> <span class="nav-text">线程安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程不安全"><span class="nav-number">5.2.</span> <span class="nav-text">线程不安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList，-Vector"><span class="nav-number">5.3.</span> <span class="nav-text">ArrayList， Vector</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterable"><span class="nav-number">1.</span> <span class="nav-text">Iterable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collection"><span class="nav-number">2.</span> <span class="nav-text">Collection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">3.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayList"><span class="nav-number">4.</span> <span class="nav-text">ArrayList</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#成员变量"><span class="nav-number">4.1.</span> <span class="nav-text">成员变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数"><span class="nav-number">4.2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">4.3.</span> <span class="nav-text">方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程安全-ArrayList-vs-Vector"><span class="nav-number">5.</span> <span class="nav-text">线程安全-ArrayList vs Vector</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程安全"><span class="nav-number">5.1.</span> <span class="nav-text">线程安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程不安全"><span class="nav-number">5.2.</span> <span class="nav-text">线程不安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList，-Vector"><span class="nav-number">5.3.</span> <span class="nav-text">ArrayList， Vector</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#modCount"><span class="nav-number">5.4.</span> <span class="nav-text">modCount</span></a></li></ol></li></ol></div>
             
 
           </div>
