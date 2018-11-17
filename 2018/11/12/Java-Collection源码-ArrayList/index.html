@@ -94,20 +94,21 @@
 
 
 
-<meta name="description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 要学习Collection，除了数据结构基础之外还要有Iterable概念 Iterable">
+<meta name="description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 Collection UML: 要学习Collection，除了数据结构基础之外还要有Iterable概念 Iterable">
 <meta name="keywords" content="Java,Collection">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[Java]-Collection源码分析-ArrayList">
-<meta property="og:url" content="http://yoursite.com/2018/11/12/[Java]-Collection源码-ArrayList/index.html">
+<meta property="og:url" content="http://yoursite.com/2018/11/12/Java-Collection源码-ArrayList/index.html">
 <meta property="og:site_name" content="Xuehui JIA">
-<meta property="og:description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 要学习Collection，除了数据结构基础之外还要有Iterable概念 Iterable">
+<meta property="og:description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 Collection UML: 要学习Collection，除了数据结构基础之外还要有Iterable概念 Iterable">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/collection.jpg">
 <meta property="og:image" content="http://yoursite.com/images/Arraylist1.png">
-<meta property="og:updated_time" content="2018-11-13T21:35:07.551Z">
+<meta property="og:updated_time" content="2018-11-17T15:37:32.641Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[Java]-Collection源码分析-ArrayList">
-<meta name="twitter:description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 要学习Collection，除了数据结构基础之外还要有Iterable概念 Iterable">
-<meta name="twitter:image" content="http://yoursite.com/images/Arraylist1.png">
+<meta name="twitter:description" content="Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。 常用集合： List， Set， Map。 Collection UML: 要学习Collection，除了数据结构基础之外还要有Iterable概念 Iterable">
+<meta name="twitter:image" content="http://yoursite.com/images/collection.jpg">
 
 
 
@@ -136,7 +137,7 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/11/12/[Java]-Collection源码-ArrayList/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/11/12/Java-Collection源码-ArrayList/"/>
 
 
 
@@ -275,7 +276,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/[Java]-Collection源码-ArrayList/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/Java-Collection源码-ArrayList/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xuehui JIA">
@@ -366,6 +367,7 @@
       
         <p>Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。</p>
 <p>常用集合： List， Set， Map。</p>
+<p>Collection UML:<br><img src="/images/collection.jpg" alt=""></p>
 <p>要学习Collection，除了数据结构基础之外还要有Iterable概念</p>
 <h2 id="Iterable"><a href="#Iterable" class="headerlink" title="Iterable"></a>Iterable</h2><a id="more"></a>
 <p>Iterable接口为高效遍历更多的数据结构提供了支持。</p>
@@ -419,10 +421,20 @@
 <p>我们也可以在添加元素之前提前根据添加操作次数扩容，来减少拷贝次数，且可以不用一直占用大内存。</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">ensureCapacity</span><span class="params">(<span class="keyword">int</span> minCapacity)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">int</span> minExpand = (elementData != DEFAULTCAPACITY_EMPTY_ELEMENTDATA)</span><br><span class="line">        <span class="comment">// any size if not default element table</span></span><br><span class="line">        ? <span class="number">0</span></span><br><span class="line">        <span class="comment">// larger than default for default empty table. It's already</span></span><br><span class="line">        <span class="comment">// supposed to be at default size.</span></span><br><span class="line">        : DEFAULT_CAPACITY;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (minCapacity &gt; minExpand) &#123;</span><br><span class="line">        ensureExplicitCapacity(minCapacity);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>删除：<br><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//删除某个下标的元素</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> E <span class="title">remove</span><span class="params">(<span class="keyword">int</span> index)</span> </span>&#123;</span><br><span class="line">    rangeCheck(index);</span><br><span class="line"></span><br><span class="line">    modCount++;</span><br><span class="line">    E oldValue = elementData(index);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">int</span> numMoved = size - index - <span class="number">1</span>;</span><br><span class="line">    <span class="keyword">if</span> (numMoved &gt; <span class="number">0</span>)</span><br><span class="line">        System.arraycopy(elementData, index+<span class="number">1</span>, elementData, index,</span><br><span class="line">                         numMoved);<span class="comment">//把index之后的内容复制到index之前的元素的后边。</span></span><br><span class="line">    elementData[--size] = <span class="keyword">null</span>; <span class="comment">// clear to let GC do its work</span></span><br><span class="line">    <span class="comment">//数组长度-1，让垃圾回收机制收回</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> oldValue;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-<p>结论： 了解了ArrayList的原理之后明白他实际上是用数组实现，虽然可以动态改变大小，但是改变大小由于需要进行拷贝所以是耗费性能的，虽然她的扩容机制已经做了优化（每次扩容1.5倍，减少拷贝次数），但是还是要根据情况使用，比如数据量大且对内存不做要求时可以在实例化的时候一步到位声明大数组，若对内存有要求可以根据呃业务需要在添加操作之前扩充足够的容量。</p>
+<p>结论： 了解了ArrayList的原理之后明白他实际上是用数组实现，虽然可以动态改变大小，但是改变大小由于需要进行拷贝所以是耗费性能的，虽然她的扩容机制已经做了优化（每次扩容1.5倍，减少拷贝次数），但是还是要根据情况使用，比如数据量大且对内存不做要求时可以在实例化的时候一步到位声明大数组，若对内存有要求可以根据业务需要在添加操作之前扩充足够的容量。</p>
 <p>ArrayList还是和数组一样，更适合于数据随机访问，而不太适合于大量的插入与删除</p>
 <p>了解了底层机制才能更好的使用，提高程序效率和内存使用，不踩坑</p>
 <p>参考：<a href="https://www.jianshu.com/p/407afb4a267a" target="_blank" rel="noopener">https://www.jianshu.com/p/407afb4a267a</a></p>
+<h2 id="线程安全-ArrayList-vs-Vector"><a href="#线程安全-ArrayList-vs-Vector" class="headerlink" title="线程安全-ArrayList vs Vector"></a>线程安全-ArrayList vs Vector</h2><p>ArrayList是非线程安全的，Vector是线程安全的；HashMap是非线程安全的，HashTable是线程安全的；StringBuilder是非线程安全的，StringBuffer是线程安全的。</p>
+<h3 id="线程安全"><a href="#线程安全" class="headerlink" title="线程安全"></a>线程安全</h3><p>　当多个线程类并发操作某类的某个方法，(在该方法内部)来修改这个类的某个<strong>成员变量</strong>的值，不会出错，则我们就说，该的这个方法是线程安全的。</p>
+<p>　　某类的某方法是否线程安全的关键是：</p>
+<p>　　(1) 该方法是否修改该类的<strong>成员变量</strong>（有没有数据共享）;</p>
+<p>　　(2) 是否给该方法<strong>加锁</strong>(是否用synchronized关键字修饰），在调用该方法的过程中别的线程的调用无法执行</p>
+<h3 id="线程不安全"><a href="#线程不安全" class="headerlink" title="线程不安全"></a>线程不安全</h3><p>当多个线程类并发操作某类的某个方法，(在该方法内部)来修改这个类的某个成员变量的值，很容易就会发生错误，故我们就说，这个方法是线程不安全的。如果要把这个方法变成线程安全的，则用 synchronized关键字来修饰该方法即可。</p>
+<p>当1线程正在使用或修改某个成员变量（共享数据），但是这个过程中线程2将该变量修改，那么线程1的执行结果会受到影响。</p>
+<p>但是用synchronized进行同步控制影响了这个方法的效率，要慎重使用这个关键字</p>
+<h3 id="ArrayList，-Vector"><a href="#ArrayList，-Vector" class="headerlink" title="ArrayList， Vector"></a>ArrayList， Vector</h3><p>ArrayList是线程不安全的，Vector是线程安全的，如果需要多线程操作同一个对象，就需要用Vector，否则ArrayList有更高的效率。</p>
+<p>但并不是非线程安全的就一定不安全，只有当不同线程操作同一个对象时才会有可能发生错误，如果每个线程都new一个ArrayList就不会发生这样的问题了。</p>
 
       
     </div>
@@ -614,7 +626,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterable"><span class="nav-number">1.</span> <span class="nav-text">Iterable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collection"><span class="nav-number">2.</span> <span class="nav-text">Collection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">3.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayList"><span class="nav-number">4.</span> <span class="nav-text">ArrayList</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#成员变量"><span class="nav-number">4.1.</span> <span class="nav-text">成员变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数"><span class="nav-number">4.2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">4.3.</span> <span class="nav-text">方法</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Iterable"><span class="nav-number">1.</span> <span class="nav-text">Iterable</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Collection"><span class="nav-number">2.</span> <span class="nav-text">Collection</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#List"><span class="nav-number">3.</span> <span class="nav-text">List</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayList"><span class="nav-number">4.</span> <span class="nav-text">ArrayList</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#成员变量"><span class="nav-number">4.1.</span> <span class="nav-text">成员变量</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#构造函数"><span class="nav-number">4.2.</span> <span class="nav-text">构造函数</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">4.3.</span> <span class="nav-text">方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#线程安全-ArrayList-vs-Vector"><span class="nav-number">5.</span> <span class="nav-text">线程安全-ArrayList vs Vector</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#线程安全"><span class="nav-number">5.1.</span> <span class="nav-text">线程安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#线程不安全"><span class="nav-number">5.2.</span> <span class="nav-text">线程不安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ArrayList，-Vector"><span class="nav-number">5.3.</span> <span class="nav-text">ArrayList， Vector</span></a></li></ol></li></ol></div>
             
 
           </div>

@@ -103,7 +103,8 @@
 <meta property="og:description" content="Queue是一个超级接口，继承关系如下：有如下方法：">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/queueP.png">
-<meta property="og:updated_time" content="2018-11-16T22:44:39.648Z">
+<meta property="og:image" content="http://yoursite.com/images/&.png">
+<meta property="og:updated_time" content="2018-11-17T10:44:25.780Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[Java]-Collection源码分析-Queue">
 <meta name="twitter:description" content="Queue是一个超级接口，继承关系如下：有如下方法：">
@@ -377,9 +378,9 @@
 <p>在定义elements变量时说，其长度总是2的次幂，但用户传入的参数并不一定符合规则，所以就需要根据用户的输入，找到比它大的最近的2次幂。比如用户输入13，就把它调整为16，输入31，就调整为32，calculateSize就是完成了这样一个计算，位运算的代码解析可以看这个链接：<br><a href="https://www.jianshu.com/p/1c1c3f24762e。这个方法让我们找到合适的2次幂。" target="_blank" rel="noopener">https://www.jianshu.com/p/1c1c3f24762e。这个方法让我们找到合适的2次幂。</a></p>
 <p>|按位或</p>
 <p>>&gt;&gt; 忽略符号位右移</p>
-<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>添加元素，在队尾添加，在队头添加</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><p>循环数组，添加元素，在队尾添加，在队头添加，位运算，</p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">//在队首添加一个元素，非空</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addFirst</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (e == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">    elements[head = (head - <span class="number">1</span>) &amp; (elements.length - <span class="number">1</span>)] = e;</span><br><span class="line">    <span class="keyword">if</span> (head == tail)</span><br><span class="line">        doubleCapacity();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="comment">//在队尾添加一个元素，非空</span></span><br><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">addLast</span><span class="params">(E e)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (e == <span class="keyword">null</span>)</span><br><span class="line">        <span class="keyword">throw</span> <span class="keyword">new</span> NullPointerException();</span><br><span class="line">    elements[tail] = e;</span><br><span class="line">    <span class="keyword">if</span> ( (tail = (tail + <span class="number">1</span>) &amp; (elements.length - <span class="number">1</span>)) == head)</span><br><span class="line">        doubleCapacity();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>&amp;：按位与。两个数相与，只有都为1的时候才是1，一个正数m和一个数n与得m mod n，和-数与相当于取补码，所以说这个数组实际上是个循环队列。</p>
+<p>&amp;：按位与。两个数相与，只有都为1的时候才是1，一个正数m和一个数n与得m mod n，和-数与相当于取补码，所以说这个数组实际上是个循环队列。<br><img src="/images/&amp;.png" alt=""></p>
 <p>队列满的情况就是tail == head，这时的扩容策略时直接翻倍。</p>
 
       
@@ -413,7 +414,7 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/11/12/[Java]-Collection源码-ArrayList/" rel="next" title="[Java]-Collection源码分析-ArrayList">
+              <a href="/2018/11/12/Java-Collection源码-ArrayList/" rel="next" title="[Java]-Collection源码分析-ArrayList">
                 <i class="fa fa-chevron-left"></i> [Java]-Collection源码分析-ArrayList
               </a>
             

@@ -94,18 +94,22 @@
 
 
 
-<meta name="description" content="List特点：元素有放入顺序，元素可重复  Map特点：元素按键值对存储，无放入顺序. key-value Set特点：元素无放入顺序，元素不可重复（注意：元素虽然无放入顺序，但是元素在set中的位置是有该元素的HashCode决定的，其位置其实是固定的）">
+<meta name="description" content="List特点：元素有放入顺序，元素可重复，用来处理序列 Map特点：元素按键值对存储，无放入顺序. key-value Set特点：元素无放入顺序，元素不可重复（注意：元素虽然无放入顺序，但是元素在set中的位置是有该元素的HashCode决定的，其位置其实是固定的），用来处理集 Map接口有三个实现类：HashMap，HashTable，LinkeHashMap，SortedMap有一个实现类：">
 <meta name="keywords" content="Java,Map,SortedMap">
 <meta property="og:type" content="article">
-<meta property="og:title" content="[Java]-Map源码分析-SortedMap">
+<meta property="og:title" content="[Java]-Map源码分析-SortedMap-NavigableMap">
 <meta property="og:url" content="http://yoursite.com/2018/11/16/Java-Map源码分析-SortedMap/index.html">
 <meta property="og:site_name" content="Xuehui JIA">
-<meta property="og:description" content="List特点：元素有放入顺序，元素可重复  Map特点：元素按键值对存储，无放入顺序. key-value Set特点：元素无放入顺序，元素不可重复（注意：元素虽然无放入顺序，但是元素在set中的位置是有该元素的HashCode决定的，其位置其实是固定的）">
+<meta property="og:description" content="List特点：元素有放入顺序，元素可重复，用来处理序列 Map特点：元素按键值对存储，无放入顺序. key-value Set特点：元素无放入顺序，元素不可重复（注意：元素虽然无放入顺序，但是元素在set中的位置是有该元素的HashCode决定的，其位置其实是固定的），用来处理集 Map接口有三个实现类：HashMap，HashTable，LinkeHashMap，SortedMap有一个实现类：">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2018-11-16T22:42:17.245Z">
+<meta property="og:image" content="http://yoursite.com/2018/11/themes/next/source/images/map.jpg">
+<meta property="og:image" content="http://yoursite.com/2018/11/themes/next/source/images/sortedMap.png">
+<meta property="og:image" content="http://yoursite.com/2018/11/themes/next/source/images/navigableMap.png">
+<meta property="og:updated_time" content="2018-11-17T16:52:41.714Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="[Java]-Map源码分析-SortedMap">
-<meta name="twitter:description" content="List特点：元素有放入顺序，元素可重复  Map特点：元素按键值对存储，无放入顺序. key-value Set特点：元素无放入顺序，元素不可重复（注意：元素虽然无放入顺序，但是元素在set中的位置是有该元素的HashCode决定的，其位置其实是固定的）">
+<meta name="twitter:title" content="[Java]-Map源码分析-SortedMap-NavigableMap">
+<meta name="twitter:description" content="List特点：元素有放入顺序，元素可重复，用来处理序列 Map特点：元素按键值对存储，无放入顺序. key-value Set特点：元素无放入顺序，元素不可重复（注意：元素虽然无放入顺序，但是元素在set中的位置是有该元素的HashCode决定的，其位置其实是固定的），用来处理集 Map接口有三个实现类：HashMap，HashTable，LinkeHashMap，SortedMap有一个实现类：">
+<meta name="twitter:image" content="http://yoursite.com/2018/11/themes/next/source/images/map.jpg">
 
 
 
@@ -140,7 +144,7 @@
 
 
 
-  <title>[Java]-Map源码分析-SortedMap | Xuehui JIA</title>
+  <title>[Java]-Map源码分析-SortedMap-NavigableMap | Xuehui JIA</title>
   
 
 
@@ -290,7 +294,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">[Java]-Map源码分析-SortedMap</h1>
+          <h1 class="post-title" itemprop="name headline">[Java]-Map源码分析-SortedMap-NavigableMap</h1>
         
 
         <div class="post-meta">
@@ -362,9 +366,28 @@
       
 
       
-        <p>List特点：元素有放入顺序，元素可重复 </p>
+        <p>List特点：元素有放入顺序，元素可重复，用来处理序列</p>
 <p>Map特点：元素按键值对存储，无放入顺序. key-value</p>
-<p>Set特点：元素无放入顺序，元素不可重复（注意：元素虽然无放入顺序，但是元素在set中的位置是有该元素的HashCode决定的，其位置其实是固定的）</p>
+<p>Set特点：元素无放入顺序，元素不可重复（注意：元素虽然无放入顺序，但是元素在set中的位置是有该元素的HashCode决定的，其位置其实是固定的），用来处理集</p>
+<p>Map接口有三个实现类：HashMap，HashTable，LinkeHashMap，SortedMap有一个实现类：TreeMap。</p>
+<p>Map UML:<br><img src="../../themes/next/source/images/map.jpg" alt=""><br><a id="more"></a></p>
+<h2 id="Map接口"><a href="#Map接口" class="headerlink" title="Map接口"></a>Map接口</h2><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">interface</span> <span class="title">Map</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">	<span class="comment">// 返回当前数据个数</span></span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">size</span><span class="params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 是否为空</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">isEmpty</span><span class="params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 判断是否包含key，这里用到了key的equals方法，所以key必须实现它</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">containsKey</span><span class="params">(Object key)</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 判断是否有key保存的值是value，这也基于equals方法</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">containsValue</span><span class="params">(Object value)</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 通过key获取对应的value值</span></span><br><span class="line">	<span class="function">V <span class="title">get</span><span class="params">(Object key)</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 存入key-value</span></span><br><span class="line">	<span class="function">V <span class="title">put</span><span class="params">(K key, V value)</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 移除一个key-value对</span></span><br><span class="line">	<span class="function">V <span class="title">remove</span><span class="params">(Object key)</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 从其他Map添加</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">putAll</span><span class="params">(Map&lt;? extends K, ? extends V&gt; m)</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 清空</span></span><br><span class="line">	<span class="function"><span class="keyword">void</span> <span class="title">clear</span><span class="params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 返回所有的key至Set集合中，因为key是不可重的，Set也是不可重的</span></span><br><span class="line">	<span class="function">Set&lt;K&gt; <span class="title">keySet</span><span class="params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 返回所有的values</span></span><br><span class="line">	<span class="function">Collection&lt;V&gt; <span class="title">values</span><span class="params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 返回key-value对到Set中</span></span><br><span class="line">	Set&lt;Map.Entry&lt;K, V&gt;&gt; entrySet();</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 希望我们实现equals和hashCode</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>接口entry,用于元素的操作</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">interface</span> <span class="title">Entry</span>&lt;<span class="title">K</span>,<span class="title">V</span>&gt; </span>&#123;</span><br><span class="line">	<span class="comment">// 获取对应的key</span></span><br><span class="line">	<span class="function">K <span class="title">getKey</span><span class="params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 获取对应的value</span></span><br><span class="line">	<span class="function">V <span class="title">getValue</span><span class="params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 替换原有的value</span></span><br><span class="line">	<span class="function">V <span class="title">setValue</span><span class="params">(V value)</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 希望我们实现equals和hashCode</span></span><br><span class="line">	<span class="function"><span class="keyword">boolean</span> <span class="title">equals</span><span class="params">(Object o)</span></span>;</span><br><span class="line">	<span class="function"><span class="keyword">int</span> <span class="title">hashCode</span><span class="params">()</span></span>;</span><br><span class="line">	</span><br><span class="line">	<span class="comment">// 从1.8起，还提供了比较的方法，类似的方法共四个</span></span><br><span class="line">	<span class="keyword">public</span> <span class="keyword">static</span> &lt;K extends Comparable&lt;? <span class="keyword">super</span> K&gt;, V&gt; Comparator&lt;Map.Entry&lt;K,V&gt;&gt; comparingByKey() &#123;</span><br><span class="line">	        <span class="keyword">return</span> (Comparator&lt;Map.Entry&lt;K, V&gt;&gt; &amp; Serializable)</span><br><span class="line">	            (c1, c2) -&gt; c1.getKey().compareTo(c2.getKey());</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="SortedMap-接口"><a href="#SortedMap-接口" class="headerlink" title="SortedMap 接口"></a>SortedMap 接口</h2><p>SortedMap储存key有序的数据，要求key支持Comparable,或者可以被指定的Comparator接受.</p>
+<p>SortedMap 提供了一些获取子集的方法：</p>
+<p>subMap(K fromKey, K toKey) 可以获取某个范围的key的子集，</p>
+<p>headMap(K toKey) 获取某个key之前的所有键值对（类型为Map.Entry）</p>
+<p>tailMap(K fromKey) 获取某个key之后的所有键值对</p>
+<p>firstKey() ，lastKey() 获取第一个或最后一个key（最大或最小）。</p>
+<p>values() 方法返回所有value的collection，</p>
+<p>keySet()  方法返回所有key的set（不可重复）</p>
+<p>entrySet（） 方法返回所有键值对的set</p>
+<p><img src="../../themes/next/source/images/sortedMap.png" alt=""></p>
+<h2 id="NavigableMap-接口"><a href="#NavigableMap-接口" class="headerlink" title="NavigableMap 接口"></a>NavigableMap 接口</h2><p>SortedMap提供了获取最大值与最小值的方法，但对于一个已经排序的数据集，除了最大值与最小值之外，我们可以对任何一个元素，找到比它小的值和比它大的值，还可以按照按照原有的顺序倒序排序等。NavigableMap就为我们提供了这些功能。</p>
+<p>NavigableMap是SortedMap的子接口，是扩展了的sortedMap，方法 lowerEntry、floorEntry、ceilingEntry 和 higherEntry 分别返回与小于、小于等于、大于等于、大于给定键的键关联的 Map.Entry 对象，如果不存在这样的键，则返回 null。</p>
+<p>类似地，方法 lowerKey、floorKey、ceilingKey 和 higherKey 只返回关联的键。所有这些方法是为查找条目而不是遍历条目而设计的。</p>
+<p><img src="../../themes/next/source/images/navigableMap.png" alt=""></p>
 
       
     </div>
@@ -459,8 +482,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/touxiang.png"
@@ -535,6 +567,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Map接口"><span class="nav-number">1.</span> <span class="nav-text">Map接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#SortedMap-接口"><span class="nav-number">2.</span> <span class="nav-text">SortedMap 接口</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#NavigableMap-接口"><span class="nav-number">3.</span> <span class="nav-text">NavigableMap 接口</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       

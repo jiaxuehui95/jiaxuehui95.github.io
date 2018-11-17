@@ -292,7 +292,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/16/Java-Map源码分析-SortedMap/" itemprop="url">[Java]-Map源码分析-SortedMap</a></h1>
+                <a class="post-title-link" href="/2018/11/16/Java-Map源码分析-SortedMap/" itemprop="url">[Java]-Map源码分析-SortedMap-NavigableMap</a></h1>
         
 
         <div class="post-meta">
@@ -365,12 +365,18 @@
 
       
         
-          
-            <p>List特点：元素有放入顺序，元素可重复 </p>
+          <p>List特点：元素有放入顺序，元素可重复，用来处理序列</p>
 <p>Map特点：元素按键值对存储，无放入顺序. key-value</p>
-<p>Set特点：元素无放入顺序，元素不可重复（注意：元素虽然无放入顺序，但是元素在set中的位置是有该元素的HashCode决定的，其位置其实是固定的）</p>
-
-          
+<p>Set特点：元素无放入顺序，元素不可重复（注意：元素虽然无放入顺序，但是元素在set中的位置是有该元素的HashCode决定的，其位置其实是固定的），用来处理集</p>
+<p>Map接口有三个实现类：HashMap，HashTable，LinkeHashMap，SortedMap有一个实现类：TreeMap。</p>
+<p>Map UML:<br><img src="../../themes/next/source/images/map.jpg" alt=""><br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/11/16/Java-Map源码分析-SortedMap/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
@@ -711,7 +717,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/[Java]-Collection源码-ArrayList/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/12/Java-Collection源码-ArrayList/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xuehui JIA">
@@ -730,7 +736,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/12/[Java]-Collection源码-ArrayList/" itemprop="url">[Java]-Collection源码分析-ArrayList</a></h1>
+                <a class="post-title-link" href="/2018/11/12/Java-Collection源码-ArrayList/" itemprop="url">[Java]-Collection源码分析-ArrayList</a></h1>
         
 
         <div class="post-meta">
@@ -805,11 +811,12 @@
         
           <p>Java集合是我么最经常使用的工具，我们称这些集合类为容器，和数组的不同： 数组长度固定，集合类长度可变，数组存放基本类型，集合类存放对象的引用。</p>
 <p>常用集合： List， Set， Map。</p>
+<p>Collection UML:<br><img src="/images/collection.jpg" alt=""></p>
 <p>要学习Collection，除了数据结构基础之外还要有Iterable概念</p>
 <h2 id="Iterable"><a href="#Iterable" class="headerlink" title="Iterable"></a>Iterable</h2>
           <!--noindex-->
           <div class="post-button text-center">
-            <a class="btn" href="/2018/11/12/[Java]-Collection源码-ArrayList/#more" rel="contents">
+            <a class="btn" href="/2018/11/12/Java-Collection源码-ArrayList/#more" rel="contents">
               阅读全文 &raquo;
             </a>
           </div>
