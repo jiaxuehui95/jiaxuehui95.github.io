@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="interview," />
 
 
 
@@ -94,18 +94,19 @@
 
 
 
-<meta name="description" content="##剑指1–12/11题目描述 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。 分析：有序数组查找：折半查找。复杂度O(nlgn)">
+<meta name="description" content="##No1–12/11题目描述 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。 分析：有序数组查找：折半查找。复杂度O(nlgn)">
+<meta name="keywords" content="interview">
 <meta property="og:type" content="article">
-<meta property="og:title" content="刷题记录">
+<meta property="og:title" content="[碎片]-剑指刷题记录">
 <meta property="og:url" content="http://yoursite.com/2018/11/12/刷题记录/index.html">
 <meta property="og:site_name" content="Xuehui JIA">
-<meta property="og:description" content="##剑指1–12/11题目描述 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。 分析：有序数组查找：折半查找。复杂度O(nlgn)">
+<meta property="og:description" content="##No1–12/11题目描述 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。 分析：有序数组查找：折半查找。复杂度O(nlgn)">
 <meta property="og:locale" content="zh-Hans">
 <meta property="og:image" content="http://yoursite.com/images/jianzhi1.png">
-<meta property="og:updated_time" content="2018-11-13T21:30:19.446Z">
+<meta property="og:updated_time" content="2018-11-18T20:33:31.721Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="刷题记录">
-<meta name="twitter:description" content="##剑指1–12/11题目描述 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。 分析：有序数组查找：折半查找。复杂度O(nlgn)">
+<meta name="twitter:title" content="[碎片]-剑指刷题记录">
+<meta name="twitter:description" content="##No1–12/11题目描述 在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。 分析：有序数组查找：折半查找。复杂度O(nlgn)">
 <meta name="twitter:image" content="http://yoursite.com/images/jianzhi1.png">
 
 
@@ -141,7 +142,7 @@
 
 
 
-  <title>刷题记录 | Xuehui JIA</title>
+  <title>[碎片]-剑指刷题记录 | Xuehui JIA</title>
   
 
 
@@ -291,7 +292,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">刷题记录</h1>
+          <h1 class="post-title" itemprop="name headline">[碎片]-剑指刷题记录</h1>
         
 
         <div class="post-meta">
@@ -363,7 +364,7 @@
       
 
       
-        <p>##剑指1–12/11<br>题目描述</p>
+        <p>##No1–12/11<br>题目描述</p>
 <p>在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
 <p>分析：有序数组查找：折半查找。复杂度O(nlgn)<br><a id="more"></a></p>
 <figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">boolean</span> <span class="title">Find</span><span class="params">(<span class="keyword">int</span> target, <span class="keyword">int</span> [][] array)</span> </span>&#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">int</span> i =<span class="number">0</span>;i&lt;array.length;i++)&#123;</span><br><span class="line">        <span class="keyword">int</span> l = <span class="number">0</span>,h = array[i].length -<span class="number">1</span>,mid = <span class="number">0</span>;</span><br><span class="line">        <span class="keyword">while</span>(l&lt;=h)&#123;</span><br><span class="line">            mid = l+(h-l)/<span class="number">2</span>;</span><br><span class="line">            <span class="keyword">if</span>(array[i][mid] == target)&#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(target &lt; array[i][mid])</span><br><span class="line">            &#123;</span><br><span class="line">                h = mid -<span class="number">1</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span> <span class="keyword">if</span>(target &gt; array[i][mid])</span><br><span class="line">            &#123;</span><br><span class="line">                l =mid +<span class="number">1</span> ;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">false</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
@@ -383,6 +384,12 @@
     
 
     <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/interview/" rel="tag"># interview</a>
+          
+        </div>
       
 
       
@@ -495,7 +502,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-count">22</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
