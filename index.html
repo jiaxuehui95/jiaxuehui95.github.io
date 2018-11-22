@@ -273,6 +273,159 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/21/算法-排序算法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xuehui JIA">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xuehui JIA">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2018/11/21/算法-排序算法/" itemprop="url">[算法]-排序算法</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-21T20:56:54+01:00">
+                2018-11-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/数据结构和算法/" itemprop="url" rel="index">
+                    <span itemprop="name">数据结构和算法</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="初级排序"><a href="#初级排序" class="headerlink" title="初级排序"></a>初级排序</h2><h3 id="选择排序"><a href="#选择排序" class="headerlink" title="选择排序"></a>选择排序</h3><p>选择排序：找到数组中最小的和第一位交换位置，再从剩下的元素中找到最小的和第二个元素互换位置，一支往复到整个数组排序完成。类似于拿到一手杂乱的牌整牌的过程。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span>&lt;T extends Comparable&lt;T&gt;&gt; <span class="function"><span class="keyword">void</span> <span class="title">SelectionSort</span><span class="params">(T[] list)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = list.length;</span><br><span class="line">    <span class="keyword">int</span> i,j,minJ=<span class="number">0</span>;</span><br><span class="line">    <span class="keyword">int</span> min;</span><br><span class="line">    <span class="keyword">for</span>(i=<span class="number">0</span>;i&lt;len-<span class="number">1</span>;i++)&#123;<span class="comment">//n-1次比较</span></span><br><span class="line">        min=i;</span><br><span class="line">        <span class="keyword">for</span> (j=i+<span class="number">1</span>;j&lt;len;j++)&#123;<span class="comment">//len-i</span></span><br><span class="line">            <span class="keyword">if</span>(list[min].compareTo(list[j])&gt;<span class="number">0</span>)&#123;</span><br><span class="line">                min =j;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        T tmp = list[min];</span><br><span class="line">        list[min] = list[i];</span><br><span class="line">        list[i] = tmp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="复杂度"><a href="#复杂度" class="headerlink" title="复杂度"></a>复杂度</h4><p>大约要比较N^2/2次， 进行N次交换，复杂度O（n^2）</p>
+<h3 id="插入排序"><a href="#插入排序" class="headerlink" title="插入排序"></a>插入排序</h3><p>插入排序是将元素插入一个已经排序的序列的适当位置，相当于一边起牌一边整理手中已经排序了的牌.举个栗子，对5,3,8,6,4这个无序序列进行简单插入排序，首先假设第一个数的位置时正确的，想一下在拿到第一张牌的时候，没必要整理。然后3要插到5前面，把5后移一位，变成3,5,8,6,4.想一下整理牌的时候应该也是这样吧。然后8不用动，6插在8前面，8后移一位，4插在5前面，从5开始都向后移一位。注意在插入一个数的时候要保证这个数前面的数已经有序。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span>&lt;T extends Comparable&lt;T&gt;&gt; <span class="function"><span class="keyword">void</span> <span class="title">InsertionSort</span><span class="params">(T[] list)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = list.length;</span><br><span class="line">    <span class="keyword">int</span> i,j;</span><br><span class="line">    <span class="keyword">for</span> (i = <span class="number">1</span>; i&lt;len; i++)&#123;<span class="comment">//只有一张牌的失衡不用排序，从第二张开始往前插入</span></span><br><span class="line">        <span class="keyword">for</span> (j=i;j&gt;<span class="number">0</span>;j--)&#123;</span><br><span class="line">            <span class="comment">//将list[i]这张牌插入，如果比前一张牌小就交换位置，直到找到合适的位置（大于前一张牌小于后一张牌）</span></span><br><span class="line">            <span class="keyword">if</span> (list[j].compareTo(list[j-<span class="number">1</span>])&lt;<span class="number">0</span>) &#123;</span><br><span class="line">                exchange(list,j,j-<span class="number">1</span>);</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">else</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">        &#125;</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="复杂度-1"><a href="#复杂度-1" class="headerlink" title="复杂度"></a>复杂度</h4><p>这个排序方式复杂度取决于数据的有序性，如果已经是大致有序数组就会效率比较高。</p>
+<p>但依旧是O（n^2）,对于随机数据选择排序和插入排序表现差不多。</p>
+<p>希尔排序是对插入排序的改进，移步：<a href="https://segmentfault.com/a/1190000013967025" target="_blank" rel="noopener">https://segmentfault.com/a/1190000013967025</a></p>
+<p>希尔排序的性能甚至不差于高级排序，且代码量少，且不需要额外的内存空间。算法第四版给出了一个性能不错递增序列：{1,4,13,40,121,364…}</p>
+<p>希尔排序：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span>&lt;T extends Comparable&lt;T&gt;&gt; <span class="function"><span class="keyword">void</span> <span class="title">ShellSort</span><span class="params">(T[] list)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = list.length;</span><br><span class="line">    <span class="keyword">int</span> i,j;</span><br><span class="line">    <span class="keyword">int</span> h =<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (h&lt;len/<span class="number">3</span>)</span><br><span class="line">        h=<span class="number">3</span>*h+<span class="number">1</span>;</span><br><span class="line">    <span class="keyword">while</span> (h&gt;=<span class="number">1</span>) &#123;</span><br><span class="line">        <span class="keyword">for</span> (i = h; i &lt; len; i++) &#123;</span><br><span class="line">            <span class="keyword">for</span> (j = i; j &gt;= h; j -= h) &#123;</span><br><span class="line">                <span class="keyword">if</span> (list[j].compareTo(list[j - h]) &lt; <span class="number">0</span>) &#123;</span><br><span class="line">                    exchange(list, j, j - h);</span><br><span class="line">                &#125; <span class="keyword">else</span></span><br><span class="line">                    <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">        h/=<span class="number">3</span>;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="冒泡排序"><a href="#冒泡排序" class="headerlink" title="冒泡排序"></a>冒泡排序</h3><figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">static</span>&lt;T extends Comparable&lt;T&gt;&gt; <span class="function"><span class="keyword">void</span> <span class="title">BubbleSort</span><span class="params">(T[] list)</span></span>&#123;</span><br><span class="line">    <span class="keyword">int</span> len = list.length;</span><br><span class="line">    <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>;i&lt;len-<span class="number">1</span>;i++)&#123;</span><br><span class="line">        <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>;j&lt;len-i-<span class="number">1</span>;j++)&#123;<span class="comment">//进行n-1次冒泡比较，每次将最大的数字冒到上方</span></span><br><span class="line">            <span class="keyword">if</span> (list[j].compareTo(list[j+<span class="number">1</span>])&lt;<span class="number">0</span>)&#123;<span class="comment">//比较相邻元素，交换位置</span></span><br><span class="line">                T tmp = list[j];</span><br><span class="line">                list[j] = list[j+<span class="number">1</span>];</span><br><span class="line">                list[j+<span class="number">1</span>]=tmp;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/17/Java-Map源码分析-HashMap/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1180,7 +1333,7 @@
         
           <h1 class="post-title" itemprop="name headline">
                 
-                <a class="post-title-link" href="/2018/11/12/刷题记录/" itemprop="url">[碎片]-剑指刷题记录</a></h1>
+                <a class="post-title-link" href="/2018/11/12/刷题记录/" itemprop="url">[碎片]-牛客刷题记录</a></h1>
         
 
         <div class="post-meta">
@@ -1253,7 +1406,7 @@
 
       
         
-          <p>##No1–12/11<br>题目描述</p>
+          <h2 id="No1–12-11"><a href="#No1–12-11" class="headerlink" title="No1–12/11"></a>No1–12/11</h2><p>题目描述</p>
 <p>在一个二维数组中（每个一维数组的长度相同），每一行都按照从左到右递增的顺序排序，每一列都按照从上到下递增的顺序排序。请完成一个函数，输入这样的一个二维数组和一个整数，判断数组中是否含有该整数。</p>
 <p>分析：有序数组查找：折半查找。复杂度O(nlgn)<br>
           <!--noindex-->
@@ -1590,159 +1743,11 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-  
-  
-  
-  <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/07/[算法]-搜索-二分查找、二叉查找树/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="Xuehui JIA">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/touxiang.png">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Xuehui JIA">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2018/11/07/[算法]-搜索-二分查找、二叉查找树/" itemprop="url">[算法]-搜索-二分查找、二叉查找树</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-07T10:50:42+01:00">
-                2018-11-07
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/数据结构和算法/" itemprop="url" rel="index">
-                    <span itemprop="name">数据结构和算法</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          <p>高效检索信息是处理海量信息的前提，二分查找适用的数据结构是有序数组，还有二叉查找树，红黑树，和散列表三种数据类型来实现高效的查找。</p>
-<h2 id="二分查找"><a href="#二分查找" class="headerlink" title="二分查找"></a>二分查找</h2><p>二分查找一个有序的数组,复杂度O(logn)</p>
-<p>java实现：<br>
-          <!--noindex-->
-          <div class="post-button text-center">
-            <a class="btn" href="/2018/11/07/[算法]-搜索-二分查找、二叉查找树/#more" rel="contents">
-              阅读全文 &raquo;
-            </a>
-          </div>
-          <!--/noindex-->
-        
-      
-    </div>
-    
-    
-    
-
-    
-
-    
-
-    
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </div>
-  
-  
-  
-  </article>
-
-
-    
   </section>
 
   
   <nav class="pagination">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
 
 
@@ -1788,7 +1793,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-count">21</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1810,7 +1815,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tags/index.html">
-                <span class="site-state-item-count">22</span>
+                <span class="site-state-item-count">23</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
