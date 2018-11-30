@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="MongoDB," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="通过Javascript shell操作MongoDBmacOs 安装MongoDB1.更新 Homebrew的package数据库（macosx上的软件包管理工具） $ brew update 2.安装MongoDb $ brew install mongodb 3.启动MongoDb $ brew services start mongodb 4.连接到mongo $ mongo 5.关闭Mo">
+<meta name="keywords" content="MongoDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="通过Javascript shell操作MongoDB">
+<meta property="og:url" content="http://yoursite.com/2018/11/30/通过Javascript-shell操作MongoDB/index.html">
+<meta property="og:site_name" content="Xuehui JIA">
+<meta property="og:description" content="通过Javascript shell操作MongoDBmacOs 安装MongoDB1.更新 Homebrew的package数据库（macosx上的软件包管理工具） $ brew update 2.安装MongoDb $ brew install mongodb 3.启动MongoDb $ brew services start mongodb 4.连接到mongo $ mongo 5.关闭Mo">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-11-30T22:46:02.870Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="通过Javascript shell操作MongoDB">
+<meta name="twitter:description" content="通过Javascript shell操作MongoDBmacOs 安装MongoDB1.更新 Homebrew的package数据库（macosx上的软件包管理工具） $ brew update 2.安装MongoDb $ brew install mongodb 3.启动MongoDb $ brew services start mongodb 4.连接到mongo $ mongo 5.关闭Mo">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/11/30/通过Javascript-shell操作MongoDB/"/>
+
+
+
+
+
+  <title>通过Javascript shell操作MongoDB | Xuehui JIA</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xuehui JIA</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">西安电子科技大学，ENSIIE，France</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/11/30/通过Javascript-shell操作MongoDB/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xuehui JIA">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xuehui JIA">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">通过Javascript shell操作MongoDB</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-11-30T23:43:44+01:00">
+                2018-11-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/DataBase/" itemprop="url" rel="index">
+                    <span itemprop="name">DataBase</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h1 id="通过Javascript-shell操作MongoDB"><a href="#通过Javascript-shell操作MongoDB" class="headerlink" title="通过Javascript shell操作MongoDB"></a>通过Javascript shell操作MongoDB</h1><h2 id="macOs-安装MongoDB"><a href="#macOs-安装MongoDB" class="headerlink" title="macOs 安装MongoDB"></a>macOs 安装MongoDB</h2><p>1.更新 Homebrew的package数据库（macosx上的软件包管理工具）</p>
+<p><code>$ brew update</code></p>
+<p>2.安装MongoDb</p>
+<p><code>$ brew install mongodb</code></p>
+<p>3.启动MongoDb</p>
+<p><code>$ brew services start mongodb</code></p>
+<p>4.连接到mongo</p>
+<p><code>$ mongo</code></p>
+<p>5.关闭MongoDb</p>
+<p><code>$ brew services stop mongodb</code></p>
+<a id="more"></a>
+<p>如果安装过程遇到如下错误</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">Error: An unexpected error occurred during the `brew link` step</span><br><span class="line">The formula built, but is not symlinked into /usr/local</span><br><span class="line">Permission denied @ dir_s_mkdir - /usr/local/Frameworks</span><br><span class="line">Error: Permission denied @ dir_s_mkdir - /usr/local/Frameworks</span><br></pre></td></tr></table></figure>
+<p>执行以下命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo chown -R $(whoami) $(brew --prefix)/*</span><br><span class="line">sudo install -d -o $(whoami) -g admin /usr/local/Frameworks</span><br></pre></td></tr></table></figure>
+<h2 id="数据库，集合和文档"><a href="#数据库，集合和文档" class="headerlink" title="数据库，集合和文档"></a>数据库，集合和文档</h2><p>mongoDB把数据储存在文档中，数据可以以Json的格式输出。我们可以在不同的地方储存不同的文档，如文档usrs    和orders，一些文档以某种方式分类，成为集合，我们把集合储存在不同的数据库中。</p>
+<p>切换数据库</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; use tutorial</span><br><span class="line">switched to db tutorial</span><br></pre></td></tr></table></figure>
+<p>创建第一个文档，因为使用javascript shell，文档使用JSON</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; &#123;username: &quot;smith&quot;&#125;</span><br><span class="line">smith</span><br></pre></td></tr></table></figure>
+<h3 id="插入和查询"><a href="#插入和查询" class="headerlink" title="插入和查询"></a>插入和查询</h3><p>插入文档需要指定插入的集合,我们选择users集合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; db.users.insert(&#123;username: &quot;smith&quot;&#125;)</span><br><span class="line">WriteResult(&#123; &quot;nInserted&quot; : 1 &#125;)</span><br></pre></td></tr></table></figure>
+<p>如果插入成功，就成功保存了第一个文档</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; db.users.find()</span><br><span class="line">&#123; &quot;_id&quot; : ObjectId(&quot;5c00fba91fa39c550ae90b8d&quot;), &quot;username&quot; : &quot;smith&quot; &#125;</span><br></pre></td></tr></table></figure>
+<p>_id是文档的主键</p>
+<p>继续插入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt; db.users.insert(&#123;username: &quot;john&quot;&#125;)</span><br><span class="line">WriteResult(&#123; &quot;nInserted&quot; : 1 &#125;)</span><br><span class="line">&gt; db.users.count()</span><br><span class="line">2</span><br><span class="line">&gt; db.users.find()</span><br><span class="line">&#123; &quot;_id&quot; : ObjectId(&quot;5c00fba91fa39c550ae90b8d&quot;), &quot;username&quot; : &quot;smith&quot; &#125;</span><br><span class="line">&#123; &quot;_id&quot; : ObjectId(&quot;5c00fc831fa39c550ae90b8e&quot;), &quot;username&quot; : &quot;john&quot; &#125;</span><br><span class="line">&gt; db.users.find(&#123;username: &quot;john&quot;&#125;)</span><br><span class="line">&#123; &quot;_id&quot; : ObjectId(&quot;5c00fc831fa39c550ae90b8e&quot;), &quot;username&quot; : &quot;john&quot; &#125;</span><br></pre></td></tr></table></figure>
+<p>可以多个条件查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; db.users.find(&#123; &quot;_id&quot; : ObjectId(&quot;5c00fc831fa39c550ae90b8e&quot;), &quot;username&quot; : &quot;john&quot; &#125;)</span><br><span class="line">&#123; &quot;_id&quot; : ObjectId(&quot;5c00fc831fa39c550ae90b8e&quot;), &quot;username&quot; : &quot;john&quot; &#125;</span><br></pre></td></tr></table></figure>
+<p>等价于使用$and</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; db.users.find(&#123;$and: [&#123;&quot;_id&quot; : ObjectId(&quot;5c00fc831fa39c550ae90b8e&quot;)&#125;, &#123;&quot;username&quot; : &quot;john&quot;&#125;]&#125;)</span><br><span class="line"></span><br><span class="line">&#123; &quot;_id&quot; : ObjectId(&quot;5c00fc831fa39c550ae90b8e&quot;), &quot;username&quot; : &quot;john&quot; &#125;</span><br></pre></td></tr></table></figure>
+<p>也可以使用$or来进行或查询</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&gt; db.users.find(&#123;$or: [&#123;&quot;username&quot; : &quot;smith&quot;&#125;, &#123;&quot;username&quot; : &quot;john&quot;&#125;]&#125;)</span><br><span class="line">&#123; &quot;_id&quot; : ObjectId(&quot;5c00fba91fa39c550ae90b8d&quot;), &quot;username&quot; : &quot;smith&quot; &#125;</span><br><span class="line">&#123; &quot;_id&quot; : ObjectId(&quot;5c00fc831fa39c550ae90b8e&quot;), &quot;username&quot; : &quot;john&quot; &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h2><p>指定文档，指定更新内容。注意使用$set,表示是更新当前文档</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; db.users.update(&#123;username:&quot;smith&quot;&#125;,&#123;$set: &#123;country: &quot;usa&quot;&#125;&#125;)</span><br><span class="line">WriteResult(&#123; &quot;nMatched&quot; : 1, &quot;nUpserted&quot; : 0, &quot;nModified&quot; : 1 &#125;)</span><br></pre></td></tr></table></figure>
+<p>想要删除country，使用$unset</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; db.users.update(&#123;username:&quot;smith&quot;&#125;,&#123;$unset: &#123;country: 1&#125;&#125;)</span><br><span class="line">WriteResult(&#123; &quot;nMatched&quot; : 1, &quot;nUpserted&quot; : 0, &quot;nModified&quot; : 1 &#125;)</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">&gt; db.users.update(&#123;username:&quot;smith&quot;&#125;,&#123;$set: &#123;favorites:&#123;movies: [&quot;movie1&quot;, &quot;movie2&quot;]&#125;&#125;&#125;)</span><br><span class="line">WriteResult(&#123; &quot;nMatched&quot; : 1, &quot;nUpserted&quot; : 0, &quot;nModified&quot; : 1 &#125;)</span><br><span class="line">&gt; db.users.find(&#123;username:&quot;smith&quot;&#125;).pretty()</span><br><span class="line">&#123;</span><br><span class="line">	&quot;_id&quot; : ObjectId(&quot;5c00fba91fa39c550ae90b8d&quot;),</span><br><span class="line">	&quot;username&quot; : &quot;smith&quot;,</span><br><span class="line">	&quot;country&quot; : &quot;usa&quot;,</span><br><span class="line">	&quot;favorites&quot; : &#123;</span><br><span class="line">		&quot;movies&quot; : [</span><br><span class="line">			&quot;movie1&quot;,</span><br><span class="line">			&quot;movie2&quot;</span><br><span class="line">		]</span><br><span class="line">	&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="删除"><a href="#删除" class="headerlink" title="删除"></a>删除</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&gt; db.users.remove(&#123;username:&quot;smith&quot;&#125;)</span><br><span class="line">WriteResult(&#123; &quot;nRemoved&quot; : 1 &#125;)</span><br></pre></td></tr></table></figure>
+<p>删除整个文档用drop</p>
+<h2 id="索引"><a href="#索引" class="headerlink" title="索引"></a>索引</h2><p>创建大集合</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&gt; for(i=0;i&lt;2000;i++)&#123;</span><br><span class="line">... db.numbers.save(&#123;num:i&#125;);</span><br><span class="line">... &#125;</span><br><span class="line">WriteResult(&#123; &quot;nInserted&quot; : 1 &#125;)</span><br><span class="line">&gt; db.numbers.count()</span><br><span class="line">2000</span><br><span class="line"></span><br><span class="line">&gt; db.numbers.find(&#123;num: &#123;&quot;$gt&quot;: 20, &quot;$lt&quot;: 25&#125;&#125;)</span><br><span class="line">&#123; &quot;_id&quot; : ObjectId(&quot;5c010c171fa39c550ae90ba4&quot;), &quot;num&quot; : 21 &#125;</span><br><span class="line">&#123; &quot;_id&quot; : ObjectId(&quot;5c010c171fa39c550ae90ba5&quot;), &quot;num&quot; : 22 &#125;</span><br><span class="line">&#123; &quot;_id&quot; : ObjectId(&quot;5c010c171fa39c550ae90ba6&quot;), &quot;num&quot; : 23 &#125;</span><br><span class="line">&#123; &quot;_id&quot; : ObjectId(&quot;5c010c171fa39c550ae90ba7&quot;), &quot;num&quot; : 24 &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/11/27/算法-优先队列和堆排序/" rel="next" title="[算法]-优先队列及源码分析+堆排序">
+                <i class="fa fa-chevron-left"></i> [算法]-优先队列及源码分析+堆排序
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/touxiang.png"
+               alt="Xuehui JIA" />
+          <p class="site-author-name" itemprop="name">Xuehui JIA</p>
+           
+              <p class="site-description motion-element" itemprop="description">Web front-end developer, Developer of livemarketcap.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">7</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">25</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jiaxuehui95" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#通过Javascript-shell操作MongoDB"><span class="nav-number">1.</span> <span class="nav-text">通过Javascript shell操作MongoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#macOs-安装MongoDB"><span class="nav-number">1.1.</span> <span class="nav-text">macOs 安装MongoDB</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#数据库，集合和文档"><span class="nav-number">1.2.</span> <span class="nav-text">数据库，集合和文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#插入和查询"><span class="nav-number">1.2.1.</span> <span class="nav-text">插入和查询</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#更新"><span class="nav-number">1.3.</span> <span class="nav-text">更新</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#删除"><span class="nav-number">1.4.</span> <span class="nav-text">删除</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#索引"><span class="nav-number">1.5.</span> <span class="nav-text">索引</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuehui JIA</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
