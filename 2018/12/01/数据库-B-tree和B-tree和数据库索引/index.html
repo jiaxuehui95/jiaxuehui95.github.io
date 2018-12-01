@@ -78,7 +78,7 @@
 <link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="algorithm,图灵机," />
+  <meta name="keywords" content="DataBase," />
 
 
 
@@ -94,22 +94,23 @@
 
 
 
-<meta name="description" content="P、NP、NP-hard、NP-compelet（NPC）P、NP，P=NP？P问题指能在多项式时间内解决的问题 NP问题指一个给定问题的解，能在多项式时间内验证这个解正确与否的问题 P问题属于NP问题，所有P问题都是NP问题。因为能在多项式时间内解决一个问题则必定可以在多项式时间内验证一个问题的解 但是P是否等于NP是一个还未得到验证的问题，就是说没有人能证明是否所有NP问题都是P问题。但是，一">
-<meta name="keywords" content="algorithm,图灵机">
+<meta name="description" content="数据库索引其实是一种数据结构，将数据库的主键(或其他索引)用一定的数据结构存储，便于对数据库进行查找。 已经了解了常用的查找算法和相关数据结构，数据库中索引常用的数据结构有哈希表或B-树，B+树。 为什么使用索引计算机一般包含两种类型的存储，计算机主存（RAM）和外部存储器（硬盘，CD等）。主存的容量小，读取速度快，外部存储则相反。通常数据库文件都十分大，不能全部放在主存中，只能在访问的时候去外部">
+<meta name="keywords" content="DataBase">
 <meta property="og:type" content="article">
-<meta property="og:title" content="P、NP、NP-hard、NPC问题及图灵机解决NP-hard问题：图的最大割">
-<meta property="og:url" content="http://yoursite.com/2018/10/24/P、NP、NP-hard、NPC问题及图灵机解决NP-hard问题：图的最大割/index.html">
+<meta property="og:title" content="[数据库]-B-tree和B+tree和数据库索引">
+<meta property="og:url" content="http://yoursite.com/2018/12/01/数据库-B-tree和B-tree和数据库索引/index.html">
 <meta property="og:site_name" content="Xuehui JIA">
-<meta property="og:description" content="P、NP、NP-hard、NP-compelet（NPC）P、NP，P=NP？P问题指能在多项式时间内解决的问题 NP问题指一个给定问题的解，能在多项式时间内验证这个解正确与否的问题 P问题属于NP问题，所有P问题都是NP问题。因为能在多项式时间内解决一个问题则必定可以在多项式时间内验证一个问题的解 但是P是否等于NP是一个还未得到验证的问题，就是说没有人能证明是否所有NP问题都是P问题。但是，一">
+<meta property="og:description" content="数据库索引其实是一种数据结构，将数据库的主键(或其他索引)用一定的数据结构存储，便于对数据库进行查找。 已经了解了常用的查找算法和相关数据结构，数据库中索引常用的数据结构有哈希表或B-树，B+树。 为什么使用索引计算机一般包含两种类型的存储，计算机主存（RAM）和外部存储器（硬盘，CD等）。主存的容量小，读取速度快，外部存储则相反。通常数据库文件都十分大，不能全部放在主存中，只能在访问的时候去外部">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:image" content="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/maxCut.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/maxCut2.png">
-<meta property="og:image" content="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/maxCut3.png">
-<meta property="og:updated_time" content="2018-11-13T21:30:13.670Z">
+<meta property="og:image" content="http://yoursite.com/images/Btree.png">
+<meta property="og:image" content="http://yoursite.com/images/B+tree.png">
+<meta property="og:image" content="http://yoursite.com/images/B+tree2.png">
+<meta property="og:image" content="http://yoursite.com/images/B+tree3.png">
+<meta property="og:updated_time" content="2018-12-01T13:06:29.947Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="P、NP、NP-hard、NPC问题及图灵机解决NP-hard问题：图的最大割">
-<meta name="twitter:description" content="P、NP、NP-hard、NP-compelet（NPC）P、NP，P=NP？P问题指能在多项式时间内解决的问题 NP问题指一个给定问题的解，能在多项式时间内验证这个解正确与否的问题 P问题属于NP问题，所有P问题都是NP问题。因为能在多项式时间内解决一个问题则必定可以在多项式时间内验证一个问题的解 但是P是否等于NP是一个还未得到验证的问题，就是说没有人能证明是否所有NP问题都是P问题。但是，一">
-<meta name="twitter:image" content="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/maxCut.png">
+<meta name="twitter:title" content="[数据库]-B-tree和B+tree和数据库索引">
+<meta name="twitter:description" content="数据库索引其实是一种数据结构，将数据库的主键(或其他索引)用一定的数据结构存储，便于对数据库进行查找。 已经了解了常用的查找算法和相关数据结构，数据库中索引常用的数据结构有哈希表或B-树，B+树。 为什么使用索引计算机一般包含两种类型的存储，计算机主存（RAM）和外部存储器（硬盘，CD等）。主存的容量小，读取速度快，外部存储则相反。通常数据库文件都十分大，不能全部放在主存中，只能在访问的时候去外部">
+<meta name="twitter:image" content="http://yoursite.com/images/Btree.png">
 
 
 
@@ -138,13 +139,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2018/10/24/P、NP、NP-hard、NPC问题及图灵机解决NP-hard问题：图的最大割/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/12/01/数据库-B-tree和B-tree和数据库索引/"/>
 
 
 
 
 
-  <title>P、NP、NP-hard、NPC问题及图灵机解决NP-hard问题：图的最大割 | Xuehui JIA</title>
+  <title>[数据库]-B-tree和B+tree和数据库索引 | Xuehui JIA</title>
   
 
 
@@ -277,7 +278,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/10/24/P、NP、NP-hard、NPC问题及图灵机解决NP-hard问题：图的最大割/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/01/数据库-B-tree和B-tree和数据库索引/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="Xuehui JIA">
@@ -294,7 +295,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">P、NP、NP-hard、NPC问题及图灵机解决NP-hard问题：图的最大割</h1>
+          <h1 class="post-title" itemprop="name headline">[数据库]-B-tree和B+tree和数据库索引</h1>
         
 
         <div class="post-meta">
@@ -306,8 +307,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-10-24T16:08:42+02:00">
-                2018-10-24
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-01T14:04:05+01:00">
+                2018-12-01
               </time>
             
 
@@ -329,8 +330,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Algorithms/" itemprop="url" rel="index">
-                    <span itemprop="name">Algorithms</span>
+                  <a href="/categories/DataBase/" itemprop="url" rel="index">
+                    <span itemprop="name">DataBase</span>
                   </a>
                 </span>
 
@@ -366,36 +367,35 @@
       
 
       
-        <h2 id="P、NP、NP-hard、NP-compelet（NPC）"><a href="#P、NP、NP-hard、NP-compelet（NPC）" class="headerlink" title="P、NP、NP-hard、NP-compelet（NPC）"></a>P、NP、NP-hard、NP-compelet（NPC）</h2><h3 id="P、NP，P-NP？"><a href="#P、NP，P-NP？" class="headerlink" title="P、NP，P=NP？"></a>P、NP，P=NP？</h3><p>P问题指能在多项式时间内解决的问题</p>
-<p>NP问题指一个给定问题的解，能在多项式时间内验证这个解正确与否的问题</p>
-<p>P问题属于NP问题，所有P问题都是NP问题。因为能在多项式时间内解决一个问题则必定可以在多项式时间内验证一个问题的解</p>
-<p>但是P是否等于NP是一个还未得到验证的问题，就是说没有人能证明是否所有NP问题都是P问题。但是，一个总的趋势、一个大方向是有的。人们普遍认为，P=NP不成立，也就是说，多数人相信，存在至少一个不可能有多项式级复杂度的算法的NP问题。<br><a id="more"></a></p>
-<h3 id="NP-hard和规约"><a href="#NP-hard和规约" class="headerlink" title="NP-hard和规约"></a>NP-hard和规约</h3><p>规约是指：如果问题A问题能用B问题的算法解决，则A问题可以规约为B问题，且B问题难于A问题。如解一个一元一次方程可以用一元二次方程的算法解决。（把A问题的输入变换一下输入到B问题中，能得到A问题的答案）</p>
-<p>所有的NP问题都可以规约为这个问题，则这个问题是NP-hard，但是这个问题不一定是NP问题（区别于NPC问题）</p>
-<h3 id="NPC"><a href="#NPC" class="headerlink" title="NPC"></a>NPC</h3><p>NPC问题是同时满足如下条件的问题：</p>
-<ul>
-<li>它是一个NP问题</li>
-<li>所有的NP问题都能规约到它</li>
-</ul>
-<p>即一个既是NP问题又是NP-hard问题</p>
-<p>证明一个问题是NPC问题也很简单。先证明它至少是一个NP问题，再证明其中一个已知的NPC问题能规约到它。</p>
+        <p>数据库索引其实是一种数据结构，将数据库的主键(或其他索引)用一定的数据结构存储，便于对数据库进行查找。</p>
+<p>已经了解了常用的查找算法和相关数据结构，数据库中索引常用的数据结构有哈希表或B-树，B+树。</p>
+<h2 id="为什么使用索引"><a href="#为什么使用索引" class="headerlink" title="为什么使用索引"></a>为什么使用索引</h2><p>计算机一般包含两种类型的存储，计算机主存（RAM）和外部存储器（硬盘，CD等）。主存的容量小，读取速度快，外部存储则相反。通常数据库文件都十分大，不能全部放在主存中，只能在访问的时候去外部存储器中查找，这就回产生IO操作。<br><a id="more"></a></p>
+<p>一般来说索引本身也比较大，往往以索引文件的形式存储在外部存储器上，查找索引的过程也会产生IO消耗。IO操作的读取数据花费时间有 磁盘的寻道时间（磁臂移动到指定的磁道），旋转延迟（磁盘转速相关），传输时间三个部分。这样的时间相对于CUP的执行速度已经非常缓慢了。</p>
+<p>所以索引的存在主要为了减少对磁盘的读取。比如我们要找主键在98-100之间的数据，没有索引我们只能从表头开始查找全部的数据来找到这三个数据，产生大量的IO操作，但是如果建立的索引可能只需要几次就够了。</p>
+<p>同时根据局部性原理：</p>
 <blockquote>
-<p>既然所有的NP问题都能规约成NPC问题，那么只要任意一个NPC问题找到了一个多项式的算法，那么所有的NP问题都能用这个算法解决了，NP也就等于P了。因此，给NPC找一个多项式算法太不可思议了。因此，前文才说，“正是NPC问题的存在，使人们相信P≠NP”。我们可以就此直观地理解，NPC问题目前没有多项式的有效算法，只能用指数级甚至阶乘级复杂度的搜索。</p>
+<p>当一个数据被用到时，其附近的数据也通常会马上被使用。程序运行期间所需要的数据通常比较集中。</p>
 </blockquote>
-<h2 id="用图灵机解决最大割问题"><a href="#用图灵机解决最大割问题" class="headerlink" title="用图灵机解决最大割问题"></a>用图灵机解决最大割问题</h2><p>通常所说的图灵机都是确定型图灵机。非确定型图灵机和确定型图灵机的不同之处在于，在计算的每一时刻，根据当前状态和读写头所读的符号，机器存在多种状态转移方案，机器将任意地选择其中一种方案继续运作，直到最后停机为止。</p>
-<p>能用确定图灵机在多项式时间内解决的问题是P问题。</p>
-<p>能用非确定图灵机在多项式时间内解决的问题是NP问题。</p>
-<h3 id="最大割问题和分析"><a href="#最大割问题和分析" class="headerlink" title="最大割问题和分析"></a>最大割问题和分析</h3><blockquote>
-<p>最大割問題（英语：Maximum Cut）是 NPC问题。給定一张图，求一种分割方法，将所有定点（Vertex）分割成两群，同时使得被切断的邊（Edge）数量最大。</p>
-</blockquote>
-<p>如G(E,V)是如下的无向图,包含v1,v2,v3,v4四个点，我们给出这个问题的解为3，验证这个答案对不对。（NP问题）显然这个答案是正确的，比如我们将顶点集合V分成S、T两个子集S = {v1,v4} et T ={v2,v3}.</p>
-<p><img src="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/maxCut.png" alt=""></p>
-<p>显然我们找不到割为4的解法。</p>
-<h3 id="复杂度"><a href="#复杂度" class="headerlink" title="复杂度"></a>复杂度</h3><p>要解决这个问题，首先我们分析它的复杂度。</p>
-<p>这个问题实际上是将一个图的顶点集合分成两个子集的问题，分成两个子集之后再看这两个顶点子集之间存在多少条边，最大边数的分割方式就是问题的解。</p>
-<p>一个顶点可能属于子集A也可能属于子集B，每个顶点就有两个可能性，若这个图有n个顶点，这个问题复杂度至少为O（2^n），为指数级。但是给出这个问题的解来验证解的正确性是多项式范围内的，所以我们用非确定性自动机来解决这个问题.</p>
-<p><img src="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/maxCut2.png" alt=""></p>
-<h3 id="图灵机"><a href="#图灵机" class="headerlink" title="图灵机"></a>图灵机</h3><p>一个纸带，四个读写头绿色蓝色红色黑色。绿色和蓝色来表示分割的子集，红色读取矩阵值，黑色写结果<br><img src="https://raw.githubusercontent.com/jiaxuehui95/jiaxuehui95.github.io/master/images/maxCut3.png" alt=""><br>验证答案正确性的复杂度：O(n^2)</p>
+<p>磁盘往往不是严格按需读取，而是每次都会预读，即使只需要一个字节，磁盘也会从这个位置开始，顺序向后读取一定长度的数据放入内存。由于磁盘顺序读取的效率很高（不需要寻道时间，只需很少的旋转时间），因此对于具有局部性的程序来说，预读可以提高I/O效率。预读的长度一般为页（page）的整倍数。</p>
+<p>页是计算机管理存储器的逻辑块，硬件及操作系统往往将主存和磁盘存储区分割为连续的大小相等的块，每个存储块称为一页（在许多操作系统中，页得大小通常为4k），主存和磁盘以页为单位交换数据。当程序要读取的数据不在主存中时，会触发一个缺页异常，此时系统会向磁盘发出读盘信号，磁盘会找到数据的起始位置并向后连续读取一页或几页载入内存中，然后异常返回，程序继续运行。</p>
+<h2 id="B树"><a href="#B树" class="headerlink" title="B树"></a>B树</h2><p>同时在设计索引的数据结构的时候也需要尽量减少IO操作。我们很容易想到用二叉树来进行LogN级别的查找，但是我们进行IO操作的次数由二叉树的高度决定。因此我们可以考虑将查找树变得“矮胖”，让高度变得更低，以减少IO操作。</p>
+<p>B树是一种多路平衡查找树。利用局部性原理，我们把每个节点的大小世界设为一个页的大小，每个节点最多包含k个孩子，k取决于磁盘页的大小。这样可以保证每个节点只需要一次IO操作就可以被全部读入内存。<br><img src="/images/Btree.png" alt=""></p>
+<p>B树的比较次数并不比二叉树少，但是相比IO速度，内存中比较的耗时几乎可以忽略。所以减少IO操作就可以提高性能。</p>
+<p>B树主要应用于问价系统以及部分数据库索引，如MongoDB，MongoDB 这类 nosql 适用于数据模型简单，性能要求高的场合。</p>
+<p>更详细的操作删除操作不做分析。</p>
+<p>漫画说话：<a href="http://blog.jobbole.com/111757/" target="_blank" rel="noopener">查看</a></p>
+<h2 id="B-树"><a href="#B-树" class="headerlink" title="B+树"></a>B+树</h2><p>B+树是B树的一种变体，有更高的查询性能，因为相比B树它更加“矮胖”。</p>
+<p>B+树的非叶子节点都不保存数据妹纸用来保存索引，这样每一层可以保存更多的索引，让树更矮。叶子节点保存所有的数据。而且叶子节点之间有指向兄弟的指针，所以所有叶子其实是一个链表。</p>
+<p>而且，每个副节点的元素都会出现在子节点中，是子节点中最大（或最小的元素）。这一条原理保证了叶子节点里有所有的元素,并形成了一个有序链表。<br><img src="/images/B+tree.png" alt=""></p>
+<p>B+树不仅更加“矮胖”，而且对范围查找更加高效，只需要在链表上做遍历即可。</p>
+<p>B+树的优势：</p>
+<p>1.单一节点存储更多的元素，使得查询的IO次数更少。</p>
+<p>2.所有查询都要查找到叶子节点，查询性能稳定。</p>
+<p>3.所有叶子节点形成有序链表，便于范围查询。</p>
+<p>漫画说话：<a href="https://www.jianshu.com/p/1f2560f0e87f" target="_blank" rel="noopener">查看</a></p>
+<p>B树和B+树的插入和删除都比较复杂，所以不要过多创建索引, 权衡索引个数与DML之间关系，DML也就是插入、删除数据操作。这里需要权衡一个问题，建立索引的目的是为了提高查询效率的，但建立的索引过多，会影响插入、删除数据的速度，因为我们修改的表数据，索引也需要进行调整重建</p>
+<h2 id="聚集索引-非聚集索引"><a href="#聚集索引-非聚集索引" class="headerlink" title="聚集索引 非聚集索引"></a>聚集索引 非聚集索引</h2><p>聚集索引，在索引页里直接存放数据，而非聚集索引在索引页里存放的是索引，这些索引指向专门的数据页的数据。<br><img src="/images/B+tree2.png" alt="非聚集索引"><br>mySQL使用非聚集索引。非聚集索引表示数据存储在一个地方，索引存储在另一个地方，索引带有指针指向数据的存储位置，非聚集索引检索效率比聚集索引低，但对数据更新影响较小，因为数据的物理存储不按照索引排序。MySQL使用非聚集索引</p>
+<p>聚集索引的特点是表数据文件本身就是索引文件，直接包含了数据信息而不是数据的地址。聚集索引表示表中存储的数据按照索引的顺序存储，检索效率比非聚集索引高，但对数据更新影响较大，因为数据的物理排列顺序和索引一致。聚集索引不适用于频繁更改的列。InnoSQL使用聚集索引<br><img src="/images/B+tree3.png" alt="非聚集索引"></p>
 
       
     </div>
@@ -413,9 +413,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/algorithm/" rel="tag"># algorithm</a>
-          
-            <a href="/tags/图灵机/" rel="tag"># 图灵机</a>
+            <a href="/tags/DataBase/" rel="tag"># DataBase</a>
           
         </div>
       
@@ -428,8 +426,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/05/02/p2p网络/" rel="next" title="p2p网络">
-                <i class="fa fa-chevron-left"></i> p2p网络
+              <a href="/2018/11/30/数据库-通过Javascript-shell操作MongoDB/" rel="next" title="[数据库]-通过Javascript shell操作MongoDB">
+                <i class="fa fa-chevron-left"></i> [数据库]-通过Javascript shell操作MongoDB
               </a>
             
           </div>
@@ -437,10 +435,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2018/10/31/[数据结构]-链表、栈、队列/" rel="prev" title="[数据结构]-链表、栈、队列">
-                [数据结构]-链表、栈、队列 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -587,7 +581,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#P、NP、NP-hard、NP-compelet（NPC）"><span class="nav-number">1.</span> <span class="nav-text">P、NP、NP-hard、NP-compelet（NPC）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#P、NP，P-NP？"><span class="nav-number">1.1.</span> <span class="nav-text">P、NP，P=NP？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NP-hard和规约"><span class="nav-number">1.2.</span> <span class="nav-text">NP-hard和规约</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#NPC"><span class="nav-number">1.3.</span> <span class="nav-text">NPC</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用图灵机解决最大割问题"><span class="nav-number">2.</span> <span class="nav-text">用图灵机解决最大割问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#最大割问题和分析"><span class="nav-number">2.1.</span> <span class="nav-text">最大割问题和分析</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#复杂度"><span class="nav-number">2.2.</span> <span class="nav-text">复杂度</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#图灵机"><span class="nav-number">2.3.</span> <span class="nav-text">图灵机</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么使用索引"><span class="nav-number">1.</span> <span class="nav-text">为什么使用索引</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B树"><span class="nav-number">2.</span> <span class="nav-text">B树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#B-树"><span class="nav-number">3.</span> <span class="nav-text">B+树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#聚集索引-非聚集索引"><span class="nav-number">4.</span> <span class="nav-text">聚集索引 非聚集索引</span></a></li></ol></div>
             
 
           </div>
