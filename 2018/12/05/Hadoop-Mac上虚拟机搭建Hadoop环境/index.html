@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hadoop," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="操作系统：macOS Mojave OS 10.14.1 虚拟机：VMware-Fusion-11.0.2 Linux： ubuntu-18.04.1-desktop-amd64.iso 64位 本文是在mac上用VMware装Linux虚拟机，搭建了伪分布式，也就是所有节点运行在同一个机器上，也可以同时安装多个虚拟机，来搭建完全分布式。">
+<meta name="keywords" content="Hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Hadoop]-搭建Hadoop伪分布式环境、配置参数详解、运行WorldCount">
+<meta property="og:url" content="http://yoursite.com/2018/12/05/Hadoop-Mac上虚拟机搭建Hadoop环境/index.html">
+<meta property="og:site_name" content="Xuehui JIA">
+<meta property="og:description" content="操作系统：macOS Mojave OS 10.14.1 虚拟机：VMware-Fusion-11.0.2 Linux： ubuntu-18.04.1-desktop-amd64.iso 64位 本文是在mac上用VMware装Linux虚拟机，搭建了伪分布式，也就是所有节点运行在同一个机器上，也可以同时安装多个虚拟机，来搭建完全分布式。">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/images/hadoopV.png">
+<meta property="og:image" content="http://yoursite.com/images/hdfsIni.png">
+<meta property="og:image" content="http://yoursite.com/images/8088.png">
+<meta property="og:image" content="http://yoursite.com/images/50070.png">
+<meta property="og:image" content="http://yoursite.com/images/wordcount.png">
+<meta property="og:image" content="http://yoursite.com/images/wordcount2.png">
+<meta property="og:image" content="http://yoursite.com/images/wordcount3.png">
+<meta property="og:updated_time" content="2018-12-06T15:07:51.703Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[Hadoop]-搭建Hadoop伪分布式环境、配置参数详解、运行WorldCount">
+<meta name="twitter:description" content="操作系统：macOS Mojave OS 10.14.1 虚拟机：VMware-Fusion-11.0.2 Linux： ubuntu-18.04.1-desktop-amd64.iso 64位 本文是在mac上用VMware装Linux虚拟机，搭建了伪分布式，也就是所有节点运行在同一个机器上，也可以同时安装多个虚拟机，来搭建完全分布式。">
+<meta name="twitter:image" content="http://yoursite.com/images/hadoopV.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/05/Hadoop-Mac上虚拟机搭建Hadoop环境/"/>
+
+
+
+
+
+  <title>[Hadoop]-搭建Hadoop伪分布式环境、配置参数详解、运行WorldCount | Xuehui JIA</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xuehui JIA</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">西安电子科技大学，ENSIIE，France</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/05/Hadoop-Mac上虚拟机搭建Hadoop环境/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xuehui JIA">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xuehui JIA">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[Hadoop]-搭建Hadoop伪分布式环境、配置参数详解、运行WorldCount</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-05T17:15:38+01:00">
+                2018-12-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>操作系统：macOS Mojave OS 10.14.1</p>
+<p>虚拟机：VMware-Fusion-11.0.2</p>
+<p>Linux： ubuntu-18.04.1-desktop-amd64.iso 64位</p>
+<p>本文是在mac上用VMware装Linux虚拟机，搭建了伪分布式，也就是所有节点运行在同一个机器上，也可以同时安装多个虚拟机，来搭建完全分布式。<br><a id="more"></a></p>
+<h2 id="安装JDK"><a href="#安装JDK" class="headerlink" title="安装JDK"></a>安装JDK</h2><p>下载jdk并解压<br><a href="https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html" target="_blank" rel="noopener">https://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo mkdir /usr/java</span><br><span class="line">sudo mv jdk1.8.0_191/ /usr/java</span><br></pre></td></tr></table></figure>
+<p>设置环境变量</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vim /etc/profile</span><br></pre></td></tr></table></figure>
+<p>粘贴如下内容</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">#set java environment</span><br><span class="line">JAVA_HOME=/usr/java/jdk1.8.0_191</span><br><span class="line">JRE_HOME=/usr/java/jdk1.8.0_191/jre</span><br><span class="line">CLASS_PATH=.:$JAVA_HOME/lib/dt.jar:$JAVA_HOME/lib/tools.jar:$JRE_HOME/lib</span><br><span class="line">PATH=$PATH:$JAVA_HOME/bin:$JRE_HOME/bin</span><br><span class="line">export JAVA_HOME JRE_HOME CLASS_PATH PATH</span><br></pre></td></tr></table></figure>
+<p>使其生效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">jiaxuehui@ubuntu:/usr/java$  source /etc/profile</span><br><span class="line"></span><br><span class="line">jiaxuehui@ubuntu:/usr/java$ java -version</span><br><span class="line">java version &quot;1.8.0_191&quot;</span><br><span class="line">Java(TM) SE Runtime Environment (build 1.8.0_191-b12)</span><br><span class="line">Java HotSpot(TM) 64-Bit Server VM (build 25.191-b12, mixed mode)</span><br></pre></td></tr></table></figure>
+<h2 id="设置ssh免密服务"><a href="#设置ssh免密服务" class="headerlink" title="设置ssh免密服务"></a>设置ssh免密服务</h2><p>ssh免密可以让服务器之间通信无阻，Hadoop集群是DataNode与DataNode之间的文件传输、在Hadoop的启动过程中，需要登录到其他机器的sbin目录下执行一些文件的时候需要用到ssh登录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">#安装ssh服务</span><br><span class="line">sudo apt-get install ssh openssh-server</span><br><span class="line"></span><br><span class="line">#生成ssh的公钥/私钥，执行过程中，会一些提示让输入字符，直接一路回车就可以。</span><br><span class="line">ssh-keygen -t dsa -f ~/.ssh/id_dsa</span><br><span class="line"></span><br><span class="line">#ssh进行远程登录的时候需要输入密码，如果用公钥/私钥方式，就不需要输入密码了。上述方式就是设置公钥/私钥登录。</span><br><span class="line">cat ~/.ssh/id_dsa.pub &gt;&gt; ~/.ssh/authorized_keys</span><br><span class="line"></span><br><span class="line">#第一次执行本命令，会出现一个提示，输入”yes”然后回车即可。</span><br><span class="line">ssh localhost</span><br></pre></td></tr></table></figure>
+<h2 id="安装hadoop"><a href="#安装hadoop" class="headerlink" title="安装hadoop"></a>安装hadoop</h2><p>下载压缩包<a href="http://mirrors.ircam.fr/pub/apache/hadoop/common/stable/" target="_blank" rel="noopener">http://mirrors.ircam.fr/pub/apache/hadoop/common/stable/</a></p>
+<p>解压到<code>/home/jiaxuehui/hadoop</code></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tar -xvf hadoop-2.8.2.tar</span><br></pre></td></tr></table></figure>
+<p>将如下内容添加到环境变量之后</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> HADOOP_HOME=/home/jiaxuehui/hadoop/hadoop-2.9.2</span><br><span class="line"><span class="built_in">export</span> HADOOP_INSTALL=<span class="variable">$HADOOP_HOME</span> </span><br><span class="line"><span class="built_in">export</span> HADOOP_MAPRED_HOME=<span class="variable">$HADOOP_HOME</span> </span><br><span class="line"><span class="built_in">export</span> HADOOP_COMMON_HOME=<span class="variable">$HADOOP_HOME</span> </span><br><span class="line"><span class="built_in">export</span> HADOOP_HDFS_HOME=<span class="variable">$HADOOP_HOME</span> </span><br><span class="line"><span class="built_in">export</span> YARN_HOME=<span class="variable">$HADOOP_HOME</span> </span><br><span class="line"><span class="built_in">export</span> HADOOP_COMMON_LIB_NATIVE_DIR=<span class="variable">$HADOOP_HOME</span>/lib/native </span><br><span class="line"><span class="built_in">export</span> PATH=<span class="variable">$PATH</span>:<span class="variable">$HADOOP_HOME</span>/sbin:<span class="variable">$HADOOP_HOME</span>/bin</span><br></pre></td></tr></table></figure>
+<p>输入hadoop version出现如下输出<br><img src="/images/hadoopV.png" alt=""></p>
+<h2 id="配置Hadoop中相应的文件（伪分布式）"><a href="#配置Hadoop中相应的文件（伪分布式）" class="headerlink" title="配置Hadoop中相应的文件（伪分布式）"></a>配置Hadoop中相应的文件（伪分布式）</h2><p>要配置的文件都在<code>/home/jiaxuehui/hadoop/hadoop-2.9.2/etc/hadoop</code>下。</p>
+<p>伪分布式就是用一个机器同时运行NameNode,SecondaryNameNode, DataNode, JobTracker, TaskTracker 5个任务，Hadoop 进程以分离的 Java 进程来运行。</p>
+<h3 id="修改core-site-xml"><a href="#修改core-site-xml" class="headerlink" title="修改core-site.xml"></a>修改core-site.xml</h3><p>是Hadoop在运行时候的核心文件，配置集群全局参数，定义系统级别的参数，如DFS，URL，Hadoop的临时文件目录等。</p>
+<p>Hadoop默认启动的时候使用的是系统下的 /temp 目录下,但是在每一次重启的时候系统都会将其自动清空 ,如果没有临时的储存目录有可能会在下一次启动Hadoop的时候出现问题.</p>
+<p>内容如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuraion</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">name</span>&gt;</span>hadoop.tmp.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span>                 <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/jiaxuehui/hadoop/hadoop-2.9.2/tmp<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">name</span>&gt;</span>fs.defaultFS<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">value</span>&gt;</span>hdfs://localhost:9000<span class="tag">&lt;/<span class="name">value</span>&gt;</span>         <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>hadoop.tmp.dir–临时文件夹</p>
+<p>fs.defaultFS–文件系统主机和端口</p>
+<h3 id="修改hdfs-site-xml"><a href="#修改hdfs-site-xml" class="headerlink" title="修改hdfs-site.xml"></a>修改hdfs-site.xml</h3><p>进行HDFS 分布式储存的配置，修改hdfs的参数，如节点存放位置，文件读取权限等。</p>
+<p>内容如下</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.replication<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>1<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.namenode.name.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/jiaxuehui/hadoop/hadoop-2.9.2/tmp/dfs/name<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.datanode.data.dir<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>/home/jiaxuehui/hadoop/hadoop-2.9.2/tmp/dfs/data<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">name</span>&gt;</span>dfs.permissions<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">value</span>&gt;</span>false<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">   <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>dfs.replication–Hadoop的备份系数,默认是3。指每个block在hadoop集群中有几份，系数越高，冗余性越好，占用存储也越多。因为这里是伪分布式环境只有一个节点，所以这里设置为1。</p>
+<p>dfs.namenode.name.dir–定义dfs的名称节点在本地文件系统的位置。</p>
+<p>dfs.datanode.data.dir–定义dfs的数据节点存储数据块时，存储在在本地文件系统的位置。</p>
+<h2 id="修改mapred-site-xml"><a href="#修改mapred-site-xml" class="headerlink" title="修改mapred-site.xml"></a>修改mapred-site.xml</h2><p>修改MapReduce参数，包括JobHistory Server和应用程序参数两个部分，如reduce任务默认个数，任务能够使用的内存默认上下限等。</p>
+<p>先将文件重新命名 </p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mv mapred-site.xml.template  mapred-site.xml</span><br></pre></td></tr></table></figure>
+<p>修改内容如下：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.framework.name<span class="tag">&lt;/<span class="name">name</span>&gt;</span> </span><br><span class="line"><span class="tag">&lt;<span class="name">value</span>&gt;</span>yarn<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.jobhistory.address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">value</span>&gt;</span>localhost:10020<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">name</span>&gt;</span>mapreduce.jobhistory.webapp.address<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">value</span>&gt;</span>localhost:19888<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>mapreduce.framework.name–取值local，classic，yarn中一个，选择yarn则用yarn集群来实现资源的分配。</p>
+<p>mapreduce.jobhistory.address–历史服务器的地址和端口，通过历史服务器查看已经完成的Mapreduce的作业记录。</p>
+<p>mapreduce.jobhistory.webapp.address–历史服务器的web应用的地址和端口</p>
+<h2 id="修改yarn-site-xml"><a href="#修改yarn-site-xml" class="headerlink" title="修改yarn-site.xml"></a>修改yarn-site.xml</h2><p>集群系统资源管理参数，配置RescourceManager，NodeManager的通信端口，web监控端口等。</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">configuration</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.nodemanager.aux-services<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">value</span>&gt;</span>mapreduce_shuffle<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">property</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">name</span>&gt;</span>yarn.resourcemanager.hostname<span class="tag">&lt;/<span class="name">name</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">value</span>&gt;</span>localhost<span class="tag">&lt;/<span class="name">value</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;/<span class="name">property</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">configuration</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>yarn.nodemanager.aux-services–自定义一些服务,配置了yarn的默认混洗方式，选择为mapreduce的默认混洗算法(?)。</p>
+<p>yarn.resourcemanager.hostname–指定了Resourcemanager运行在哪个节点上（本级ip）。</p>
+<p>YARN的Web页面：YARN的Web客户端端口号是8088，通过<a href="http://localhost:8088/可以查看。" target="_blank" rel="noopener">http://localhost:8088/可以查看。</a></p>
+<h2 id="运行Hadoop"><a href="#运行Hadoop" class="headerlink" title="运行Hadoop"></a>运行Hadoop</h2><h3 id="初始化HDFS系统"><a href="#初始化HDFS系统" class="headerlink" title="初始化HDFS系统"></a>初始化HDFS系统</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">hdfs namenode -format</span><br></pre></td></tr></table></figure>
+<p>出现如下截图即成功<br><img src="/images/hdfsIni.png" alt=""></p>
+<h3 id="开启NameNode和DataNode守护进程"><a href="#开启NameNode和DataNode守护进程" class="headerlink" title="开启NameNode和DataNode守护进程"></a>开启NameNode和DataNode守护进程</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">start-dfs.sh</span><br></pre></td></tr></table></figure>
+<p>或启动所有节点，包括NameNode,SecondaryNameNode, JobTracker, TaskTracker, DataNode。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">start-all.sh</span><br><span class="line"></span><br><span class="line">stop-all.sh</span><br></pre></td></tr></table></figure>
+<p>启动后用jps命令查看当前运行节点。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">jiaxuehui@ubuntu:~/hadoop/hadoop-2.9.2/etc/hadoop$ jps</span><br><span class="line">21396 NodeManager</span><br><span class="line">21556 Jps</span><br><span class="line">21240 ResourceManager</span><br><span class="line">20841 DataNode</span><br><span class="line">21085 SecondaryNameNode</span><br><span class="line">20671 NameNode</span><br></pre></td></tr></table></figure>
+<p>如果出现问题，去log里查看，一般是主机名，端口号占用的问题。</p>
+<h2 id="web访问"><a href="#web访问" class="headerlink" title="web访问"></a>web访问</h2><p>YARN的Web客户端：启动yarn可以用8088端口查看resourceManager提供的web服务，可以通过localhost：8088在浏览器查看集群的各类信息，查看任务的运行情况。</p>
+<p><img src="/images/8088.png" alt=""></p>
+<p>访问50070端口查看hdfs的管理界面 </p>
+<p><img src="/images/50070.png" alt=""></p>
+<h2 id="运行worldCount"><a href="#运行worldCount" class="headerlink" title="运行worldCount"></a>运行worldCount</h2><p>worldCount是hadoop提供的例子，计算一个文件中单词出现的次数，在<code>./share/hadoop/mapreduce.hadoop-mapreduce-examples-2.9.2.jar</code>,运行来体验刚搭建好的环境。</p>
+<h3 id="创建input文件"><a href="#创建input文件" class="headerlink" title="创建input文件"></a>创建input文件</h3><p> 在本地创建一个文档<code>vim ~/wordCountTest.txt</code>，我拿该篇博客作为内容,粘贴进去。</p>
+<p>在hdfs新建文件夹用来放文档,但是出现如下warning</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jiaxuehui@ubuntu:~$ hdfs dfs -mkdir /wordCountTest</span><br><span class="line">18/12/06 06:13:58 WARN util.NativeCodeLoader: Unable to load native-hadoop library <span class="keyword">for</span> your platform... using <span class="built_in">builtin</span>-java classes <span class="built_in">where</span> applicable</span><br></pre></td></tr></table></figure>
+<p>将如下路径添加到环境变量,就没有warning 了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> HADOOP_OPTS=<span class="string">"<span class="variable">$HADOOP_OPTS</span> -Djava.library.path=<span class="variable">$HADOOP_HOME</span>/lib/native"</span></span><br></pre></td></tr></table></figure>
+<p>查看新建的目录</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">jiaxuehui@ubuntu:~$ hdfs dfs -ls /</span><br><span class="line">Found 1 items</span><br><span class="line">drwxr-xr-x   - jiaxuehui supergroup          0 2018-12-06 06:13 /wordCountTest</span><br></pre></td></tr></table></figure>
+<p>将本地words文档上传到test目录中,查看</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jiaxuehui@ubuntu:~$ hdfs dfs -put ~/wordCountTest.txt /wordCountTest</span><br><span class="line">jiaxuehui@ubuntu:~$ hdfs dfs -ls /wordCountTest</span><br><span class="line">Found 1 items</span><br><span class="line">-rw-r--r--   1 jiaxuehui supergroup       8228 2018-12-06 06:26 /wordCountTest/wordCountTest.txt</span><br></pre></td></tr></table></figure>
+<p>运行wordcount</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">jiaxuehui@ubuntu:~$ hadoop jar share/hadoop/mapreduce/hadoop-mapreduce-</span><br><span class="line">examples-2.9.2.jar wordcount /wordCountTest/wordCountTest.txt /wordCountTest/out</span><br></pre></td></tr></table></figure>
+<p>正在运行，输出如下：<br><img src="/images/wordcount.png" alt=""></p>
+<p>运行结束，输出文件输出到指定位置</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">jiaxuehui@ubuntu:~$ hdfs dfs -ls /wordCountTest/out</span><br><span class="line">Found 2 items</span><br><span class="line">-rw-r--r--   1 jiaxuehui supergroup          0 2018-12-06 06:50 /wordCountTest/out/_SUCCESS</span><br><span class="line">-rw-r--r--   1 jiaxuehui supergroup       7669 2018-12-06 06:50 /wordCountTest/out/part-r-00000</span><br></pre></td></tr></table></figure>
+<p>查看结果：已经将文章中的词汇作出统计<br><img src="/images/wordcount2.png" alt=""></p>
+<p>这时再查看yarn的web工具，已经有了一个已完成的任务</p>
+<p><img src="/images/wordcount3.png" alt=""><br>至此运行结束。只是一个初体验，验证一下环境搭建成功～～</p>
+<blockquote>
+<p>参考源：</p>
+<p>hadoop参数配置详解：<a href="https://zhuanlan.zhihu.com/p/25472769" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/25472769</a></p>
+<p>hadoop入门指南：<a href="https://www.kancloud.cn/fymod/hadoop/596103" target="_blank" rel="noopener">https://www.kancloud.cn/fymod/hadoop/596103</a></p>
+<p>hadoop安装：<a href="http://www.cnblogs.com/leesf456/p/4795507.html" target="_blank" rel="noopener">http://www.cnblogs.com/leesf456/p/4795507.html</a></p>
+</blockquote>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hadoop/" rel="tag"># Hadoop</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/04/算法-双指针法/" rel="next" title="[算法]-双指针法常见使用场景">
+                <i class="fa fa-chevron-left"></i> [算法]-双指针法常见使用场景
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/touxiang.png"
+               alt="Xuehui JIA" />
+          <p class="site-author-name" itemprop="name">Xuehui JIA</p>
+           
+              <p class="site-description motion-element" itemprop="description">Web front-end developer, Developer of livemarketcap.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">27</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jiaxuehui95" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#安装JDK"><span class="nav-number">1.</span> <span class="nav-text">安装JDK</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#设置ssh免密服务"><span class="nav-number">2.</span> <span class="nav-text">设置ssh免密服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#安装hadoop"><span class="nav-number">3.</span> <span class="nav-text">安装hadoop</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#配置Hadoop中相应的文件（伪分布式）"><span class="nav-number">4.</span> <span class="nav-text">配置Hadoop中相应的文件（伪分布式）</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#修改core-site-xml"><span class="nav-number">4.1.</span> <span class="nav-text">修改core-site.xml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#修改hdfs-site-xml"><span class="nav-number">4.2.</span> <span class="nav-text">修改hdfs-site.xml</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改mapred-site-xml"><span class="nav-number">5.</span> <span class="nav-text">修改mapred-site.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#修改yarn-site-xml"><span class="nav-number">6.</span> <span class="nav-text">修改yarn-site.xml</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行Hadoop"><span class="nav-number">7.</span> <span class="nav-text">运行Hadoop</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#初始化HDFS系统"><span class="nav-number">7.1.</span> <span class="nav-text">初始化HDFS系统</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#开启NameNode和DataNode守护进程"><span class="nav-number">7.2.</span> <span class="nav-text">开启NameNode和DataNode守护进程</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#web访问"><span class="nav-number">8.</span> <span class="nav-text">web访问</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#运行worldCount"><span class="nav-number">9.</span> <span class="nav-text">运行worldCount</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#创建input文件"><span class="nav-number">9.1.</span> <span class="nav-text">创建input文件</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuehui JIA</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
