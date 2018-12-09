@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hadoop," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="上一篇博客运行了例子wordCount，用Hadoop来做词频统计，流程是这样的： 1)先用HDFS的命令行工具，将要统计的文件（假设很大，1000G）复制到HDFS上； 2)用Java写MapReduce代码，写完后调试编译，然后打包成Jar包； 3)执行Hadoop命令，用这个Jar包在Hadoop集群上处理1000G的文件，然后将结果文件存放到指定的目录。 4)用HDFS的命令行工具查看处理">
+<meta name="keywords" content="Hadoop">
+<meta property="og:type" content="article">
+<meta property="og:title" content="[Hadoop]-通过WordCount了解hadoop的工作">
+<meta property="og:url" content="http://yoursite.com/2018/12/06/Hadoop-通过WordCount了解hadoop的工作/index.html">
+<meta property="og:site_name" content="Xuehui JIA">
+<meta property="og:description" content="上一篇博客运行了例子wordCount，用Hadoop来做词频统计，流程是这样的： 1)先用HDFS的命令行工具，将要统计的文件（假设很大，1000G）复制到HDFS上； 2)用Java写MapReduce代码，写完后调试编译，然后打包成Jar包； 3)执行Hadoop命令，用这个Jar包在Hadoop集群上处理1000G的文件，然后将结果文件存放到指定的目录。 4)用HDFS的命令行工具查看处理">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-12-09T11:32:44.293Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="[Hadoop]-通过WordCount了解hadoop的工作">
+<meta name="twitter:description" content="上一篇博客运行了例子wordCount，用Hadoop来做词频统计，流程是这样的： 1)先用HDFS的命令行工具，将要统计的文件（假设很大，1000G）复制到HDFS上； 2)用Java写MapReduce代码，写完后调试编译，然后打包成Jar包； 3)执行Hadoop命令，用这个Jar包在Hadoop集群上处理1000G的文件，然后将结果文件存放到指定的目录。 4)用HDFS的命令行工具查看处理">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/12/06/Hadoop-通过WordCount了解hadoop的工作/"/>
+
+
+
+
+
+  <title>[Hadoop]-通过WordCount了解hadoop的工作 | Xuehui JIA</title>
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Xuehui JIA</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">西安电子科技大学，ENSIIE，France</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/12/06/Hadoop-通过WordCount了解hadoop的工作/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Xuehui JIA">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/touxiang.png">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Xuehui JIA">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">[Hadoop]-通过WordCount了解hadoop的工作</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-12-06T20:59:24+01:00">
+                2018-12-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Hadoop/" itemprop="url" rel="index">
+                    <span itemprop="name">Hadoop</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>上一篇博客运行了例子wordCount，用Hadoop来做词频统计，流程是这样的：</p>
+<p>1)先用HDFS的命令行工具，将要统计的文件（假设很大，1000G）复制到HDFS上；</p>
+<p>2)用Java写MapReduce代码，写完后调试编译，然后打包成Jar包；</p>
+<p>3)执行Hadoop命令，用这个Jar包在Hadoop集群上处理1000G的文件，然后将结果文件存放到指定的目录。</p>
+<p>4)用HDFS的命令行工具查看处理结果文件。<br><a id="more"></a></p>
+<h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><p>两个文件file01，file02</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">$ bin/hadoop dfs -cat /wordcount/input/file01 </span><br><span class="line">Hello World Bye World </span><br><span class="line"></span><br><span class="line">$ bin/hadoop dfs -cat /wordcount/input/file02 </span><br><span class="line">Hello Hadoop Goodbye Hadoop</span><br></pre></td></tr></table></figure>
+<p>运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bin/hadoop jar /usr/joe/wordcount.jar org.myorg.WordCount /wordcount/input /wordcount/output</span><br></pre></td></tr></table></figure>
+<p>结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ bin/hadoop dfs -cat /usr/joe/wordcount/output/part-00000 </span><br><span class="line">Bye 1 </span><br><span class="line">Goodbye 1 </span><br><span class="line">Hadoop 2 </span><br><span class="line">Hello 2 </span><br><span class="line">World 2</span><br></pre></td></tr></table></figure>
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><h3 id="结构"><a href="#结构" class="headerlink" title="结构"></a>结构</h3><p>main主程序，负责执行整个流程</p>
+<p>TokenizerMapper.java文件是做Map的代码</p>
+<p>IntSumReducer.java是做Reduce的代码</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">WordCount</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">WordCount</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">		...</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">IntSumReducer</span> <span class="keyword">extends</span> <span class="title">Reducer</span>&lt;<span class="title">Text</span>, <span class="title">IntWritable</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt; </span>&#123;</span><br><span class="line">    		...</span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reduce</span><span class="params">(Text key, Iterable&lt;IntWritable&gt; values, Reducer&lt;Text, IntWritable, Text, IntWritable&gt;.Context context)</span> <span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">            ...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TokenizerMapper</span> <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">Object</span>, <span class="title">Text</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt; </span>&#123;</span><br><span class="line">		 ...</span><br><span class="line"></span><br><span class="line">        <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">map</span><span class="params">(Object key, Text value, Mapper&lt;Object, Text, Text, IntWritable&gt;.Context context)</span> <span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">           ...        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="map"><a href="#map" class="headerlink" title="map"></a>map</h2><p><code>import java.util.StringTokenizer;</code>StringTokenizer将符合一定格式的字符串拆分开，单参数的构造方法方法使用默认的分隔符“\t\n\r\f”: the space character, the tab character, the newline character, the carriage-return character, and the form-feed character。他比split的效率高一些，split运用了正则匹配（应该和要构造NFA和右胁正则表达式写的不好导致过多回溯影响效率）</p>
+<p>map的过程：通过StringTokenizer 以空格为分隔符将一行切分为若干tokens，之后，输出&lt; <word>, 1&gt; 形式的键值对。</word></p>
+<p>关于组成一个指定作业的map数目的确定，以及如何以更精细的方式去控制这些map，我们将在后边学习到更多的内容</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">TokenizerMapper</span> <span class="keyword">extends</span> <span class="title">Mapper</span>&lt;<span class="title">Object</span>, <span class="title">Text</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt; </span>&#123;</span><br><span class="line">     <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> IntWritable one = <span class="keyword">new</span> IntWritable(<span class="number">1</span>);</span><br><span class="line">     <span class="keyword">private</span> Text word = <span class="keyword">new</span> Text();<span class="comment">//Text类是存储字符串的可比较可序列化类</span></span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="title">TokenizerMapper</span><span class="params">()</span> </span>&#123;</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">map</span><span class="params">(Object key, Text value, Mapper&lt;Object, Text, Text, IntWritable&gt;.Context context)</span> <span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">         StringTokenizer itr = <span class="keyword">new</span> StringTokenizer(value.toString());</span><br><span class="line"></span><br><span class="line">         <span class="keyword">while</span>(itr.hasMoreTokens()) &#123;<span class="comment">//map过程</span></span><br><span class="line">             <span class="keyword">this</span>.word.set(itr.nextToken());</span><br><span class="line">             context.write(<span class="keyword">this</span>.word, one);<span class="comment">//context会存储键值留待Reduce过程处理。</span></span><br><span class="line">         &#125;</span><br><span class="line"></span><br><span class="line">     &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+<h2 id="reduce"><a href="#reduce" class="headerlink" title="reduce"></a>reduce</h2><p>引入hadoop的Reducer类，这个类负责MapReduce的Reduce过程。</p>
+<p>将每个key（本例中就是单词）出现的次数求和，每次调用reduce，进行一个key的所有value值的求和，然后将合并后的键值对写入context。</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">static</span> <span class="class"><span class="keyword">class</span> <span class="title">IntSumReducer</span> <span class="keyword">extends</span> <span class="title">Reducer</span>&lt;<span class="title">Text</span>, <span class="title">IntWritable</span>, <span class="title">Text</span>, <span class="title">IntWritable</span>&gt; </span>&#123;</span><br><span class="line">    <span class="keyword">private</span> IntWritable result = <span class="keyword">new</span> IntWritable();</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="title">IntSumReducer</span><span class="params">()</span> </span>&#123;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">reduce</span><span class="params">(Text key, Iterable&lt;IntWritable&gt; values, Reducer&lt;Text, IntWritable, Text, IntWritable&gt;.Context context)</span> <span class="keyword">throws</span> IOException, InterruptedException </span>&#123;</span><br><span class="line">        <span class="keyword">int</span> sum = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line">        IntWritable val;</span><br><span class="line">        <span class="keyword">for</span>(Iterator i$ = values.iterator(); i$.hasNext(); sum += val.get()) &#123;</span><br><span class="line">            val = (IntWritable)i$.next();</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">this</span>.result.set(sum);</span><br><span class="line">        context.write(key, <span class="keyword">this</span>.result);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="主程序"><a href="#主程序" class="headerlink" title="主程序"></a>主程序</h2><p><code>job.setCombinerClass(WordCount.IntSumReducer.class);</code>指定了一个combiner (46行)。因此，每次map运行之后，会对输出按照key进行排序，然后把输出传递给本地的combiner（按照作业的配置与Reducer一样），进行本地聚合。</p>
+<h3 id="map过程"><a href="#map过程" class="headerlink" title="map过程"></a>map过程</h3><p>对于示例中的第一个输入，map输出是：<br>&lt; Hello, 1&gt;<br>&lt; World, 1&gt;<br>&lt; Bye, 1&gt;<br>&lt; World, 1&gt; </p>
+<p>第二个输入，map输出是：<br>&lt; Hello, 1&gt;<br>&lt; Hadoop, 1&gt;<br>&lt; Goodbye, 1&gt; </p>
+<h3 id="combiner本地聚合"><a href="#combiner本地聚合" class="headerlink" title="combiner本地聚合"></a>combiner本地聚合</h3><p>第一个map的输出是：<br>&lt; Bye, 1&gt;<br>&lt; Hello, 1&gt;<br>&lt; World, 2&gt; </p>
+<p>第二个map的输出是：<br>&lt; Goodbye, 1&gt;<br>&lt; Hadoop, 2&gt;<br>&lt; Hello, 1&gt; </p>
+<h3 id="reduce过程"><a href="#reduce过程" class="headerlink" title="reduce过程"></a>reduce过程</h3><p>作业的输出就是：<br>&lt; Bye, 1&gt;<br>&lt; Goodbye, 1&gt;<br>&lt; Hadoop, 2&gt;<br>&lt; Hello, 2&gt;<br>&lt; World, 2&gt; </p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">     Configuration conf = <span class="keyword">new</span> Configuration();</span><br><span class="line">     String[] otherArgs = (<span class="keyword">new</span> GenericOptionsParser(conf, args)).getRemainingArgs();</span><br><span class="line">     <span class="keyword">if</span> (otherArgs.length &lt; <span class="number">2</span>) &#123;</span><br><span class="line">         System.err.println(<span class="string">"Usage: wordcount &lt;in&gt; [&lt;in&gt;...] &lt;out&gt;"</span>);</span><br><span class="line">         System.exit(<span class="number">2</span>);</span><br><span class="line">     &#125;</span><br><span class="line"></span><br><span class="line">     Job job = Job.getInstance(conf, <span class="string">"word count"</span>); <span class="comment">//任务名字</span></span><br><span class="line">     job.setJarByClass(WordCount.class);</span><br><span class="line">     job.setMapperClass(WordCount.TokenizerMapper.class);<span class="comment">//指定mapper</span></span><br><span class="line">     job.setCombinerClass(WordCount.IntSumReducer.class);<span class="comment">//指定combiner</span></span><br><span class="line">     job.setReducerClass(WordCount.IntSumReducer.class);<span class="comment">//指定reducer</span></span><br><span class="line">     job.setOutputKeyClass(Text.class); <span class="comment">//指定key的类型</span></span><br><span class="line">     job.setOutputValueClass(IntWritable.class);<span class="comment">//指定value的类型</span></span><br><span class="line"></span><br><span class="line">     <span class="keyword">for</span>(<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; otherArgs.length - <span class="number">1</span>; ++i) &#123;</span><br><span class="line">     	<span class="comment">//指定输入文件的路径，可能有多个输入文件</span></span><br><span class="line">         FileInputFormat.addInputPath(job, <span class="keyword">new</span> Path(otherArgs[i]));</span><br><span class="line">     &#125;</span><br><span class="line"><span class="comment">//指定输出文件的路径</span></span><br><span class="line">     FileOutputFormat.setOutputPath(job, <span class="keyword">new</span> Path(otherArgs[otherArgs.length - <span class="number">1</span>]));</span><br><span class="line">     <span class="comment">//job.waitForCompletion提交任务且监控这执行过程</span></span><br><span class="line">     System.exit(job.waitForCompletion(<span class="keyword">true</span>) ? <span class="number">0</span> : <span class="number">1</span>);    &#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Hadoop/" rel="tag"># Hadoop</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/05/Hadoop-Mac上虚拟机搭建Hadoop环境/" rel="next" title="[Hadoop]-搭建Hadoop伪分布式环境、配置参数详解、运行WorldCount">
+                <i class="fa fa-chevron-left"></i> [Hadoop]-搭建Hadoop伪分布式环境、配置参数详解、运行WorldCount
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/touxiang.png"
+               alt="Xuehui JIA" />
+          <p class="site-author-name" itemprop="name">Xuehui JIA</p>
+           
+              <p class="site-description motion-element" itemprop="description">Web front-end developer, Developer of livemarketcap.com</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tags/index.html">
+                <span class="site-state-item-count">28</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/jiaxuehui95" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#示例"><span class="nav-number">1.</span> <span class="nav-text">示例</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#代码"><span class="nav-number">2.</span> <span class="nav-text">代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#结构"><span class="nav-number">2.1.</span> <span class="nav-text">结构</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#map"><span class="nav-number">3.</span> <span class="nav-text">map</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#reduce"><span class="nav-number">4.</span> <span class="nav-text">reduce</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#主程序"><span class="nav-number">5.</span> <span class="nav-text">主程序</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#map过程"><span class="nav-number">5.1.</span> <span class="nav-text">map过程</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#combiner本地聚合"><span class="nav-number">5.2.</span> <span class="nav-text">combiner本地聚合</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#reduce过程"><span class="nav-number">5.3.</span> <span class="nav-text">reduce过程</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Xuehui JIA</span>
+</div>
+
+
+<div class="powered-by">
+  由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
+</div>
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
