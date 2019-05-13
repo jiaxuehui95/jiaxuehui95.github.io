@@ -94,18 +94,18 @@
 
 
 
-<meta name="description" content="HTTP 的post和put方式区别在学习elastic search的时候注意到，当我们去索引一个指定id的新文档时请求用PUT方式，如 123456PUT /website/blog/123&amp;#123;  &amp;quot;title&amp;quot;: &amp;quot;My first blog entry&amp;quot;,  &amp;quot;text&amp;quot;:  &amp;quot;Just trying this">
+<meta name="description" content="在学习Elastic Search的时候注意到，当我们去索引一个指定id的新文档时请求用PUT方式，如 123456PUT /website/blog/123&amp;#123;  &quot;title&quot;: &quot;My first blog entry&quot;,  &quot;text&quot;:  &quot;Just trying this out...&quot;,  &quot;date&quot;:  &quot;2014/01/01&quot;&amp;#125; 而索引一个自动分配id的新文档">
 <meta name="keywords" content="HTTP">
 <meta property="og:type" content="article">
 <meta property="og:title" content="[碎片]HTTP 的post和put方式区别">
 <meta property="og:url" content="http://yoursite.com/2019/05/13/碎片-HTTP-的post和put方式区别/index.html">
 <meta property="og:site_name" content="Xuehui JIA">
-<meta property="og:description" content="HTTP 的post和put方式区别在学习elastic search的时候注意到，当我们去索引一个指定id的新文档时请求用PUT方式，如 123456PUT /website/blog/123&amp;#123;  &amp;quot;title&amp;quot;: &amp;quot;My first blog entry&amp;quot;,  &amp;quot;text&amp;quot;:  &amp;quot;Just trying this">
+<meta property="og:description" content="在学习Elastic Search的时候注意到，当我们去索引一个指定id的新文档时请求用PUT方式，如 123456PUT /website/blog/123&amp;#123;  &quot;title&quot;: &quot;My first blog entry&quot;,  &quot;text&quot;:  &quot;Just trying this out...&quot;,  &quot;date&quot;:  &quot;2014/01/01&quot;&amp;#125; 而索引一个自动分配id的新文档">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2019-05-13T14:47:33.363Z">
+<meta property="og:updated_time" content="2019-05-13T14:57:05.034Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="[碎片]HTTP 的post和put方式区别">
-<meta name="twitter:description" content="HTTP 的post和put方式区别在学习elastic search的时候注意到，当我们去索引一个指定id的新文档时请求用PUT方式，如 123456PUT /website/blog/123&amp;#123;  &amp;quot;title&amp;quot;: &amp;quot;My first blog entry&amp;quot;,  &amp;quot;text&amp;quot;:  &amp;quot;Just trying this">
+<meta name="twitter:description" content="在学习Elastic Search的时候注意到，当我们去索引一个指定id的新文档时请求用PUT方式，如 123456PUT /website/blog/123&amp;#123;  &quot;title&quot;: &quot;My first blog entry&quot;,  &quot;text&quot;:  &quot;Just trying this out...&quot;,  &quot;date&quot;:  &quot;2014/01/01&quot;&amp;#125; 而索引一个自动分配id的新文档">
 
 
 
@@ -362,16 +362,15 @@
       
 
       
-        <h1 id="HTTP-的post和put方式区别"><a href="#HTTP-的post和put方式区别" class="headerlink" title="HTTP 的post和put方式区别"></a>HTTP 的post和put方式区别</h1><p>在学习elastic search的时候注意到，当我们去索引一个指定id的新文档时请求用PUT方式，如</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT /website/blog/123</span><br><span class="line">&#123;</span><br><span class="line">  &quot;title&quot;: &quot;My first blog entry&quot;,</span><br><span class="line">  &quot;text&quot;:  &quot;Just trying this out...&quot;,</span><br><span class="line">  &quot;date&quot;:  &quot;2014/01/01&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>在学习Elastic Search的时候注意到，当我们去索引一个指定id的新文档时请求用PUT方式，如</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PUT /website/blog/123</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"title"</span>: <span class="string">"My first blog entry"</span>,</span><br><span class="line">  <span class="attr">"text"</span>:  <span class="string">"Just trying this out..."</span>,</span><br><span class="line">  <span class="attr">"date"</span>:  <span class="string">"2014/01/01"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>而索引一个自动分配id的新文档时就使用POST方式，如</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST /website/blog/</span><br><span class="line">&#123;</span><br><span class="line">  &quot;title&quot;: &quot;My second blog entry&quot;,</span><br><span class="line">  &quot;text&quot;:  &quot;Still trying this out...&quot;,</span><br><span class="line">  &quot;date&quot;:  &quot;2014/01/01&quot;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>同样是新建一个文档，为什么要使用不同的方式呢？之前感觉post和put没有什么区别，大致区分为新建和更新资源操作。</p>
+<figure class="highlight json"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">POST /website/blog/</span><br><span class="line">&#123;</span><br><span class="line">  <span class="attr">"title"</span>: <span class="string">"My second blog entry"</span>,</span><br><span class="line">  <span class="attr">"text"</span>:  <span class="string">"Still trying this out..."</span>,</span><br><span class="line">  <span class="attr">"date"</span>:  <span class="string">"2014/01/01"</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>同样是新建一个文档，为什么要使用不同的方式呢？<br><a id="more"></a><br>之前感觉post和put没有什么区别，大致区分为新建和更新资源操作。</p>
 <p>实际上在HTTP中，PUT被定义为幂等的方法，POST则不是，这是一个很重要的区别。</p>
-<a id="more"></a>
 <p>HTTP 幂等方法是指无论调用多少次都不会有不同结果的 HTTP 方法。它无论是调用一次，还是十次都无关紧要。结果仍应相同。再次强调， 它只作用于结果而非资源本身。它仍可能被操纵（如一个更新的 timestamp），提供这一信息并不影响（当前）资源的表现形式。</p>
 <p>如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = 4; // 幂等</span><br><span class="line">a++;   //非幂等，每次请求返回结果都不同</span><br></pre></td></tr></table></figure>
+<figure class="highlight c"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">a = <span class="number">4</span>; <span class="comment">// 幂等</span></span><br><span class="line">a++;   <span class="comment">//非幂等，每次请求返回结果都不同</span></span><br></pre></td></tr></table></figure>
 <p>所以如果一个操作是幂等的，就用put方式请求，否则用post。</p>
 <p>elastic search的新建操作中，第一种用put方式指定了id进行新建，每次请求都只有id为123的新资源，是幂等的（多次新建为更新），而第二种post方式不指定id，es会为新资源分配一个唯一的id，如果再次请求就会又生成一个不同id的新资源，所以是不幂等的。</p>
 <p>这两个方式本质没有什么区别，只是协议不同，用错了也不会有大问题，请求还是会被正确处理，但是如果我们如果不遵从HTTP协议的规范，可能会影响SEO或其他麻烦也是不值得的，还是好好遵守协议叭～</p>
@@ -405,8 +404,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2018/12/12/碎片-BigData随手杂记/" rel="next" title="[碎片]-BigData随手杂记">
-                <i class="fa fa-chevron-left"></i> [碎片]-BigData随手杂记
+              <a href="/2018/12/06/Hadoop-通过WordCount了解hadoop的工作/" rel="next" title="[Hadoop]-通过WordCount了解hadoop的工作">
+                <i class="fa fa-chevron-left"></i> [Hadoop]-通过WordCount了解hadoop的工作
               </a>
             
           </div>
@@ -465,17 +464,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/touxiang.png"
@@ -490,7 +480,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">29</span>
+                <span class="site-state-item-count">26</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -550,22 +540,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#HTTP-的post和put方式区别"><span class="nav-number">1.</span> <span class="nav-text">HTTP 的post和put方式区别</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
